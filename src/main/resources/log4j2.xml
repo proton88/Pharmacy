@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<Configuration status="INFO">
+    <Properties>
+        <property name = "pattern">
+            %d{dd.MM.yy HH:mm:ss} [%t] %-5p %logger{36}: %m
+        </property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern = "${pattern}"/>
+        </Console>
+        <RollingFile name = "Rolling" fileName = "logs/log.txt" append = "true"
+                     filePattern = "logs/log-%d{dd.MM.yy_HH_mm}.txt">
+            <PatternLayout pattern = "${pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="200 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="Rolling"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+  <display-name>Archetype Created Web Application</display-name>
+
+  <filter>
+    <display-name>CharsetFilter</display-name>
+    <filter-name>CharsetFilter</filter-name>
+    <filter-class>com.suglob.pharmacy.filters.CharsetFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharsetFilter</filter-name>
+    <url-pattern>/Controller</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>CheckSessionFilter</filter-name>
+    <filter-class>com.suglob.pharmacy.filters.CheckSessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CheckSessionFilter</filter-name>
+    <url-pattern>/WEB-INF/jsp/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>reg</servlet-name>
+    <jsp-file>/WEB-INF/jsp/reg.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>reg</servlet-name>
+    <url-pattern>/reg</url-pattern>
+  </servlet-mapping>
+</web-app>
