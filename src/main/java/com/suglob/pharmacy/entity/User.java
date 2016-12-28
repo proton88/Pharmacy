@@ -1,9 +1,8 @@
-package com.suglob.pharmacy.domain;
+package com.suglob.pharmacy.entity;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class User extends Entity {
     private int block;
     private String login;
     private String password;

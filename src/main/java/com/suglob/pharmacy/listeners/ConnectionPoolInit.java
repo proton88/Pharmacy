@@ -4,6 +4,7 @@ import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
 import com.suglob.pharmacy.command.impl.ConPool;
 import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
+import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -11,7 +12,7 @@ import javax.servlet.annotation.WebListener;
 
 @WebListener()
 public class ConnectionPoolInit implements ServletContextListener{
-    private ConnectionPool pool;
+    private ConnectionPool<ProxyConnection> pool;
     public ConnectionPoolInit() {
     }
 

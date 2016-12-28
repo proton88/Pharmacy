@@ -4,13 +4,18 @@ import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
 import com.suglob.pharmacy.dao.impl.pool.ConnectionPoolException;
-import com.suglob.pharmacy.domain.User;
+import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
+import com.suglob.pharmacy.entity.Drug;
+import com.suglob.pharmacy.entity.DrugCategory;
+import com.suglob.pharmacy.entity.User;
+import com.suglob.pharmacy.utils.ConstantClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.sql.Connection;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class CommonDAOImpl implements CommonDAO {
@@ -18,34 +23,26 @@ public class CommonDAOImpl implements CommonDAO {
     @Override
     public User logination(String login, String password) throws DAOException {
         User user=null;
-        int userBlock;
+        String sql = "SELECT * FROM pharmacy.users WHERE login=? and password=?";
 
-        Connection con=null;
-        PreparedStatement ps=null;
-        ResultSet rs=null;
-        try{
-            con= ConnectionPool.getInstance().takeConnection();
+        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ProxyConnection con= null;
+        try {
+            con = pool.takeConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Don't take connection pool", e);
+        }
+        try(PreparedStatement ps = con.prepareStatement(sql)){
 
-            String sql = "SELECT * FROM pharmacy.users";
-            ps=con.prepareStatement(sql);
-
-
-            rs=ps.executeQuery(sql);
-            while (rs.next()){
-                if (rs.getString("login").equals(login)){
-                    user=new User(rs.getInt("block"),login,rs.getString("password"),rs.getString("type"));
-                }
+            ps.setString(1, login);
+            ps.setString(2, DigestUtils.md5Hex(password));
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()){
+                user=new User(rs.getInt("block"),login,rs.getString("password"),rs.getString("type"));
             }
-        }catch (ConnectionPoolException e){throw new DAOException("Don't take connection pool", e);
-        }catch (SQLException e){throw new DAOException("Wrong sql", e);
+
+        }catch (SQLException e){throw new DAOException("Wrong sql in login", e);
         }finally {
-            if (ps!=null){
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    throw new DAOException("Don't close prepared statement", e);
-                }
-            }
             try {
                 ConnectionPool.getInstance().releaseConnection(con);
             } catch (ConnectionPoolException e) {
@@ -53,6 +50,63 @@ public class CommonDAOImpl implements CommonDAO {
             }
         }
         return user;
+    }
+
+    @Override
+    public ArrayList<DrugCategory> takeDrugCategories() throws DAOException {
+        ArrayList<DrugCategory> drugCategoriesList = new ArrayList<>();
+        String sql = ConstantClass.SQL_NAME_DRUG_CATEGORIES;
+
+        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ProxyConnection con= null;
+        try {
+            con = pool.takeConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Don't take connection pool", e);
+        }
+        try(PreparedStatement ps = con.prepareStatement(sql)){
+            ResultSet rs=ps.executeQuery();
+            while (rs.next()){
+                drugCategoriesList.add(new DrugCategory(rs.getInt(1),rs.getString(2)));
+            }
+
+        }catch (SQLException e){throw new DAOException("Wrong sql in login", e);
+        }finally {
+            try {
+                ConnectionPool.getInstance().releaseConnection(con);
+            } catch (ConnectionPoolException e) {
+                throw new DAOException("Don't release connection pool",e);
+            }
+        }
+        return drugCategoriesList;
+    }
+
+    @Override
+    public ArrayList<Drug> takeDrugs(String str) throws DAOException {
+        ArrayList<Drug> drugList = new ArrayList<>();
+
+        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ProxyConnection con= null;
+        try {
+            con = pool.takeConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Don't take connection pool", e);
+        }
+        try(PreparedStatement ps = con.prepareStatement(str)){
+            ResultSet rs=ps.executeQuery();
+            while (rs.next()){
+                drugList.add(new Drug(rs.getString(1),rs.getString(2),rs.getString(3),rs.getBigDecimal(4),rs.getString(5)));
+            }
+
+        }catch (SQLException e){throw new DAOException("Wrong sql in login", e);
+        }finally {
+            try {
+                ConnectionPool.getInstance().releaseConnection(con);
+            } catch (ConnectionPoolException e) {
+                throw new DAOException("Don't release connection pool",e);
+            }
+        }
+        return drugList;
     }
 
 }

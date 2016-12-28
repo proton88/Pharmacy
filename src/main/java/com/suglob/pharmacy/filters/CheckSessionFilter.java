@@ -18,7 +18,8 @@ public class CheckSessionFilter implements javax.servlet.Filter {
         if (session==null || session.isNew()){
             System.out.println("Session invalidate");
             request.setAttribute("error","index.error_end_session");
-            ((HttpServletResponse)resp).sendRedirect(request.getContextPath()+"/index.jsp");
+            request.getRequestDispatcher("index.jsp").forward(request,resp);
+            //((HttpServletResponse)resp).sendRedirect(request.getContextPath()+"/index.jsp");
         }else {
             chain.doFilter(req, resp);
         }

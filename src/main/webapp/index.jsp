@@ -58,7 +58,7 @@
                     <input type="text" name="login" value=""><br/>
                     ${password}
                     <input type="password" name="password" value=""><br/>
-                    <a href="reg">регистрация</a>(только для клиентов)
+                    <a href="reg">регистрация</a>(только для клиентов)<br>
                     <input type="submit" value="${but_login}" class="btn"/>
                 </form>
 

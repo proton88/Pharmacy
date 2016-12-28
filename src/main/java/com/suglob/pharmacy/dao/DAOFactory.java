@@ -1,7 +1,6 @@
 package com.suglob.pharmacy.dao;
 
 import com.suglob.pharmacy.dao.impl.CommonDAOImpl;
-import com.suglob.pharmacy.dao.impl.PoolDAO;
 import com.suglob.pharmacy.dao.impl.PoolDAOImpl;
 import com.suglob.pharmacy.dao.impl.UserDAOImpl;
 

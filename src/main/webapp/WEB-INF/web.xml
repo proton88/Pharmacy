@@ -7,6 +7,15 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <filter>
+    <filter-name>CheckSessionFilter</filter-name>
+    <filter-class>com.suglob.pharmacy.filters.CheckSessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CheckSessionFilter</filter-name>
+    <url-pattern>/Controller</url-pattern>
+  </filter-mapping>
+
+  <filter>
     <display-name>CharsetFilter</display-name>
     <filter-name>CharsetFilter</filter-name>
     <filter-class>com.suglob.pharmacy.filters.CharsetFilter</filter-class>
@@ -14,14 +23,6 @@
   <filter-mapping>
     <filter-name>CharsetFilter</filter-name>
     <url-pattern>/Controller</url-pattern>
-  </filter-mapping>
-  <filter>
-    <filter-name>CheckSessionFilter</filter-name>
-    <filter-class>com.suglob.pharmacy.filters.CheckSessionFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>CheckSessionFilter</filter-name>
-    <url-pattern>/WEB-INF/jsp/*</url-pattern>
   </filter-mapping>
 
   <servlet>
@@ -32,4 +33,22 @@
     <servlet-name>reg</servlet-name>
     <url-pattern>/reg</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>main</servlet-name>
+    <jsp-file>/WEB-INF/jsp/main.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>main</servlet-name>
+    <url-pattern>/main</url-pattern>
+  </servlet-mapping>
+
+  <error-page>
+    <error-code/>
+    <location>/WEB-INF/jsp/errorpage.jsp</location>
+  </error-page>
+
+  <session-config>
+    <session-timeout>5</session-timeout>
+  </session-config>
 </web-app>

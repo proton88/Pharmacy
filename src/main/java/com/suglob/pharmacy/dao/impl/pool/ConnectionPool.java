@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class ConnectionPool {
+public class ConnectionPool<T extends Connection> {
     private static final ConnectionPool instance = new ConnectionPool();
-    private BlockingQueue<Connection> connectionQueue;
-    private BlockingQueue<Connection> givenAwayConQueue;
+    private BlockingQueue<T> connectionQueue;
+    private BlockingQueue<T> givenAwayConQueue;
 
     private String driverName;
     private String url;
@@ -38,17 +38,16 @@ public class ConnectionPool {
 
     public void initPoolData() throws ConnectionPoolException{
         try{
-            Class.forName(driverName);
-            givenAwayConQueue = new ArrayBlockingQueue<Connection>(poolSize);
-            connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            givenAwayConQueue = new ArrayBlockingQueue<T>(poolSize);
+            connectionQueue = new ArrayBlockingQueue<T>(poolSize);
             for(int i=0; i<poolSize; i++){
                 Connection con = DriverManager.getConnection(url, user, password);
-                connectionQueue.add(con);
+                ProxyConnection proxyConnection=new ProxyConnection(con);
+                connectionQueue.add((T) proxyConnection);
             }
         }catch(SQLException e){
             throw new ConnectionPoolException("SQLException in ConnectionPool",e);
-        }catch(ClassNotFoundException e){
-            throw new ConnectionPoolException("Can't find database driver class",e);
         }
     }
 
@@ -61,8 +60,8 @@ public class ConnectionPool {
         closeConnectionQueue(connectionQueue);
     }
 
-    private void closeConnectionQueue(BlockingQueue<Connection> queue){
-        for (Connection con : queue) {
+    private void closeConnectionQueue(BlockingQueue<T> queue){
+        for (T con : queue) {
             try {
                 con.close();
             } catch (SQLException e) {
@@ -71,8 +70,8 @@ public class ConnectionPool {
         }
     }
 
-    public Connection takeConnection() throws ConnectionPoolException {
-        Connection connection = null;
+    public T takeConnection() throws ConnectionPoolException {
+        T connection = null;
         try {
             connection = connectionQueue.take();
             givenAwayConQueue.add(connection);
@@ -82,7 +81,7 @@ public class ConnectionPool {
         return connection;
     }
 
-    public void releaseConnection(Connection connection) throws ConnectionPoolException {
+    public void releaseConnection(T connection) throws ConnectionPoolException {
         if (connection == null) {
             throw new ConnectionPoolException("User, i haven't connections");
         }

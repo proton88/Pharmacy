@@ -19,14 +19,23 @@ public class Controller extends HttpServlet {
 
     public Controller() {}
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*HttpSession session = null;
+        processRequest(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = null;
         session=request.getSession(false);
         if(session==null){
 
             System.out.println("Session wasn't construct");
-        }else{
-            System.out.println("Session id: "+session.getId());
-        }*/
+        }else {
+            System.out.println("Session id: " + session.getId());
+        }
         String name=request.getParameter(COMMAND);
         CommandEnum currentEnum = CommandEnum.valueOf(name.toUpperCase());
         ICommand command = currentEnum.getCurrentCommand();
@@ -36,9 +45,5 @@ public class Controller extends HttpServlet {
             request.setAttribute("errorpage", e.toString());
             request.getRequestDispatcher("WEB-INF/jsp/errorpage.jsp").forward(request, response);
         }
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
     }
 }

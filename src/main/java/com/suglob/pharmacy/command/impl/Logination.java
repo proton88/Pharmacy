@@ -2,7 +2,7 @@ package com.suglob.pharmacy.command.impl;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
-import com.suglob.pharmacy.domain.User;
+import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
@@ -29,7 +29,7 @@ public class Logination implements ICommand {
         try{
             user= service.logination(login, password);
         }catch (ServiceException e){
-            throw new CommandException("Don't get user", e);
+            throw new CommandException(e.toString(), e);
         }
 
         if (user!=null){
@@ -38,17 +38,6 @@ public class Logination implements ICommand {
                     request.setAttribute("error", "index.error_block");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }catch(ServletException |IOException e){
-                    throw new CommandException("Don't execute index.jsp",e);
-                }
-                return;
-            }
-            if (!user.getPassword().equals(DigestUtils.md5Hex(password))){
-                try{
-                    System.out.println(user.getPassword());
-                    System.out.println(DigestUtils.md5Hex(password));
-                    request.setAttribute("error", "index.error_wrong_password");
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
-                }catch(ServletException|IOException e){
                     throw new CommandException("Don't execute index.jsp",e);
                 }
                 return;
