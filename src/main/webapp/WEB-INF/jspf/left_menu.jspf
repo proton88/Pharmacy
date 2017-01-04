@@ -1,0 +1,15 @@
+﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<nav>
+    <h2>Категории лекарств</h2>
+    <ul class="nav">
+        <li class="left-nav"><a href="main?category_id=all">все лекарства</a></li><br>
+        <jsp:useBean id="drugCategory" class="com.suglob.pharmacy.entity.DrugCategory"/>
+        <c:set var="drugCategories" value="${drugCategory.createDrugCategoriesList()}"/>
+        <c:if test="${drugCategories!=null}">
+            <c:forEach var="category" items="${drugCategories}">
+                <li class="left-nav"><a href="main?category_id=${category.id}&name=${category.name}">${category.name}</a></li>
+            </c:forEach>
+        </c:if>
+    </ul>
+</nav>

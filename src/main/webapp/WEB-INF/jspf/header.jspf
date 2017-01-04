@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ваша Аптека</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="properties.localization" var="loc"/>
+<fmt:message bundle="${loc}" key="localization.ru_button" var="ru_button"/>
+<fmt:message bundle="${loc}" key="localization.en_button" var="en_button"/>
+<header>
+    <img src="images\logo.png" alt="Ваша Аптека" width="133" height="58">
+    <form class="header_find" action="main" method="get">
+        <input type="text" name="textSearch" size="40">
+        <input type="submit" name="find" value="Найти" class="btn"/>
+    </form>
+    <form action="Controller" method="post">
+        <input type="hidden" name="command" value="locale">
+        <input type="hidden" name="locale" value="ru">
+        <input type="submit" class="sendsubmitru" value="${ru_button}">
+    </form>
+    <form action="Controller" method="post">
+        <input type="hidden" name="command" value="locale">
+        <input type="hidden" name="locale" value="en">
+        <input type="submit" class="sendsubmiten" value="${en_button}">
+    </form>
+    <div class="header_right">
+        <div>Hello, ${user.login}</div>
+        <form action="Controller" method="post">
+            <input type="hidden" name="command" value="logout"/>
+            <input type="submit" name="logout" value="Выйти" class="btn"/>
+        </form>
+    </div>
+</header>
