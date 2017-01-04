@@ -13,6 +13,7 @@
     </head>
 
     <body>
+    ${pageContext.request.session.setAttribute("url",pageContext.request.getRequestURL())}
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="properties.localization" var="loc"/>
     <fmt:message bundle="${loc}" key="localization.ru_button" var="ru_button"/>

@@ -19,6 +19,7 @@ import java.io.IOException;
 public class Logination implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+
         String login=request.getParameter(ConstantClass.LOGIN);
         String password=request.getParameter(ConstantClass.PASSWORD);
         ///////////////////////////////////////////////////////////////////////////////
@@ -43,8 +44,9 @@ public class Logination implements ICommand {
                 return;
             }
             HttpSession session = request.getSession(true);
+            session.setAttribute("url",request.getRequestURL());
             session.setAttribute("user", user);
-            RequestDispatcher dispather=request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
+            RequestDispatcher dispather=request.getRequestDispatcher("main");
             try {
                 dispather.forward(request, response);
             } catch (ServletException | IOException e) {

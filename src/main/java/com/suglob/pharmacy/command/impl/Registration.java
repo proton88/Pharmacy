@@ -44,8 +44,9 @@ public class Registration implements ICommand {
 
         if (user1!=null){
             HttpSession session = request.getSession(true);
+            session.setAttribute("url",request.getRequestURL());
             session.setAttribute("user", user1);
-            RequestDispatcher dispather=request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
+            RequestDispatcher dispather=request.getRequestDispatcher("main");
             try {
                 dispather.forward(request, response);
             } catch (ServletException | IOException e) {

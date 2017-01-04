@@ -9,5 +9,9 @@ public class ConstantClass {
     public static final String ADRESS="adress";
     public static final String PASSPORTID="passportId";
     public static final String PATRONYMIC="patronymic";
+    public static final String LOCALE="locale";
+
     public static final String SQL_NAME_DRUG_CATEGORIES="SELECT * FROM pharmacy.drugs_categories order by name;";
+    public static final String SQL_ALL_DRUGS="SELECT * from drugs order by name;";
+
 }

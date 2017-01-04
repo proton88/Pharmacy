@@ -95,7 +95,8 @@ public class CommonDAOImpl implements CommonDAO {
         try(PreparedStatement ps = con.prepareStatement(str)){
             ResultSet rs=ps.executeQuery();
             while (rs.next()){
-                drugList.add(new Drug(rs.getString(1),rs.getString(2),rs.getString(3),rs.getBigDecimal(4),rs.getString(5)));
+                drugList.add(new Drug(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getBigDecimal(5),
+                        rs.getInt(6),rs.getString(7)));
             }
 
         }catch (SQLException e){throw new DAOException("Wrong sql in login", e);
