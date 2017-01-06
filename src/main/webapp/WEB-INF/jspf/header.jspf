@@ -10,6 +10,7 @@
 <fmt:setBundle basename="properties.localization" var="loc"/>
 <fmt:message bundle="${loc}" key="localization.ru_button" var="ru_button"/>
 <fmt:message bundle="${loc}" key="localization.en_button" var="en_button"/>
+
 <header>
     <img src="images\logo.png" alt="Ваша Аптека" width="133" height="58">
     <form class="header_find" action="main" method="get">
@@ -26,6 +27,7 @@
         <input type="hidden" name="locale" value="en">
         <input type="submit" class="sendsubmiten" value="${en_button}">
     </form>
+    <a href="#" id="link">моя корзина</a>
     <div class="header_right">
         <div>Hello, ${user.login}</div>
         <form action="Controller" method="post">

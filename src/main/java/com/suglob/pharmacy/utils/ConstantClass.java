@@ -12,6 +12,7 @@ public class ConstantClass {
     public static final String LOCALE="locale";
 
     public static final String SQL_NAME_DRUG_CATEGORIES="SELECT * FROM pharmacy.drugs_categories order by name;";
-    public static final String SQL_ALL_DRUGS="SELECT * from drugs order by name;";
+    public static final String SQL_PAY_ORDER="select quantity from pharmacy.drugs where drugs_id=?;";
+    public static final String SQL2_PAY_ORDER="UPDATE `pharmacy`.`drugs` SET `quantity`=? WHERE `drugs_id`=?;";
 
 }

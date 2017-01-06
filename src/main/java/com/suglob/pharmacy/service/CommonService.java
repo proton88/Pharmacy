@@ -12,4 +12,6 @@ public interface CommonService {
     ArrayList<DrugCategory> takeDrugCategories() throws ServiceException;
 
     ArrayList<Drug> takeDrugs(String str) throws ServiceException;
+
+    int getCountRecords();
 }

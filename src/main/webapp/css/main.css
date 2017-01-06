@@ -3,7 +3,7 @@
 input[type="number"] {
   width:25px;
 }
-   
+
 h2{
   font-family: 'Cormorant Infant', serif;
 }
@@ -12,7 +12,7 @@ body{
   min-width:840px;
   max-width:1280px;
   text-align: center;
-  margin: 0; 
+  margin: 0;
   padding: 0;
   background-color: #ebebeb;
   font-family: 'Kurale', serif;
@@ -182,4 +182,17 @@ footer{
   cursor: pointer;
   cursor: hand;
   float: left;
+}
+
+.hide {
+    display: none;
+}
+.show {
+    padding: 5px;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: #ccc 0 0 10px;
+    border-radius: 5px;
+    width: 700px;
+    margin-left:-500px;
 }

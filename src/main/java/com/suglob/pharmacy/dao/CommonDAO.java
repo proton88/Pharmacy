@@ -12,4 +12,6 @@ public interface CommonDAO {
     ArrayList<DrugCategory> takeDrugCategories() throws DAOException;
 
     ArrayList<Drug> takeDrugs(String str) throws DAOException;
+
+    int getCountRecords();
 }

@@ -5,12 +5,15 @@ import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
 import com.suglob.pharmacy.dao.impl.pool.ConnectionPoolException;
 import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
+import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.User;
+import com.suglob.pharmacy.utils.ConstantClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
     @Override
@@ -72,5 +75,66 @@ public class UserDAOImpl implements UserDAO {
         }
         User user = new User(0, login, password, "client");
         return user;
+    }
+
+    @Override
+    public String payOrder(List<Drug> orderList) throws DAOException {
+        String result="";
+
+        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ProxyConnection con= null;
+        try {
+            con = pool.takeConnection();
+            con.setAutoCommit(false);
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Don't take connection pool", e);
+        } catch (SQLException e) {
+            throw new DAOException("Autocommit error", e);
+        }
+
+        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_PAY_ORDER);
+             PreparedStatement ps2 = con.prepareStatement(ConstantClass.SQL2_PAY_ORDER)) {
+            boolean isOk=true;
+            for (Drug drug : orderList) {
+                ps.setInt(1,drug.getId());
+                ResultSet rs=ps.executeQuery();
+                int quantityDrugs=0;
+                if (rs.next()){
+                    quantityDrugs=rs.getInt(1);
+                }
+                if (quantityDrugs>=drug.getCount()){
+                    ps2.setInt(1,quantityDrugs-drug.getCount());
+                    ps2.setInt(2,drug.getId());
+                    ps2.executeUpdate();
+                }else {
+                    result="Don't drug: "+drug.getName()+", left: "+quantityDrugs;
+                    isOk=false;
+                    break;
+
+                }
+            }
+            if (isOk) {
+                result = "payment.ok";
+                con.commit();
+            }else {
+                con.rollback();
+            }
+            return result;
+
+        }catch (SQLException e) {
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                throw new DAOException("Rollback error",e);
+            }
+            throw new DAOException(e);
+        }finally {
+            try {
+                ConnectionPool.getInstance().releaseConnection(con);
+            } catch (ConnectionPoolException e) {
+                throw new DAOException("Connection pool don't release connection",e);
+            }
+        }
+
     }
 }

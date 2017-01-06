@@ -24,16 +24,10 @@ public class Localization implements ICommand {
 
         StringBuffer buf= (StringBuffer) request.getSession().getAttribute("url");
         String url=buf.toString();
-        /*if (request.getSession().getAttribute("param")!=null) {
-            url = url + "?" + request.getSession().getAttribute("paramName") + "=" + request.getSession().getAttribute("param");
-            if (request.getSession().getAttribute("param2") != null){
-                url = url + "&" + request.getSession().getAttribute("paramName2") + "=" + request.getSession().getAttribute("param2");
-            }
-        }
-        System.out.println(url);*/
+        String urlParams = (String) request.getSession().getAttribute("urlParams");
 
         try {
-                response.sendRedirect(url);
+                response.sendRedirect(url+"?"+urlParams);
             } catch (IOException e) {
                 throw new CommandException("Don't execute url: "+url,e);
             }

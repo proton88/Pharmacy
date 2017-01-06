@@ -4,11 +4,14 @@ import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.DAOFactory;
 import com.suglob.pharmacy.dao.UserDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
+import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.service.exception.ServiceRegistrationException;
 import com.suglob.pharmacy.service.utils.RegularChanges;
+
+import java.util.List;
 
 public class ClientServiceImpl implements ClientService{
     @Override
@@ -46,5 +49,20 @@ public class ClientServiceImpl implements ClientService{
             throw new ServiceException(e);
         }
         return user;
+    }
+
+    @Override
+    public String payOrder(List<Drug> orderList) throws ServiceException {
+        DAOFactory factory = DAOFactory.getInstance();
+        UserDAO userDAO=factory.getUserDAO();
+
+        String result = null;
+        try {
+            result = userDAO.payOrder(orderList);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return result;
     }
 }

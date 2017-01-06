@@ -12,6 +12,7 @@ import com.suglob.pharmacy.service.exception.ServiceException;
 import java.util.ArrayList;
 
 public class CommonServiceImpl implements CommonService {
+    private int countRecords;
 
     @Override
     public User logination(String login, String password) throws ServiceException {
@@ -61,7 +62,11 @@ public class CommonServiceImpl implements CommonService {
         } catch (DAOException e) {
             throw new ServiceException(e.toString(),e);
         }
-
+        countRecords=commonDAO.getCountRecords();
         return drugList;
+    }
+
+    public int getCountRecords() {
+        return countRecords;
     }
 }

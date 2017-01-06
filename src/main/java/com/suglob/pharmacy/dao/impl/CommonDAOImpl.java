@@ -11,15 +11,15 @@ import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.utils.ConstantClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 
 public class CommonDAOImpl implements CommonDAO {
-
+    private int countRecords;
     @Override
     public User logination(String login, String password) throws DAOException {
         User user=null;
@@ -92,13 +92,17 @@ public class CommonDAOImpl implements CommonDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try(PreparedStatement ps = con.prepareStatement(str)){
+        try(PreparedStatement ps = con.prepareStatement(str);
+            Statement statement=con.createStatement()){
             ResultSet rs=ps.executeQuery();
             while (rs.next()){
                 drugList.add(new Drug(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getBigDecimal(5),
                         rs.getInt(6),rs.getString(7)));
             }
-
+            rs = statement.executeQuery("SELECT FOUND_ROWS()");
+            if(rs.next()) {
+                countRecords = rs.getInt(1);
+            }
         }catch (SQLException e){throw new DAOException("Wrong sql in login", e);
         }finally {
             try {
@@ -108,6 +112,10 @@ public class CommonDAOImpl implements CommonDAO {
             }
         }
         return drugList;
+    }
+
+    public int getCountRecords() {
+        return countRecords;
     }
 
 }

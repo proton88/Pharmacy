@@ -14,6 +14,16 @@ public class Drug extends Entity {
     public Drug() {
     }
 
+    public Drug(Drug drug) {
+        this.id=drug.id;
+        this.name = drug.name;
+        this.dosage = drug.dosage;
+        this.country = drug.country;
+        this.price = drug.price;
+        this.count=drug.count;
+        this.isRecipe = drug.isRecipe;
+    }
+
     public Drug(int id, String name, String dosage, String country, BigDecimal price, int count, String isRecipe) {
         this.id=id;
         this.name = name;
@@ -79,4 +89,6 @@ public class Drug extends Entity {
     public void setIsRecipe(String isRecipe) {
         this.isRecipe = isRecipe;
     }
+
+
 }

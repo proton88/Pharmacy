@@ -28,6 +28,16 @@ public enum CommandEnum {
         {
             this.command=new AddOrder();
         }
+    },
+    CANCEL_ORDER{
+        {
+            this.command=new CancelOrder();
+        }
+    },
+    PAY_ORDER{
+        {
+            this.command=new PayOrder();
+        }
     };
     ICommand command;
     public ICommand getCurrentCommand() {
