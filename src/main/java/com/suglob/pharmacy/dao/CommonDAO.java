@@ -1,6 +1,7 @@
 package com.suglob.pharmacy.dao;
 
 import com.suglob.pharmacy.dao.exception.DAOException;
+import com.suglob.pharmacy.entity.Doctor;
 import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.DrugCategory;
 import com.suglob.pharmacy.entity.User;
@@ -14,4 +15,6 @@ public interface CommonDAO {
     ArrayList<Drug> takeDrugs(String str) throws DAOException;
 
     int getCountRecords();
+
+    ArrayList<Doctor> takeDoctors() throws DAOException;
 }

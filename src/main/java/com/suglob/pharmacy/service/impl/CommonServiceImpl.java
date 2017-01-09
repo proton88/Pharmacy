@@ -3,6 +3,7 @@ package com.suglob.pharmacy.service.impl;
 import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.DAOFactory;
 import com.suglob.pharmacy.dao.exception.DAOException;
+import com.suglob.pharmacy.entity.Doctor;
 import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.DrugCategory;
 import com.suglob.pharmacy.entity.User;
@@ -68,5 +69,22 @@ public class CommonServiceImpl implements CommonService {
 
     public int getCountRecords() {
         return countRecords;
+    }
+
+    @Override
+    public ArrayList<Doctor> takeDoctors() throws ServiceException {
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        CommonDAO commonDAO=factory.getCommonDAO();
+        ///////////////////////////////////////////////////
+        ArrayList<Doctor> doctorsList = new ArrayList<>();
+
+        try {
+            doctorsList=commonDAO.takeDoctors();
+        } catch (DAOException e) {
+            throw new ServiceException(e.toString(),e);
+        }
+
+        return doctorsList;
     }
 }

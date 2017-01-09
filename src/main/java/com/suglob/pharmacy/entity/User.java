@@ -1,8 +1,8 @@
 package com.suglob.pharmacy.entity;
 
-import java.io.Serializable;
 
 public class User extends Entity {
+    private int id;
     private int block;
     private String login;
     private String password;
@@ -11,11 +11,20 @@ public class User extends Entity {
     public User() {
     }
 
-    public User(int block, String login, String password, String type) {
+    public User(int id, String login, String password, String type, int block) {
+        this.id=id;
         this.block = block;
         this.login = login;
         this.password = password;
         this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getBlock() {

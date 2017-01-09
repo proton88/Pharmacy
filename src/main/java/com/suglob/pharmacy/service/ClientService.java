@@ -12,4 +12,12 @@ public interface ClientService {
                       String adress, String passportId) throws ServiceException, ServiceRegistrationException;
 
     String payOrder(List<Drug> orderList) throws ServiceException;
+
+    int addRecipe(String recipeCode, int count, int id) throws ServiceException;
+
+    void cancelOrder(int count, int id, int id_recipe) throws ServiceException;
+
+    String orderRecipe(String drugName, String doctorSurname, int userId) throws ServiceException;
+
+    String extendRecipe(String codeDrug) throws ServiceException;
 }

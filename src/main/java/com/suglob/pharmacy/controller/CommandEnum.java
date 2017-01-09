@@ -38,6 +38,16 @@ public enum CommandEnum {
         {
             this.command=new PayOrder();
         }
+    },
+    ORDER_RECIPE{
+        {
+            this.command=new OrderRecipe();
+        }
+    },
+    EXTEND_RECIPE{
+        {
+            this.command=new ExtendRecipe();
+        }
     };
     ICommand command;
     public ICommand getCurrentCommand() {

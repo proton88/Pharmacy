@@ -11,4 +11,16 @@ public interface UserDAO {
                       String adress, String passportId) throws DAOException;
 
     String payOrder(List<Drug> orderList) throws DAOException;
+
+    int addRecipe(String recipeCode, int count, int id) throws DAOException;
+
+    void cancelOrder(int count, int id, int id_recipe) throws DAOException;
+
+    String drugExists(String drugName) throws DAOException;
+
+    void orderRecipe(String drugName, String doctorSurname, int userId) throws DAOException;
+
+    String recipeExists(String codeDrug) throws DAOException;
+
+    void extendRecipe(String codeDrug) throws DAOException;
 }

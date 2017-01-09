@@ -10,6 +10,7 @@ import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.service.exception.ServiceRegistrationException;
 import com.suglob.pharmacy.service.utils.RegularChanges;
+import com.suglob.pharmacy.service.utils.Validator;
 
 import java.util.List;
 
@@ -63,6 +64,67 @@ public class ClientServiceImpl implements ClientService{
             throw new ServiceException(e);
         }
 
+        return result;
+    }
+
+    @Override
+    public int addRecipe(String recipeCode, int count, int id) throws ServiceException {
+        DAOFactory factory = DAOFactory.getInstance();
+        UserDAO userDAO=factory.getUserDAO();
+
+        int result;
+        try {
+            result = userDAO.addRecipe(recipeCode, count, id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public void cancelOrder(int count, int id, int id_recipe) throws ServiceException {
+        DAOFactory factory = DAOFactory.getInstance();
+        UserDAO userDAO=factory.getUserDAO();
+
+        try {
+            userDAO.cancelOrder(count, id, id_recipe);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public String orderRecipe(String drugName, String doctorSurname, int userId) throws ServiceException {
+        String result=Validator.checkOrderRecipe(drugName, doctorSurname);
+
+        if (result.equals("orderRecipe.ok")) {
+            DAOFactory factory = DAOFactory.getInstance();
+            UserDAO userDAO = factory.getUserDAO();
+
+            try {
+                userDAO.orderRecipe(drugName, doctorSurname, userId);
+            } catch (DAOException e) {
+                throw new ServiceException(e);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public String extendRecipe(String codeDrug) throws ServiceException {
+        String result=Validator.checkExtendRecipe(codeDrug);
+
+        if (result.equals("extendRecipe.ok")) {
+            DAOFactory factory = DAOFactory.getInstance();
+            UserDAO userDAO = factory.getUserDAO();
+
+            try {
+                userDAO.extendRecipe(codeDrug);
+            } catch (DAOException e) {
+                throw new ServiceException(e);
+            }
+        }
         return result;
     }
 }

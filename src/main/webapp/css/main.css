@@ -196,3 +196,7 @@ footer{
     width: 700px;
     margin-left:-500px;
 }
+
+.buttons{
+  text-align: start;
+}

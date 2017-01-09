@@ -4,6 +4,7 @@
 <%@include file="../jspf/header.jspf" %>
 <%@include file="../jspf/left_menu.jspf" %>
 <jsp:useBean id="drugList" class="com.suglob.pharmacy.entity.DrugList"/>
+<jsp:useBean id="doctor" class="com.suglob.pharmacy.entity.Doctor"/>
 <div class="hide show" id="block">
     <c:if test="${empty orderList}">
         <h2>Корзина пуста</h2>
@@ -41,19 +42,33 @@
         </form>
     </c:if>
 </div>
+
+</div>
 <section>
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="properties.localization" var="loc"/>
     <c:if test="${payment_msg=='payment.ok'}">
         <fmt:message bundle="${loc}" key="${payment_msg}" var="payment_message"/>
         <h3>${payment_message}</h3>
+        <c:set var="payment_msg" value="${null}"/>
     </c:if>
     <c:if test="${payment_msg!='payment.ok'}">
         <h3>${payment_msg}</h3>
     </c:if>
+    <c:if test="${orderRecipe_msg!=null}">
+        <fmt:message bundle="${loc}" key="${orderRecipe_msg}" var="order_recipe_message"/>
+        <h3>${order_recipe_message}</h3>
+        <c:set var="orderRecipe_msg" value="${null}"/>
+    </c:if>
+    <c:if test="${extendRecipe_msg!=null}">
+        <fmt:message bundle="${loc}" key="${extendRecipe_msg}" var="extend_recipe_message"/>
+        <h3>${extend_recipe_message}</h3>
+        <c:set var="extendRecipe_msg" value="${null}"/>
+    </c:if>
     <c:if test="${error!=null}">
         <fmt:message bundle="${loc}" key="${error}" var="error_message"/>
         <h3>${error_message}</h3>
+        <c:set var="error" value="${null}"/>
     </c:if>
     <c:if test="${pageContext.request.session==null or pageContext.request.session.isNew() or
     pageContext.request.session.getAttribute('user')==null}">
@@ -98,11 +113,11 @@
                     <th>Кол-во</th>
                 </tr>
                 <c:forEach var="drug" items="${drugListCurrent}" varStatus="count">
-                <c:forEach var="drugOrder" items="${orderList}">
-                    <c:if test="${drugOrder.id==drug.id}">
-                        <c:set var="drugCount" value="${drug.count-drugOrder.count}"/>
-                    </c:if>
-                </c:forEach>
+                    <c:forEach var="drugOrder" items="${orderList}">
+                        <c:if test="${drugOrder.id==drug.id}">
+                            <c:set var="drugCount" value="${drug.count-drugOrder.count}"/>
+                        </c:if>
+                    </c:forEach>
                     <c:if test="${count.count%2==1}">
                         <tr>
                     </c:if>
@@ -114,7 +129,7 @@
                     <td><a href="#">${drug.country}</a></td>
                     <td>${drug.price}</td>
                     <c:if test="${drug.isRecipe=='Y'}">
-                        <td><input type="text" name="code" value="ваш код:" size="4" form="order"></td>
+                        <td><input type="text" name="code" placeholder="код:" size="4" form="order"></td>
                     </c:if>
                     <c:if test="${drug.isRecipe!='Y'}">
                         <td>${drug.isRecipe}</td>
@@ -145,16 +160,16 @@
                 </c:if>
 
 
-                        <c:forEach begin="1" end="${countPages}" var="i">
-                            <c:choose>
-                                <c:when test="${page == i}">
-                                    ${i}
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="main?page=${i}&${urlParamsPagination}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
+                <c:forEach begin="1" end="${countPages}" var="i">
+                    <c:choose>
+                        <c:when test="${page == i}">
+                            ${i}
+                        </c:when>
+                        <c:otherwise>
+                            <a href="main?page=${i}&${urlParamsPagination}">${i}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
 
 
                 <c:if test="${page < countPages}">
@@ -175,5 +190,25 @@
         <p>&nbsp</p>
 
     </c:if>
+    <c:set var="doctorList" value="${doctor.createDoctorsList()}"/>
+    <br>
+    <div>
+    <form action="Controller" method="post" class="buttons">
+        <input type="hidden" name="command" value="order_recipe"/>
+        <input type="text" name="drugName" placeholder="название лекарства:" size="15">
+        <select name="doctorSurname">
+            <option disabled selected>Выберите врача</option>
+            <c:forEach var="doc" items="${doctorList}">
+                <option>${doc.surname}</option>
+            </c:forEach>
+        </select>
+        <input type="submit" value="Запросить рецепт" class="btn">
+    </form>
+    <form action="Controller" method="post" class="buttons">
+        <input type="hidden" name="command" value="extend_recipe"/>
+        <input type="text" name="codeDrug" placeholder="код рецепта:" size="8">
+        <input type="submit" value="Продлить рецепт" class="btn">
+    </form>
+    </div>
 </section>
 <%@include file="../jspf/footer.jspf" %>
