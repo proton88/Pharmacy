@@ -199,4 +199,9 @@ footer{
 
 .buttons{
   text-align: start;
+  clear: both;
+}
+
+.recipe{
+  float: left;
 }

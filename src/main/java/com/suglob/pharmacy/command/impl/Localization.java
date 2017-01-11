@@ -2,6 +2,7 @@ package com.suglob.pharmacy.command.impl;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
+import com.suglob.pharmacy.command.utils.CommandHelp;
 import com.suglob.pharmacy.utils.ConstantClass;
 
 import javax.servlet.ServletException;
@@ -22,24 +23,7 @@ public class Localization implements ICommand {
         locale=request.getParameter(ConstantClass.LOCALE);
         request.getSession().setAttribute("locale", locale);
 
-        StringBuffer buf= (StringBuffer) request.getSession().getAttribute("url");
-        String url=buf.toString();
-        String urlParams = (String) request.getSession().getAttribute("urlParams");
+        CommandHelp.sendResponse(request, response);
 
-        try {
-                response.sendRedirect(url+"?"+urlParams);
-            } catch (IOException e) {
-                throw new CommandException("Don't execute url: "+url,e);
-            }
-
-
-
-        /*try {
-            request.getRequestDispatcher("main").forward(request,response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }

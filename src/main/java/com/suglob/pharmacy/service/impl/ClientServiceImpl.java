@@ -8,26 +8,18 @@ import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.service.exception.ServiceRegistrationException;
+import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import com.suglob.pharmacy.service.utils.RegularChanges;
-import com.suglob.pharmacy.service.utils.Validator;
+import com.suglob.pharmacy.utils.Validator;
 
 import java.util.List;
 
 public class ClientServiceImpl implements ClientService{
     @Override
     public User registration(String login, String password, String passwordRepeat, String name, String surname, String patronymic,
-                             String adress, String passportId) throws ServiceException, ServiceRegistrationException {
+                             String adress, String passportId) throws ServiceException, ServiceCheckErrorException {
         User user=null;
-        if(login == null || login.isEmpty() || password == null || password.isEmpty()){
-            throw new ServiceRegistrationException("reg.login_password");
-        }
-        if(!password.equals(passwordRepeat)){
-            throw new ServiceRegistrationException("reg.password");
-        }
-        if (!RegularChanges.passportChange(passportId)){
-            throw new ServiceRegistrationException("reg.passport");
-        }
+        Validator.checkRegistration(login, password, passwordRepeat, passportId);
 
         ////////////////////////////////////////////////////
         DAOFactory factory = DAOFactory.getInstance();
@@ -40,7 +32,7 @@ public class ClientServiceImpl implements ClientService{
             throw new ServiceException(e1);
         }
         if(user!=null){
-            throw new ServiceRegistrationException("reg.user");
+            throw new ServiceCheckErrorException("reg.user");
         }
         user=null;
         //////////////////////////////////////////////////////////////////

@@ -6,7 +6,7 @@ import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.service.exception.ServiceRegistrationException;
+import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import com.suglob.pharmacy.utils.ConstantClass;
 
 import javax.servlet.RequestDispatcher;
@@ -36,7 +36,7 @@ public class Registration implements ICommand {
         User user1=null;
         try{
             user1= service.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId);
-        }catch (ServiceRegistrationException e){
+        }catch (ServiceCheckErrorException e){
             error=e.getMessage().trim();
         }catch (ServiceException e){
             throw new CommandException(e);

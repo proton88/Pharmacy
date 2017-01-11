@@ -258,6 +258,8 @@ public class UserDAOImpl implements UserDAO {
             if (rs2.next()) {
                 doctorId=rs2.getInt(1);
             }
+            drugName=drugName.toLowerCase();
+            drugName=drugName.substring(0, 1).toUpperCase() + drugName.substring(1);
             ps3.setString(1,drugName);
             ps3.setInt(2,clientsId);
             ps3.setInt(3,doctorId);

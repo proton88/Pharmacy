@@ -2,6 +2,7 @@
          pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:useBean id="user" class="com.suglob.pharmacy.entity.User"/>
 <!DOCTYPE html>
 
 <html>
@@ -14,6 +15,7 @@
 
     <body>
     ${pageContext.request.session.setAttribute("url",pageContext.request.getRequestURL())}
+    ${pageContext.request.session.setAttribute("user",user)}
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="properties.localization" var="loc"/>
     <fmt:message bundle="${loc}" key="localization.ru_button" var="ru_button"/>

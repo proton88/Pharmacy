@@ -48,6 +48,21 @@ public enum CommandEnum {
         {
             this.command=new ExtendRecipe();
         }
+    },
+    CHECK_RECIPE{
+        {
+            this.command=new CheckRecipe();
+        }
+    },
+    CANCEL_RECIPE{
+        {
+            this.command=new CancelRecipe();
+        }
+    },
+    ASSIGN_RECIPE{
+        {
+            this.command=new AssignRecipe();
+        }
     };
     ICommand command;
     public ICommand getCurrentCommand() {
