@@ -14,9 +14,12 @@ public class CommandHelp {
         StringBuffer buf= (StringBuffer) request.getSession().getAttribute("url");
         String url=buf.toString();
         String urlParams = (String) request.getSession().getAttribute("urlParams");
+        if (urlParams!=null){
+            url=url+"?"+urlParams;
+        }
 
         try {
-            response.sendRedirect(url+"?"+urlParams);
+            response.sendRedirect(url);
         } catch (IOException e) {
             throw new CommandException("Don't execute url: "+url,e);
         }

@@ -16,27 +16,19 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService{
     @Override
     public User registration(String login, String password, String passwordRepeat, String name, String surname, String patronymic,
-                             String adress, String passportId) throws ServiceException, ServiceCheckErrorException {
-        User user=null;
-        Validator.checkRegistration(login, password, passwordRepeat, passportId);
+                             String adress, String passportId, String email) throws ServiceException, ServiceCheckErrorException {
+
+        Validator.checkRegistration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId, email);
 
         ////////////////////////////////////////////////////
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO=factory.getUserDAO();
-        CommonDAO commonDAO=factory.getCommonDAO();
         ////////////////////////////////////////////////////////////////////
-        try {
-            user=commonDAO.logination(login, password);
-        } catch (DAOException e1) {
-            throw new ServiceException(e1);
-        }
-        if(user!=null){
-            throw new ServiceCheckErrorException("reg.user");
-        }
-        user=null;
+
+        User user=null;
         //////////////////////////////////////////////////////////////////
         try{
-            user=userDAO.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId);
+            user=userDAO.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId, email);
         }catch(DAOException e){
             throw new ServiceException(e);
         }

@@ -24,6 +24,5 @@
 
     };
 })(jQuery);
-// на каждую ссылку своя строка с link и block
 $('#link').dropDownBlock($('#block'));
 

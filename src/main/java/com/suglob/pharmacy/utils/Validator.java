@@ -1,9 +1,11 @@
 package com.suglob.pharmacy.utils;
 
+import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.DAOFactory;
 import com.suglob.pharmacy.dao.DoctorDAO;
 import com.suglob.pharmacy.dao.UserDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
+import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.service.utils.RegularChanges;
@@ -101,16 +103,42 @@ public class Validator {
         }
     }
 
-    public static void checkRegistration(String login, String password, String passwordRepeat, String passportId)
-            throws ServiceCheckErrorException{
-        if(login == null || login.isEmpty() || password == null || password.isEmpty()){
-            throw new ServiceCheckErrorException("reg.login_password");
+    public static void checkRegistration(String login, String password, String passwordRepeat, String name,
+                                         String surname, String patronymic, String adress, String passportId,
+                                         String email) throws ServiceCheckErrorException, ServiceException {
+        if(login == null || login.isEmpty() || password == null || password.isEmpty() ||
+                name == null || name.isEmpty() || surname == null || surname.isEmpty() ||
+                adress == null || adress.isEmpty() || passportId == null || passportId.isEmpty() ||
+                email == null || email.isEmpty()){
+            throw new ServiceCheckErrorException("reg.empty_field");
+        }
+        if (!RegularChanges.loginCheck(login)){
+            throw new ServiceCheckErrorException("reg.bad_login");
+        }
+        if (!RegularChanges.passwordCheck(password)){
+            throw new ServiceCheckErrorException("reg.bad_password");
         }
         if(!password.equals(passwordRepeat)){
             throw new ServiceCheckErrorException("reg.password");
         }
-        if (!RegularChanges.passportChange(passportId)){
+        if (!RegularChanges.passportCheck(passportId)){
             throw new ServiceCheckErrorException("reg.passport");
+        }
+        if (!RegularChanges.emailCheck(email)){
+            throw new ServiceCheckErrorException("reg.bad_email");
+        }
+        User user=null;
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        CommonDAO commonDAO=factory.getCommonDAO();
+        ////////////////////////////////////////////////////////////////////
+        try {
+            user=commonDAO.logination(login, password);
+        } catch (DAOException e1) {
+            throw new ServiceException(e1);
+        }
+        if(user!=null){
+            throw new ServiceCheckErrorException("reg.user");
         }
     }
 

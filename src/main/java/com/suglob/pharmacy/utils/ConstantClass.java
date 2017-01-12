@@ -3,6 +3,8 @@ package com.suglob.pharmacy.utils;
 public class ConstantClass {
     public static final String PASSWORD="password";
     public static final String LOGIN="login";
+    public static final String PASSWORD_REG = "password_reg";
+    public static final String LOGIN_REG = "login_reg";
     public static final String PASSWORDREPEAT="passwordRepeat";
     public static final String NAME="name";
     public static final String SURNAME="surname";
@@ -21,6 +23,7 @@ public class ConstantClass {
     public static final String PERIOD = "period";
     public static final String CLIENT_ID = "clientId";
     public static final String CODE = "code";
+    public static final String EMAIL = "email";
 
 
 
@@ -54,4 +57,11 @@ public class ConstantClass {
     public static final String SQL_CHECK_DRUG_CODE = "SELECT * FROM pharmacy.recipes where code=?";
     public static final String SQL_CANCEL_EXTEND_RECIPE = "DELETE FROM extend_recipe WHERE drug_code=?";
     public static final String SQL_EXTEND_RECIPE = "update recipes set date_start=?, date_finish=? where code=?";
+
+
+    public static final String REGEX_PASSPORT="[A-Z]{2}[0-9]{7}";
+    public static final String REGEX_LOGIN="^[a-zA-Z][a-zA-Z0-9_]{4,}$";
+    public static final String REGEX_PASSWORD="(?=^.{6,}$)^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$";
+    public static final String REGEX_EMAIL="^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$";
+
 }

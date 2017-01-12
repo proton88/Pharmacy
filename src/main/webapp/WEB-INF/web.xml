@@ -26,15 +26,6 @@
   </filter-mapping>
 
   <servlet>
-    <servlet-name>reg</servlet-name>
-    <jsp-file>/WEB-INF/jsp/reg.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>reg</servlet-name>
-    <url-pattern>/reg</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>main</servlet-name>
     <jsp-file>/WEB-INF/jsp/main.jsp</jsp-file>
   </servlet>

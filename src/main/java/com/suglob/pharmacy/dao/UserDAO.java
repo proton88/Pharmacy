@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserDAO {
     User registration(String login, String password, String passwordRepeat, String name, String surname, String patronymic,
-                      String adress, String passportId) throws DAOException;
+                      String adress, String passportId, String email) throws DAOException;
 
     String payOrder(List<Drug> orderList) throws DAOException;
 

@@ -2,6 +2,7 @@ package com.suglob.pharmacy.command.impl;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
+import com.suglob.pharmacy.command.utils.CommandHelp;
 import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.ServiceFactory;
@@ -19,14 +20,15 @@ import java.io.IOException;
 public class Registration implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        String login=request.getParameter(ConstantClass.LOGIN);
-        String password=request.getParameter(ConstantClass.PASSWORD);
+        String login=request.getParameter(ConstantClass.LOGIN_REG);
+        String password=request.getParameter(ConstantClass.PASSWORD_REG);
         String passwordRepeat=request.getParameter(ConstantClass.PASSWORDREPEAT);
         String name=request.getParameter(ConstantClass.NAME);
         String surname=request.getParameter(ConstantClass.SURNAME);
         String patronymic=request.getParameter(ConstantClass.PATRONYMIC);
         String adress=request.getParameter(ConstantClass.ADRESS);
         String passportId=request.getParameter(ConstantClass.PASSPORTID);
+        String email=request.getParameter(ConstantClass.EMAIL);
         ///////////////////////////////////////////////////////////////////////////////
         ServiceFactory factory = ServiceFactory.getInstance();
         ClientService service = factory.getClientService();
@@ -35,7 +37,7 @@ public class Registration implements ICommand {
         String error="";
         User user1=null;
         try{
-            user1= service.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId);
+            user1= service.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId, email);
         }catch (ServiceCheckErrorException e){
             error=e.getMessage().trim();
         }catch (ServiceException e){
@@ -54,15 +56,16 @@ public class Registration implements ICommand {
             }
 
         }else{
-            try{
+            //try{
                 if (error.isEmpty()){
                     error="reg.else";
                 }
-                request.setAttribute("error", error);
-                request.getRequestDispatcher("WEB-INF/jsp/reg.jsp").forward(request, response);
-            }catch(ServletException |IOException e){
-                throw new CommandException("Don't execute reg.jsp",e);
-            }
+                request.getSession().setAttribute("error", error);
+                //request.getRequestDispatcher("WEB-INF/jsp/reg.jsp").forward(request, response);
+                CommandHelp.sendResponse(request, response);
+            //}catch(ServletException |IOException e){
+            //    throw new CommandException("Don't execute reg.jsp",e);
+            //}
         }
 
     }

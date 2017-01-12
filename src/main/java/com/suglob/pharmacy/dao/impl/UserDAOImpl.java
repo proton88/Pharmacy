@@ -19,9 +19,10 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
     @Override
-    public User registration(String login, String password, String passwordRepeat, String name, String surname, String patronymic, String adress, String passportId) throws DAOException {
+    public User registration(String login, String password, String passwordRepeat, String name, String surname,
+                             String patronymic, String adress, String passportId, String email) throws DAOException {
         String sql = "INSERT INTO users(users_id, login, password, type) VALUES(?,?,?,?)";
-        String sql2 = "INSERT INTO clients(surname, name, patronymic, address, pasport_id, users_id) VALUES(?,?,?,?,?,?)";
+        String sql2 = "INSERT INTO clients(surname, name, patronymic, address, pasport_id, users_id, email) VALUES(?,?,?,?,?,?,?)";
         String sql3 = "SELECT count(*) FROM users;";
 
         ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
@@ -37,7 +38,6 @@ public class UserDAOImpl implements UserDAO {
 
 
         int countUsers=0;
-
         try (PreparedStatement ps = con.prepareStatement(sql);
              PreparedStatement ps2 = con.prepareStatement(sql2);
              PreparedStatement ps3 = con.prepareStatement(sql3)){
@@ -46,7 +46,6 @@ public class UserDAOImpl implements UserDAO {
             if (rs.next()){
                 countUsers=rs.getInt(1);
                 countUsers++;
-
             }
             ps.setInt(1, countUsers);
             ps.setString(2, login);
@@ -59,6 +58,7 @@ public class UserDAOImpl implements UserDAO {
             ps2.setString(4, adress);
             ps2.setString(5, passportId);
             ps2.setInt(6, countUsers);
+            ps2.setString(7,email);
             ps2.executeUpdate();
             con.commit();
         } catch (SQLException e) {

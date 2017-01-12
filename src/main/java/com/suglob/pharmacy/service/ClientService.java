@@ -8,8 +8,8 @@ import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import java.util.List;
 
 public interface ClientService {
-    User registration(String login, String password, String passwordRepeat, String name, String surname,String patronymic,
-                      String adress, String passportId) throws ServiceException, ServiceCheckErrorException;
+    User registration(String login, String password, String passwordRepeat, String name, String surname, String patronymic,
+                      String adress, String passportId, String email) throws ServiceException, ServiceCheckErrorException;
 
     String payOrder(List<Drug> orderList) throws ServiceException;
 
