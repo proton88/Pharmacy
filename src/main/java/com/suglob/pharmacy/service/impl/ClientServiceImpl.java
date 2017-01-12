@@ -9,7 +9,6 @@ import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
-import com.suglob.pharmacy.service.utils.RegularChanges;
 import com.suglob.pharmacy.utils.Validator;
 
 import java.util.List;
@@ -104,7 +103,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public String extendRecipe(String codeDrug) throws ServiceException {
+    public String orderExtendRecipe(String codeDrug) throws ServiceException {
         String result=Validator.checkExtendRecipe(codeDrug);
 
         if (result.equals("extendRecipe.ok")) {
@@ -112,7 +111,7 @@ public class ClientServiceImpl implements ClientService{
             UserDAO userDAO = factory.getUserDAO();
 
             try {
-                userDAO.extendRecipe(codeDrug);
+                userDAO.orderExtendRecipe(codeDrug);
             } catch (DAOException e) {
                 throw new ServiceException(e);
             }

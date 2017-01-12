@@ -113,4 +113,10 @@ public class Validator {
             throw new ServiceCheckErrorException("reg.passport");
         }
     }
+
+    public static void checkPeriod(int period) throws ServiceCheckErrorException {
+        if (period>60 || period<=0){
+            throw new ServiceCheckErrorException("assignRecipe.wrongPeriod");
+        }
+    }
 }

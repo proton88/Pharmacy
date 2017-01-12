@@ -44,9 +44,9 @@ public enum CommandEnum {
             this.command=new OrderRecipe();
         }
     },
-    EXTEND_RECIPE{
+    ORDER_EXTEND_RECIPE{
         {
-            this.command=new ExtendRecipe();
+            this.command=new OrderExtendRecipe();
         }
     },
     CHECK_RECIPE{
@@ -62,6 +62,16 @@ public enum CommandEnum {
     ASSIGN_RECIPE{
         {
             this.command=new AssignRecipe();
+        }
+    },
+    CANCEL_EXTEND_RECIPE{
+        {
+            this.command=new CancelExtendRecipe();
+        }
+    },
+    EXTEND_RECIPE{
+        {
+            this.command=new ExtendRecipe();
         }
     };
     ICommand command;

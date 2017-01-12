@@ -37,8 +37,10 @@ public class CheckRecipe implements ICommand{
         }
         if(!result.get("drugsNameExtendRecipe").isEmpty()){
             List drugsNameExtendRecipe=result.get("drugsNameExtendRecipe");
+            List drugsCodeExtendRecipe=result.get("drugsCodeExtendRecipe");
             List<Client> clientsExtendRecipe=result.get("clientsExtendRecipe");
             request.getSession().setAttribute("drugsNameExtendRecipe", drugsNameExtendRecipe);
+            request.getSession().setAttribute("drugsCodeExtendRecipe", drugsCodeExtendRecipe);
             request.getSession().setAttribute("clientsExtendRecipe", clientsExtendRecipe);
         }
 

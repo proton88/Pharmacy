@@ -59,4 +59,33 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return drugName;
     }
+
+    @Override
+    public void cancelExtendRecipe(String codeRecipe) throws ServiceException {
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        DoctorDAO doctorDAO=factory.getDoctorDAO();
+        ///////////////////////////////////////////////////
+
+        try {
+            doctorDAO.cancelExtendRecipe(codeRecipe);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void extendRecipe(int period, String codeRecipe) throws ServiceException, ServiceCheckErrorException {
+        Validator.checkPeriod(period);
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        DoctorDAO doctorDAO=factory.getDoctorDAO();
+        ///////////////////////////////////////////////////
+
+        try {
+            doctorDAO.extendRecipe(period, codeRecipe);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
 }

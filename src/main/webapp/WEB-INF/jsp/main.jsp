@@ -213,7 +213,7 @@
                 <input type="submit" value="Запросить рецепт" class="btn">
             </form>
             <form action="Controller" method="post" class="buttons">
-                <input type="hidden" name="command" value="extend_recipe"/>
+                <input type="hidden" name="command" value="order_extend_recipe"/>
                 <input type="text" name="codeDrug" placeholder="код рецепта:" size="8">
                 <input type="submit" value="Продлить рецепт" class="btn">
             </form>
@@ -258,6 +258,7 @@
                     </c:forEach>
                 </table>
             </div>
+            <br>
             <form action="Controller" method="post" class="buttons">
                 <input type="hidden" name="command" value="cancel_recipe"/>
                 <input type="hidden" name="userId" value="${user.id}"/>
@@ -296,32 +297,30 @@
                     <th>Отчество</th>
                     <th>Email</th>
                 </tr>
-                <c:forEach var="clientRecipe" items="${clientsExtendRecipe}">
+                <c:forEach var="clientRecipe" items="${clientsExtendRecipe}" varStatus="number">
                     <tr>
                         <td>${clientRecipe.surname}</td>
                         <td>${clientRecipe.name}</td>
                         <td>${clientRecipe.patronymic}</td>
                         <td>${clientRecipe.email}</td>
+                        <td>
+                            <form action="Controller" method="post">
+                                <input type="hidden" name="command" value="cancel_extend_recipe"/>
+                                <input type="hidden" name="position" value="${number.count}"/>
+                                <input type="submit" value="-" class="btn">
+                            </form>
+                        </td>
+                        <td>
+                            <form action="Controller" method="post">
+                                <input type="hidden" name="command" value="extend_recipe"/>
+                                <input type="hidden" name="position" value="${number.count}"/>
+                                <input type="text" placeholder="дней" name="period" size="3">
+                                <input type="submit" value="+" class="btn">
+                            </form>
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
-            <form action="Controller" method="post" class="buttons">
-                <input type="hidden" name="command" value="cancel_extend_recipe"/>
-                <input type="hidden" name="userId" value="${user.id}"/>
-                <input type="text" placeholder="название лекарства" name="drugName">
-                <input type="text" placeholder="id клиента" name="clientId">
-                <input type="submit" value="Отклонить" class="btn">
-            </form>
-            <form action="Controller" method="post" class="buttons">
-                <input type="hidden" name="command" value="assign_recipe"/>
-                <input type="hidden" name="userId" value="${user.id}"/>
-                <input type="text" placeholder="id лекарства" name="drugId" size="8">
-                <input type="text" placeholder="количество" name="quantity" size="8">
-                <input type="text" placeholder="срок(дней)" name="period" size="8">
-                <input type="text" placeholder="id клиента" name="clientId" size="8">
-                <input type="text" placeholder="код(6)" name="code" size="7">
-                <input type="submit" value="Назначить" class="btn">
-            </form>
         </c:if>
     </c:if>
 </section>

@@ -22,6 +22,7 @@ public class DoctorDAOImpl implements DoctorDAO {
         ArrayList<String> drugsNameOrder = new ArrayList<>();
         ArrayList<Client> clientsListExtend = new ArrayList<>();
         ArrayList<String> drugsNameExtend = new ArrayList<>();
+        ArrayList<String> drugsCodeExtend = new ArrayList<>();
         String sql = ConstantClass.SQL_CHECK_RECIPE;
         String sql2 = ConstantClass.SQL2_CHECK_RECIPE;
         String sql3 = ConstantClass.SQL3_CHECK_RECIPE;
@@ -55,10 +56,12 @@ public class DoctorDAOImpl implements DoctorDAO {
             ps2.setInt(1, doctorsId);
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
-                drugsNameExtend.add(rs2.getString(1));
-                clientsListExtend.add(new Client(rs2.getInt(2), rs2.getString(3), rs2.getString(4), rs2.getString(5),
-                        rs2.getString(6), rs2.getString(7), rs2.getString(8)));
+                drugsCodeExtend.add(rs2.getString(1));
+                drugsNameExtend.add(rs2.getString(2));
+                clientsListExtend.add(new Client(rs2.getInt(3), rs2.getString(4), rs2.getString(5), rs2.getString(6),
+                        rs2.getString(7), rs2.getString(8), rs2.getString(9)));
             }
+            result.put("drugsCodeExtendRecipe", drugsCodeExtend);
             result.put("drugsNameExtendRecipe", drugsNameExtend);
             result.put("clientsExtendRecipe", clientsListExtend);
         } catch (SQLException e) {
@@ -255,5 +258,57 @@ public class DoctorDAOImpl implements DoctorDAO {
             }
         }
         return result;
+    }
+
+    @Override
+    public void cancelExtendRecipe(String codeRecipe) throws DAOException {
+        String sql = ConstantClass.SQL_CANCEL_EXTEND_RECIPE;
+
+        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ProxyConnection con = null;
+        try {
+            con = pool.takeConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Don't take connection pool", e);
+        }
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, codeRecipe);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Wrong sql", e);
+        } finally {
+            try {
+                ConnectionPool.getInstance().releaseConnection(con);
+            } catch (ConnectionPoolException e) {
+                throw new DAOException("Don't release connection pool", e);
+            }
+        }
+    }
+
+    @Override
+    public void extendRecipe(int period, String codeRecipe) throws DAOException {
+        String sql = ConstantClass.SQL_EXTEND_RECIPE;
+
+        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ProxyConnection con = null;
+        try {
+            con = pool.takeConnection();
+        } catch (ConnectionPoolException e) {
+            throw new DAOException("Don't take connection pool", e);
+        }
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDate(1, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            ps.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(period)));
+            ps.setString(3, codeRecipe);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Wrong sql", e);
+        } finally {
+            try {
+                ConnectionPool.getInstance().releaseConnection(con);
+            } catch (ConnectionPoolException e) {
+                throw new DAOException("Don't release connection pool", e);
+            }
+        }
     }
 }

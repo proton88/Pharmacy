@@ -19,5 +19,5 @@ public interface ClientService {
 
     String orderRecipe(String drugName, String doctorSurname, int userId) throws ServiceException;
 
-    String extendRecipe(String codeDrug) throws ServiceException;
+    String orderExtendRecipe(String codeDrug) throws ServiceException;
 }

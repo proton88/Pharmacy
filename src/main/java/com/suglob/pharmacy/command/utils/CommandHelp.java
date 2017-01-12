@@ -38,4 +38,13 @@ public class CommandHelp {
             request.getSession().setAttribute("clientsOrderRecipe",clientsOrderRecipe);
         }
     }
+
+    public static void clearExtendRecipe(HttpServletRequest request, int positionRecipe) {
+        List<String> drugsNameExtendRecipe = (List<String>) request.getSession().getAttribute("drugsNameExtendRecipe");
+        List<String> drugsCodeExtendRecipe = (List<String>) request.getSession().getAttribute("drugsCodeExtendRecipe");
+        List<Client> clientsExtendRecipe = (List<Client>) request.getSession().getAttribute("clientsExtendRecipe");
+        drugsNameExtendRecipe.remove(positionRecipe-1);
+        drugsCodeExtendRecipe.remove(positionRecipe-1);
+        clientsExtendRecipe.remove(positionRecipe-1);
+    }
 }

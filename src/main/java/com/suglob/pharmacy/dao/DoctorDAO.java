@@ -15,4 +15,8 @@ public interface DoctorDAO {
     String assignRecipe(int userId, int drugId, int quantity, int period, int clientId, String code) throws DAOException;
 
     boolean checkDrugCode(String code) throws DAOException;
+
+    void cancelExtendRecipe(String codeRecipe) throws DAOException;
+
+    void extendRecipe(int period, String codeRecipe) throws DAOException;
 }

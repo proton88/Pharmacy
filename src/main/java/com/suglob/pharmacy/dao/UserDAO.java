@@ -22,5 +22,5 @@ public interface UserDAO {
 
     String recipeExists(String codeDrug) throws DAOException;
 
-    void extendRecipe(String codeDrug) throws DAOException;
+    void orderExtendRecipe(String codeDrug) throws DAOException;
 }

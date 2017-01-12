@@ -7,6 +7,7 @@ import com.suglob.pharmacy.service.DoctorService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import com.suglob.pharmacy.service.exception.ServiceException;
+import com.suglob.pharmacy.utils.ConstantClass;
 import com.suglob.pharmacy.utils.Validator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 public class AssignRecipe implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        String sDrugId=request.getParameter("drugId");
-        String sQuantity=request.getParameter("quantity");
-        String sPeriod=request.getParameter("period");
-        String sClientId=request.getParameter("clientId");
-        String code=request.getParameter("code");
+        int userId = Integer.parseInt(request.getParameter(ConstantClass.USER_ID));
+        String sDrugId=request.getParameter(ConstantClass.DRUG_ID);
+        String sQuantity=request.getParameter(ConstantClass.QUANTITY);
+        String sPeriod=request.getParameter(ConstantClass.PERIOD);
+        String sClientId=request.getParameter(ConstantClass.CLIENT_ID);
+        String code=request.getParameter(ConstantClass.CODE);
         int clientId=0;
         int drugId=0;
         int quantity=0;
@@ -52,7 +53,6 @@ public class AssignRecipe implements ICommand {
         }catch (ServiceException e){
             throw new CommandException(e);
         }
-        System.out.println(drugName);
         CommandHelp.clearOrderRecipe(request, drugName, clientId);
         CommandHelp.sendResponse(request, response);
     }

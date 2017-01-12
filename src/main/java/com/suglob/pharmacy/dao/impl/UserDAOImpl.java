@@ -305,7 +305,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void extendRecipe(String codeDrug) throws DAOException {
+    public void orderExtendRecipe(String codeDrug) throws DAOException {
         ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
         ProxyConnection con= null;
         try {
@@ -313,7 +313,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_EXTEND_RECIPE)){
+        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_ORDER_EXTEND_RECIPE)){
             ps.setString(1,codeDrug);
             ps.executeUpdate();
         } catch (SQLException e) {
