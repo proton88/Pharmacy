@@ -1,9 +1,6 @@
 package com.suglob.pharmacy.utils;
 
-import com.suglob.pharmacy.dao.CommonDAO;
-import com.suglob.pharmacy.dao.DAOFactory;
-import com.suglob.pharmacy.dao.DoctorDAO;
-import com.suglob.pharmacy.dao.UserDAO;
+import com.suglob.pharmacy.dao.*;
 import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
@@ -145,6 +142,96 @@ public class Validator {
     public static void checkPeriod(int period) throws ServiceCheckErrorException {
         if (period>60 || period<=0){
             throw new ServiceCheckErrorException("assignRecipe.wrongPeriod");
+        }
+    }
+
+    public static boolean checkDouble(String... params) {
+        for (String param:params) {
+            try {
+                Double.parseDouble(param);
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void checkDrugExist(int drugIdInt) throws ServiceException, ServiceCheckErrorException {
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        PharmacistDAO pharmacistDAO=factory.getPharmacistDAO();
+        ///////////////////////////////////////////////////
+        boolean checkDrug;
+        try {
+            checkDrug=pharmacistDAO.checkDrug(drugIdInt);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (!checkDrug){
+            throw new ServiceCheckErrorException("drug_not_exist");
+        }
+    }
+
+    public static void checkAddDrug(String drugName, String dosage, String country, String priceDrug, String quantity, String recipe, String[] categories) throws ServiceCheckErrorException {
+        if(drugName == null || drugName.isEmpty() || country == null || country.isEmpty() ||
+                priceDrug == null || priceDrug.isEmpty() || quantity == null || quantity.isEmpty() ||
+                recipe == null || recipe.isEmpty()){
+            throw new ServiceCheckErrorException("reg.empty_field");
+        }
+        if (recipe.compareToIgnoreCase("y")!=0 && recipe.compareToIgnoreCase("n")!=0){
+            throw new ServiceCheckErrorException("wrong_recipe_param");
+        }
+
+        if (categories==null){
+            throw new ServiceCheckErrorException("empty_category");
+        }
+    }
+
+    public static void checkDrugCategoryExist(String drugCategory) throws ServiceException, ServiceCheckErrorException {
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        PharmacistDAO pharmacistDAO=factory.getPharmacistDAO();
+        ///////////////////////////////////////////////////
+        boolean checkDrugCategory;
+        try {
+            checkDrugCategory=pharmacistDAO.checkDrugCategory(drugCategory);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (checkDrugCategory){
+            throw new ServiceCheckErrorException("drug_category_exist");
+        }
+    }
+
+    public static void checkDrugCategoryNotExist(String drugCategory) throws ServiceCheckErrorException, ServiceException {
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        PharmacistDAO pharmacistDAO=factory.getPharmacistDAO();
+        ///////////////////////////////////////////////////
+        boolean checkDrugCategory;
+        try {
+            checkDrugCategory=pharmacistDAO.checkDrugCategory(drugCategory);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (!checkDrugCategory){
+            throw new ServiceCheckErrorException("drug_category_not_exist");
+        }
+    }
+
+    public static void checkDrugCategoryNotEmpty(String drugCategory) throws ServiceException, ServiceCheckErrorException {
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        PharmacistDAO pharmacistDAO=factory.getPharmacistDAO();
+        ///////////////////////////////////////////////////
+        boolean checkDrugCategoryNotEmpty;
+        try {
+            checkDrugCategoryNotEmpty=pharmacistDAO.checkDrugCategoryNotEmpty(drugCategory);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (checkDrugCategoryNotEmpty){
+            throw new ServiceCheckErrorException("drug_category_not_empty");
         }
     }
 }

@@ -64,4 +64,25 @@ public class ConstantClass {
     public static final String REGEX_PASSWORD="(?=^.{6,}$)^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$";
     public static final String REGEX_EMAIL="^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$";
 
+    public static final String CURRENT_QUANTITY = "currentQuantity";
+    public static final String SQL_ADD_QUANTITY_DRUG = "update drugs set quantity=? where drugs_id=?";
+    public static final String PRICE_DRUG = "priceDrug";
+    public static final String SQL_CHECK_DRUG_ID = "SELECT * FROM drugs where drugs_id=?";
+    public static final String SQL_CHANGE_PRICE_DRUG = "update drugs set price=? where drugs_id=?";
+    public static final String DOSAGE = "dosage";
+    public static final String COUNTRY = "country";
+    public static final String RECIPE = "recipe";
+    public static final String SQL_ADD_DRUG = "insert into drugs(drugs_id, name, dosage, country, price, quantity, is_recipe) values(?,?,?,?,?,?,?)";
+    public static final String DRUG_CATEGORIES = "drugCategories";
+    public static final String SQL_DRUG_ID = "SELECT count(*) FROM drugs";
+    public static final String SQL_DRUG_CATEGORY_ID = "SELECT drugs_categories_id FROM drugs_categories where name=?";
+    public static final String SQL_ADD_DRUG_DRUG_CATEGORY = "insert into m2m_drugs_drugs_categories values(?, ?)";
+    public static final String SQL_DELETE_DRUG = "delete from m2m_drugs_drugs_categories where drugs_id=?";
+    public static final String SQL2_DELETE_DRUG = "delete from drugs where drugs_id=?";
+    public static final String DRUG_CATEGORY = "drugCategory";
+    public static final String SQL_CHECK_DRUG_CATEGORY = "SELECT * FROM drugs_categories where name=?";
+    public static final String SQL_ADD_DRUG_CATEGORY = "insert into drugs_categories(name) values(?)";
+    public static final String SQL_CHECK_DRUG_CATEGORY_NOT_EMPTY = "SELECT * FROM m2m_drugs_drugs_categories where drugs_categories_id=\n" +
+            "(SELECT drugs_categories_id FROM pharmacy.drugs_categories where name=?)";
+    public static final String SQL_DELETE_DRUG_CATEGORY = "delete from drugs_categories where name=?";
 }

@@ -1,9 +1,6 @@
 package com.suglob.pharmacy.dao;
 
-import com.suglob.pharmacy.dao.impl.CommonDAOImpl;
-import com.suglob.pharmacy.dao.impl.DoctorDAOImpl;
-import com.suglob.pharmacy.dao.impl.PoolDAOImpl;
-import com.suglob.pharmacy.dao.impl.UserDAOImpl;
+import com.suglob.pharmacy.dao.impl.*;
 
 public class DAOFactory {
     private static final DAOFactory daoFactory = new DAOFactory();
@@ -12,6 +9,7 @@ public class DAOFactory {
     private final PoolDAO poolDAO = new PoolDAOImpl();
     private final UserDAO userDAO = new UserDAOImpl();
     private final DoctorDAO doctorDAO = new DoctorDAOImpl();
+    private final PharmacistDAO pharmacistDAO = new PharmacistDAOImpl();
 
     private DAOFactory(){}
 
@@ -33,5 +31,9 @@ public class DAOFactory {
 
     public DoctorDAO getDoctorDAO() {
         return doctorDAO;
+    }
+
+    public PharmacistDAO getPharmacistDAO() {
+        return pharmacistDAO;
     }
 }

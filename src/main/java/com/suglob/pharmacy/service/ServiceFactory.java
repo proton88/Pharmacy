@@ -1,9 +1,6 @@
 package com.suglob.pharmacy.service;
 
-import com.suglob.pharmacy.service.impl.ClientServiceImpl;
-import com.suglob.pharmacy.service.impl.CommonServiceImpl;
-import com.suglob.pharmacy.service.impl.DoctorServiceImpl;
-import com.suglob.pharmacy.service.impl.PoolServiceImpl;
+import com.suglob.pharmacy.service.impl.*;
 
 public class ServiceFactory {
     private static final ServiceFactory factory=new ServiceFactory();
@@ -12,6 +9,7 @@ public class ServiceFactory {
     private final PoolService poolService = new PoolServiceImpl();
     private final ClientService clientService = new ClientServiceImpl();
     private final DoctorService doctorService = new DoctorServiceImpl();
+    private final PharmacistService pharmacistService = new PharmacistServiceImpl();
 
     private ServiceFactory(){}
 
@@ -32,5 +30,9 @@ public class ServiceFactory {
 
     public DoctorService getDoctorService() {
         return doctorService;
+    }
+
+    public PharmacistService getPharmacistService() {
+        return pharmacistService;
     }
 }

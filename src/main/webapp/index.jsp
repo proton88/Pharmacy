@@ -5,7 +5,7 @@
 <jsp:useBean id="user" class="com.suglob.pharmacy.entity.User"/>
 <!DOCTYPE html>
 
-<html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Онлайн Аптека::Вход</title>

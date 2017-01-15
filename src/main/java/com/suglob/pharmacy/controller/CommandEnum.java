@@ -73,6 +73,36 @@ public enum CommandEnum {
         {
             this.command=new ExtendRecipe();
         }
+    },
+    ADD_QUANTITY_DRUG{
+        {
+            this.command=new AddQuantityDrug();
+        }
+    },
+    CHANGE_PRICE_DRUG{
+        {
+            this.command=new ChangePriceDrug();
+        }
+    },
+    ADD_DRUG{
+        {
+            this.command=new AddDrug();
+        }
+    },
+    DELETE_DRUG{
+        {
+            this.command=new DeleteDrug();
+        }
+    },
+    ADD_DRUG_CATEGORY{
+        {
+            this.command=new AddDrugCategory();
+        }
+    },
+    DELETE_DRUG_CATEGORY{
+        {
+            this.command=new DeleteDrugCategory();
+        }
     };
     ICommand command;
     public ICommand getCurrentCommand() {

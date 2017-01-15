@@ -55,6 +55,11 @@
     <c:if test="${payment_msg!='payment.ok'}">
         <h3>${payment_msg}</h3>
     </c:if>
+    <c:if test="${msg!=null}">
+        <fmt:message bundle="${loc}" key="${msg}" var="message"/>
+        <h3>${message}</h3>
+        <c:set var="msg" value="${null}"/>
+    </c:if>
     <c:if test="${orderRecipe_msg!=null}">
         <fmt:message bundle="${loc}" key="${orderRecipe_msg}" var="order_recipe_message"/>
         <h3>${order_recipe_message}</h3>
@@ -153,6 +158,17 @@
                                 <input type="hidden" name="command" value="add_order"/>
                                 <input type="hidden" name="drug_id" value="${drug.id}"/>
                                 <input type="number" name="count" min="1" max="9" value="1">
+                                <input type="submit" value="+" class="btn">
+                            </form>
+                        </td>
+                    </c:if>
+                    <c:if test="${user.type=='pharmacist'}">
+                        <td>
+                            <form action="Controller" method="post">
+                                <input type="hidden" name="command" value="add_quantity_drug"/>
+                                <input type="hidden" name="drugId" value="${drug.id}"/>
+                                <input type="hidden" name="currentQuantity" value="${drug.count}"/>
+                                <input type="text" name="quantity" size="2">
                                 <input type="submit" value="+" class="btn">
                             </form>
                         </td>
@@ -323,5 +339,46 @@
             </table>
         </c:if>
     </c:if>
+
+    <c:if test="${user.type=='pharmacist'}">
+        <form action="Controller" method="post" class="buttons">
+            <input type="hidden" name="command" value="add_drug"/>
+            <input type="text" placeholder="название*" name="drugName" size="7">
+            <input type="text" placeholder="дозировка" name="dosage" size="10">
+            <input type="text" placeholder="страна*" name="country" size="10">
+            <input type="text" placeholder="цена*" name="priceDrug" size="4">
+            <input type="text" placeholder="кол-во*" name="quantity" size="3">
+            <input type="text" placeholder="рецепт*" name="recipe" size="3">
+            <select name="drugCategories" multiple>
+                <option disabled selected>Категория</option>
+                <c:forEach var="category" items="${drugCategories}">
+                    <option>${category.name}</option>
+                </c:forEach>
+            </select>
+            <input type="submit" value="Добавить лекарство" class="btn">
+        </form>
+        <form action="Controller" method="post" class="buttons">
+            <input type="hidden" name="command" value="change_price_drug"/>
+            <input type="text" placeholder="id лекарства" name="drugId" size="9">
+            <input type="text" placeholder="новая цена" name="priceDrug" size="7">
+            <input type="submit" value="Изменить цену" class="btn">
+        </form>
+        <form action="Controller" method="post" class="buttons">
+            <input type="hidden" name="command" value="delete_drug"/>
+            <input type="text" placeholder="id лекарства" name="drugId" size="9">
+            <input type="submit" value="Удалить лекарство" class="btn">
+        </form>
+        <form action="Controller" method="post" class="buttons">
+            <input type="hidden" name="command" value="add_drug_category"/>
+            <input type="text" placeholder="название категории" name="drugCategory" size="14">
+            <input type="submit" value="Добавить категорию" class="btn">
+        </form>
+        <form action="Controller" method="post" class="buttons">
+            <input type="hidden" name="command" value="delete_drug_category"/>
+            <input type="text" placeholder="название категории" name="drugCategory" size="14">
+            <input type="submit" value="Удалить категорию" class="btn">
+        </form>
+    </c:if>
+
 </section>
 <%@include file="../jspf/footer.jspf" %>
