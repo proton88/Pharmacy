@@ -31,13 +31,13 @@ public class AddDrug implements ICommand {
             service.addDrug(drugName, dosage, country, priceDrug, quantity, recipe.toUpperCase(), categories);
         } catch (ServiceCheckErrorException e){
             error=e.getMessage().trim();
-            request.getSession().setAttribute("error", error);
+            request.getSession().setAttribute(ConstantClass.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }catch (ServiceException e){
             throw new CommandException(e);
         }
-        request.getSession().setAttribute("msg", "add_drug.ok");
+        request.getSession().setAttribute(ConstantClass.MSG, ConstantClass.MSG_ADD_DRUG_OK);
         CommandHelp.sendResponse(request, response);
     }
 }

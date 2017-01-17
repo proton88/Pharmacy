@@ -24,10 +24,10 @@ public class CommonDAOImpl implements CommonDAO {
     @Override
     public User logination(String login, String password) throws DAOException {
         User user=null;
-        String sql = "SELECT * FROM pharmacy.users WHERE login=? and password=?";
+        String sql = ConstantClass.SQL_LOGINATION;
 
         ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
-        ProxyConnection con= null;
+        ProxyConnection con;
         try {
             con = pool.takeConnection();
         } catch (ConnectionPoolException e) {
@@ -59,7 +59,7 @@ public class CommonDAOImpl implements CommonDAO {
         String sql = ConstantClass.SQL_NAME_DRUG_CATEGORIES;
 
         ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
-        ProxyConnection con= null;
+        ProxyConnection con;
         try {
             con = pool.takeConnection();
         } catch (ConnectionPoolException e) {
@@ -87,7 +87,7 @@ public class CommonDAOImpl implements CommonDAO {
         ArrayList<Drug> drugList = new ArrayList<>();
 
         ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
-        ProxyConnection con= null;
+        ProxyConnection con;
         try {
             con = pool.takeConnection();
         } catch (ConnectionPoolException e) {
@@ -100,7 +100,7 @@ public class CommonDAOImpl implements CommonDAO {
                 drugList.add(new Drug(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getBigDecimal(5),
                         rs.getInt(6),rs.getString(7)));
             }
-            rs = statement.executeQuery("SELECT FOUND_ROWS()");
+            rs = statement.executeQuery(ConstantClass.SQL_FOUND_ROWS);
             if(rs.next()) {
                 countRecords = rs.getInt(1);
             }
@@ -125,7 +125,7 @@ public class CommonDAOImpl implements CommonDAO {
         String sql = ConstantClass.SQL_TAKE_DOCTORS;
 
         ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
-        ProxyConnection con= null;
+        ProxyConnection con;
         try {
             con = pool.takeConnection();
         } catch (ConnectionPoolException e) {

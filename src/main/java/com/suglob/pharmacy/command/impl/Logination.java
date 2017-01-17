@@ -7,7 +7,6 @@ import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.utils.ConstantClass;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,7 +25,7 @@ public class Logination implements ICommand {
         ServiceFactory factory = ServiceFactory.getInstance();
         CommonService service = factory.getCommonService();
         ///////////////////////////////////////////////////////////////////////////////
-        User user=null;
+        User user;
         try{
             user= service.logination(login, password);
         }catch (ServiceException e){
@@ -36,17 +35,17 @@ public class Logination implements ICommand {
         if (user!=null){
             if (user.getBlock()==1){
                 try{
-                    request.setAttribute("error", "index.error_block");
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    request.setAttribute(ConstantClass.ERROR, ConstantClass.BLOCK_USER);
+                    request.getRequestDispatcher(ConstantClass.INDEX).forward(request, response);
                 }catch(ServletException |IOException e){
                     throw new CommandException("Don't execute index.jsp",e);
                 }
                 return;
             }
             HttpSession session = request.getSession(true);
-            session.setAttribute("url",request.getRequestURL());
-            session.setAttribute("user", user);
-            RequestDispatcher dispather=request.getRequestDispatcher("main");
+            session.setAttribute(ConstantClass.URL,request.getRequestURL());
+            session.setAttribute(ConstantClass.USER, user);
+            RequestDispatcher dispather=request.getRequestDispatcher(ConstantClass.MAIN);
             try {
                 dispather.forward(request, response);
             } catch (ServletException | IOException e) {
@@ -55,8 +54,8 @@ public class Logination implements ICommand {
 
         }else{
             try{
-                request.setAttribute("error", "index.error_not_user");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                request.setAttribute(ConstantClass.ERROR, ConstantClass.NOT_USER);
+                request.getRequestDispatcher(ConstantClass.INDEX).forward(request, response);
             }catch(ServletException|IOException e){
                 throw new CommandException("Don't execute index.jsp",e);
             }

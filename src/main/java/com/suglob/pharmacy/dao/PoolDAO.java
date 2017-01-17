@@ -6,4 +6,6 @@ import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
 
 public interface PoolDAO {
     void getPool(ConnectionPool<ProxyConnection> pool) throws DAOException;
+
+    void disposePool(ConnectionPool<ProxyConnection> pool) throws DAOException;
 }

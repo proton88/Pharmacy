@@ -6,6 +6,7 @@ import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.service.PharmacistService;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import com.suglob.pharmacy.service.exception.ServiceException;
+import com.suglob.pharmacy.utils.ConstantClass;
 import com.suglob.pharmacy.utils.Validator;
 
 public class PharmacistServiceImpl implements PharmacistService {
@@ -23,7 +24,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public void changePriceDrug(String drugId, String priceDrug) throws ServiceException, ServiceCheckErrorException {
         if (!Validator.checkInteger(drugId) || !Validator.checkDouble(priceDrug)){
-            throw new ServiceCheckErrorException("wrong_format_parameters");
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_FORMAT);
         }
         int drugIdInt=Integer.parseInt(drugId);
         double priceDrugDouble=Double.parseDouble(priceDrug);
@@ -42,7 +43,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     public void addDrug(String drugName, String dosage, String country, String priceDrug, String quantity, String recipe, String[] categories) throws ServiceException, ServiceCheckErrorException {
         Validator.checkAddDrug(drugName, dosage, country, priceDrug, quantity, recipe, categories);
         if (!Validator.checkInteger(quantity) || !Validator.checkDouble(priceDrug)){
-            throw new ServiceCheckErrorException("wrong_format_parameters");
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_FORMAT);
         }
         int quantityInt=Integer.parseInt(quantity);
         double priceDrugDouble=Double.parseDouble(priceDrug);
@@ -64,7 +65,7 @@ public class PharmacistServiceImpl implements PharmacistService {
     @Override
     public void deleteDrug(String drugId) throws ServiceException, ServiceCheckErrorException {
         if (!Validator.checkInteger(drugId)){
-            throw new ServiceCheckErrorException("wrong_format_parameters");
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_FORMAT);
         }
         int drugIdInt=Integer.parseInt(drugId);
         Validator.checkDrugExist(drugIdInt);

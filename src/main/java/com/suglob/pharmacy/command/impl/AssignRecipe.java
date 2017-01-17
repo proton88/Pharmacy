@@ -22,17 +22,17 @@ public class AssignRecipe implements ICommand {
         String sPeriod=request.getParameter(ConstantClass.PERIOD);
         String sClientId=request.getParameter(ConstantClass.CLIENT_ID);
         String code=request.getParameter(ConstantClass.CODE);
-        int clientId=0;
-        int drugId=0;
-        int quantity=0;
-        int period=0;
+        int clientId;
+        int drugId;
+        int quantity;
+        int period;
         if (Validator.checkInteger(sDrugId, sQuantity, sPeriod, sClientId)) {
             clientId = Integer.parseInt(sClientId);
             drugId = Integer.parseInt(sDrugId);
             quantity = Integer.parseInt(sQuantity);
             period = Integer.parseInt(sPeriod);
         }else{
-            request.getSession().setAttribute("error", "recipeParameter.wrong");
+            request.getSession().setAttribute(ConstantClass.ERROR, ConstantClass.MSG_RECIPE_PARAMETER_WRONG);
             CommandHelp.sendResponse(request, response);
             return;
         }
@@ -41,13 +41,13 @@ public class AssignRecipe implements ICommand {
         ServiceFactory factory = ServiceFactory.getInstance();
         DoctorService service = factory.getDoctorService();
         ///////////////////////////////////////////////////////////////////////////////
-        String error="";
+        String error;
         String drugName;
         try {
             drugName=service.assignRecipe(userId,drugId, quantity, period, clientId, code);
         } catch (ServiceCheckErrorException e){
             error=e.getMessage().trim();
-            request.getSession().setAttribute("error", error);
+            request.getSession().setAttribute(ConstantClass.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }catch (ServiceException e){

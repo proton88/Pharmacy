@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class DoctorServiceImpl implements DoctorService {
     @Override
-    public Map<String, List> checkRecipe(int user_id) throws ServiceException {
+    public Map<String, List> checkRecipe(int userId) throws ServiceException {
         ////////////////////////////////////////////////////
         DAOFactory factory = DAOFactory.getInstance();
         DoctorDAO doctorDAO=factory.getDoctorDAO();
@@ -21,7 +21,7 @@ public class DoctorServiceImpl implements DoctorService {
         Map<String, List> result;
 
         try {
-            result=doctorDAO.checkRecipe(user_id);
+            result=doctorDAO.checkRecipe(userId);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }

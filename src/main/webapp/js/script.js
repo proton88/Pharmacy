@@ -25,4 +25,3 @@
     };
 })(jQuery);
 $('#link').dropDownBlock($('#block'));
-

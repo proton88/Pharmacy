@@ -6,4 +6,6 @@ import com.suglob.pharmacy.service.exception.ServiceException;
 
 public interface PoolService {
     void getPool(ConnectionPool<ProxyConnection> pool) throws ServiceException;
+
+    void disposePool(ConnectionPool<ProxyConnection> pool) throws ServiceException;
 }

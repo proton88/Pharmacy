@@ -7,11 +7,10 @@ import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
+import com.suglob.pharmacy.utils.ConstantClass;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 public class PayOrder implements ICommand {
@@ -23,14 +22,14 @@ public class PayOrder implements ICommand {
         ///////////////////////////////////////////////////////////////////////////////
         String result;
         try {
-            result = service.payOrder((List<Drug>) request.getSession().getAttribute("orderList"));
+            result = service.payOrder((List<Drug>) request.getSession().getAttribute(ConstantClass.ORDER_LIST));
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
 
-        request.getSession().setAttribute("payment_msg",result);
-        request.getSession().setAttribute("orderList",null);
-        request.getSession().setAttribute("orderPrice", null);
+        request.getSession().setAttribute(ConstantClass.PAYMENT_MSG,result);
+        request.getSession().setAttribute(ConstantClass.ORDER_LIST,null);
+        request.getSession().setAttribute(ConstantClass.ORDER_PRICE, null);
 
         CommandHelp.sendResponse(request, response);
     }

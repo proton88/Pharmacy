@@ -13,8 +13,7 @@ public class Localization implements ICommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String locale;
         locale=request.getParameter(ConstantClass.LOCALE);
-        request.getSession().setAttribute("locale", locale);
-
+        request.getSession().setAttribute(ConstantClass.LOCALE, locale);
         CommandHelp.sendResponse(request, response);
 
     }

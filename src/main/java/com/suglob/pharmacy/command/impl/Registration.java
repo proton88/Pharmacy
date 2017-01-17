@@ -34,7 +34,7 @@ public class Registration implements ICommand {
         ClientService service = factory.getClientService();
         ///////////////////////////////////////////////////////////////////////////////
 
-        String error="";
+        String error=ConstantClass.EMPTY_STRING;
         User user1=null;
         try{
             user1= service.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId, email);
@@ -46,9 +46,9 @@ public class Registration implements ICommand {
 
         if (user1!=null){
             HttpSession session = request.getSession(true);
-            session.setAttribute("url",request.getRequestURL());
-            session.setAttribute("user", user1);
-            RequestDispatcher dispather=request.getRequestDispatcher("main");
+            session.setAttribute(ConstantClass.URL,request.getRequestURL());
+            session.setAttribute(ConstantClass.USER, user1);
+            RequestDispatcher dispather=request.getRequestDispatcher(ConstantClass.MAIN);
             try {
                 dispather.forward(request, response);
             } catch (ServletException | IOException e) {
@@ -56,16 +56,11 @@ public class Registration implements ICommand {
             }
 
         }else{
-            //try{
                 if (error.isEmpty()){
-                    error="reg.else";
+                    error=ConstantClass.REG_ELSE;
                 }
-                request.getSession().setAttribute("error", error);
-                //request.getRequestDispatcher("WEB-INF/jsp/reg.jsp").forward(request, response);
+                request.getSession().setAttribute(ConstantClass.ERROR, error);
                 CommandHelp.sendResponse(request, response);
-            //}catch(ServletException |IOException e){
-            //    throw new CommandException("Don't execute reg.jsp",e);
-            //}
         }
 
     }

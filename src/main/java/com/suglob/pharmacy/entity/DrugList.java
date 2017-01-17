@@ -3,10 +3,15 @@ package com.suglob.pharmacy.entity;
 import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
+import com.suglob.pharmacy.utils.ConstantClass;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class DrugList extends Entity {
+    private static final Logger LOGGER= LogManager.getLogger(DrugList.class);
     private int countPages;
     private int countAllRecords;
 
@@ -19,10 +24,10 @@ public class DrugList extends Entity {
         try {
             drugList=service.takeDrugs(strSQL);
         } catch (ServiceException e) {
-            //logging
+            LOGGER.log(Level.ERROR,e);
         }
         countAllRecords=service.getCountRecords();
-        countPages=(int) Math.ceil(countAllRecords * 1.0 / countRecords);
+        countPages=(int) Math.ceil(countAllRecords * ConstantClass.DOUBLE_CHANGE / countRecords);
         return drugList;
     }
 

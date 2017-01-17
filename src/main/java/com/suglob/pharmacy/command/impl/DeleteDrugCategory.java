@@ -23,13 +23,13 @@ public class DeleteDrugCategory implements ICommand {
             service.deleteDrugCategory(drugCategory);
         }catch (ServiceCheckErrorException e){
             error=e.getMessage().trim();
-            request.getSession().setAttribute("error", error);
+            request.getSession().setAttribute(ConstantClass.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }catch (ServiceException e){
             throw new CommandException(e);
         }
-        request.getSession().setAttribute("msg", "delete_drug_category.ok");
+        request.getSession().setAttribute(ConstantClass.MSG, ConstantClass.MSG_DELETE_DRUG_CATEGORY_OK);
         CommandHelp.sendResponse(request, response);
     }
 }

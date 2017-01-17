@@ -10,9 +10,9 @@ import com.suglob.pharmacy.service.utils.RegularChanges;
 public class Validator {
 
     public static String checkOrderRecipe(String drugName, String doctorSurname) throws ServiceException{
-        String result="orderRecipe.ok";
+        String result=ConstantClass.ORDER_RECIPE_OK;
         if (drugName.isEmpty() || doctorSurname==null){
-            return result="orderRecipe.empty_field";
+            return ConstantClass.ORDER_RECIPE_EMPTY_FIELD;
         }
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO=factory.getUserDAO();
@@ -23,20 +23,20 @@ public class Validator {
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-        if (drugExists.equals("not exists")){
-            return result="orderRecipe.drug_not_exists";
+        if (drugExists.equals(ConstantClass.NOT_EXIST)){
+            return ConstantClass.DRUG_NOT_EXIST;
         }
-        if (drugExists.equals("not need")){
-            return result="orderRecipe.drug_not_need";
+        if (drugExists.equals(ConstantClass.NOT_NEED)){
+            return ConstantClass.DRUG_NOT_NEED;
         }
 
         return result;
     }
 
     public static String checkExtendRecipe(String codeDrug) throws ServiceException{
-        String result="extendRecipe.ok";
+        String result=ConstantClass.EXTEND_RECIPE_OK;
         if (codeDrug.isEmpty()){
-            return result="extendRecipe.empty_field";
+            return ConstantClass.EXTEND_RECIPE_EMPTY_FIELD;
         }
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO=factory.getUserDAO();
@@ -47,8 +47,8 @@ public class Validator {
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
-        if (recipeExists.equals("not exists")){
-            return result="extendRecipe.recipe_not_exists";
+        if (recipeExists.equals(ConstantClass.NOT_EXIST)){
+            return ConstantClass.EXTEND_RECIPE_NOT_EXIST;
         }
 
         return result;
@@ -78,16 +78,16 @@ public class Validator {
             throw new ServiceException(e);
         }
         if (!checkDrugAndClient){
-            throw new ServiceCheckErrorException("assignRecipe.notDrugClient");
+            throw new ServiceCheckErrorException(ConstantClass.NOT_DRUG_CLIENT);
         }
-        if (quantity>9 || quantity<=0){
-            throw new ServiceCheckErrorException("assignRecipe.wrongQuantity");
+        if (quantity>ConstantClass.MAX_QUANTITY || quantity<=ConstantClass.ZERO){
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_QUANTITY);
         }
-        if (period>60 || period<=0){
-            throw new ServiceCheckErrorException("assignRecipe.wrongPeriod");
+        if (period>ConstantClass.MAX_PERIOD || period<=ConstantClass.ZERO){
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_PERIOD);
         }
-        if (code.length()!=6){
-            throw new ServiceCheckErrorException("assignRecipe.wrongCode");
+        if (code.length()!=ConstantClass.RECIPE_CODE_LENGTH){
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_CODE);
         }
         boolean checkDrugCode;
         try {
@@ -96,7 +96,7 @@ public class Validator {
             throw new ServiceException(e);
         }
         if (!checkDrugCode){
-            throw new ServiceCheckErrorException("assignRecipe.repeatCode");
+            throw new ServiceCheckErrorException(ConstantClass.REPEAT_CODE);
         }
     }
 
@@ -107,24 +107,24 @@ public class Validator {
                 name == null || name.isEmpty() || surname == null || surname.isEmpty() ||
                 adress == null || adress.isEmpty() || passportId == null || passportId.isEmpty() ||
                 email == null || email.isEmpty()){
-            throw new ServiceCheckErrorException("reg.empty_field");
+            throw new ServiceCheckErrorException(ConstantClass.REG_EMPTY_FIELD);
         }
         if (!RegularChanges.loginCheck(login)){
-            throw new ServiceCheckErrorException("reg.bad_login");
+            throw new ServiceCheckErrorException(ConstantClass.REG_BAD_LOGIN);
         }
         if (!RegularChanges.passwordCheck(password)){
-            throw new ServiceCheckErrorException("reg.bad_password");
+            throw new ServiceCheckErrorException(ConstantClass.REG_BAD_PASSWORD);
         }
         if(!password.equals(passwordRepeat)){
-            throw new ServiceCheckErrorException("reg.password");
+            throw new ServiceCheckErrorException(ConstantClass.REG_PASSWORD);
         }
         if (!RegularChanges.passportCheck(passportId)){
-            throw new ServiceCheckErrorException("reg.passport");
+            throw new ServiceCheckErrorException(ConstantClass.REG_PASSPORT);
         }
         if (!RegularChanges.emailCheck(email)){
-            throw new ServiceCheckErrorException("reg.bad_email");
+            throw new ServiceCheckErrorException(ConstantClass.REG_BAD_EMAIL);
         }
-        User user=null;
+        User user;
         ////////////////////////////////////////////////////
         DAOFactory factory = DAOFactory.getInstance();
         CommonDAO commonDAO=factory.getCommonDAO();
@@ -135,13 +135,13 @@ public class Validator {
             throw new ServiceException(e1);
         }
         if(user!=null){
-            throw new ServiceCheckErrorException("reg.user");
+            throw new ServiceCheckErrorException(ConstantClass.REG_USER);
         }
     }
 
     public static void checkPeriod(int period) throws ServiceCheckErrorException {
-        if (period>60 || period<=0){
-            throw new ServiceCheckErrorException("assignRecipe.wrongPeriod");
+        if (period>ConstantClass.MAX_PERIOD || period<=ConstantClass.ZERO){
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_PERIOD);
         }
     }
 
@@ -168,7 +168,7 @@ public class Validator {
             throw new ServiceException(e);
         }
         if (!checkDrug){
-            throw new ServiceCheckErrorException("drug_not_exist");
+            throw new ServiceCheckErrorException(ConstantClass.DRUG_NOT_EXISTS);
         }
     }
 
@@ -176,14 +176,15 @@ public class Validator {
         if(drugName == null || drugName.isEmpty() || country == null || country.isEmpty() ||
                 priceDrug == null || priceDrug.isEmpty() || quantity == null || quantity.isEmpty() ||
                 recipe == null || recipe.isEmpty()){
-            throw new ServiceCheckErrorException("reg.empty_field");
+            throw new ServiceCheckErrorException(ConstantClass.REG_EMPTY_FIELD);
         }
-        if (recipe.compareToIgnoreCase("y")!=0 && recipe.compareToIgnoreCase("n")!=0){
-            throw new ServiceCheckErrorException("wrong_recipe_param");
+        if (recipe.compareToIgnoreCase(ConstantClass.Y)!=ConstantClass.ZERO &&
+                recipe.compareToIgnoreCase(ConstantClass.N)!=ConstantClass.ZERO){
+            throw new ServiceCheckErrorException(ConstantClass.WRONG_RECIPE_PARAM);
         }
 
         if (categories==null){
-            throw new ServiceCheckErrorException("empty_category");
+            throw new ServiceCheckErrorException(ConstantClass.EMPTY_CATEGORY);
         }
     }
 
@@ -199,7 +200,7 @@ public class Validator {
             throw new ServiceException(e);
         }
         if (checkDrugCategory){
-            throw new ServiceCheckErrorException("drug_category_exist");
+            throw new ServiceCheckErrorException(ConstantClass.DRUG_CATEGORY_EXIST);
         }
     }
 
@@ -215,7 +216,7 @@ public class Validator {
             throw new ServiceException(e);
         }
         if (!checkDrugCategory){
-            throw new ServiceCheckErrorException("drug_category_not_exist");
+            throw new ServiceCheckErrorException(ConstantClass.DRUG_CATEGORY_NOT_EXIST);
         }
     }
 
@@ -231,7 +232,15 @@ public class Validator {
             throw new ServiceException(e);
         }
         if (checkDrugCategoryNotEmpty){
-            throw new ServiceCheckErrorException("drug_category_not_empty");
+            throw new ServiceCheckErrorException(ConstantClass.DRUG_CATEGORY_NOT_EMPTY);
         }
+    }
+
+    public static boolean checkLogination(String login, String password) {
+        boolean result=true;
+        if(login == null || login.isEmpty() || password == null || password.isEmpty()){
+            result=false;
+        }
+        return  result;
     }
 }

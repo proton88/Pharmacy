@@ -156,8 +156,8 @@
                         <td>
                             <form id="order" action="Controller" method="post">
                                 <input type="hidden" name="command" value="add_order"/>
-                                <input type="hidden" name="drug_id" value="${drug.id}"/>
-                                <input type="number" name="count" min="1" max="9" value="1">
+                                <input type="hidden" name="drugId" value="${drug.id}"/>
+                                <input type="number" name="count" min="1" max="9" value="1" required>
                                 <input type="submit" value="+" class="btn">
                             </form>
                         </td>
@@ -168,7 +168,7 @@
                                 <input type="hidden" name="command" value="add_quantity_drug"/>
                                 <input type="hidden" name="drugId" value="${drug.id}"/>
                                 <input type="hidden" name="currentQuantity" value="${drug.count}"/>
-                                <input type="text" name="quantity" size="2">
+                                <input type="number" name="quantity" min="-999" max="999" required id="quantity">
                                 <input type="submit" value="+" class="btn">
                             </form>
                         </td>
@@ -209,9 +209,6 @@
     </c:if>
     <c:if test="${empty param.category_id and empty param.textSearch}">
         <h3>Выберите лекарства</h3>
-        <p>&nbsp</p>
-        <p>&nbsp</p>
-
     </c:if>
     <c:if test="${user.type=='client'}">
         <c:set var="doctorList" value="${doctor.createDoctorsList()}"/>
@@ -219,9 +216,9 @@
         <div>
             <form action="Controller" method="post" class="buttons">
                 <input type="hidden" name="command" value="order_recipe"/>
-                <input type="text" name="drugName" placeholder="название лекарства:" size="15">
-                <select name="doctorSurname">
-                    <option disabled selected>Выберите врача</option>
+                <input type="text" name="drugName" placeholder="название лекарства:" size="15" required>
+                <select name="doctorSurname" required>
+                    <option disabled>Выберите врача</option>
                     <c:forEach var="doc" items="${doctorList}">
                         <option>${doc.surname}</option>
                     </c:forEach>
@@ -230,7 +227,7 @@
             </form>
             <form action="Controller" method="post" class="buttons">
                 <input type="hidden" name="command" value="order_extend_recipe"/>
-                <input type="text" name="codeDrug" placeholder="код рецепта:" size="8">
+                <input type="text" name="codeDrug" placeholder="код рецепта:" size="8" required>
                 <input type="submit" value="Продлить рецепт" class="btn">
             </form>
         </div>
@@ -239,7 +236,7 @@
     <c:if test="${user.type=='doctor'}">
         <form action="Controller" method="post" class="buttons">
             <input type="hidden" name="command" value="check_recipe"/>
-            <input type="hidden" name="user_id" value="${user.id}"/>
+            <input type="hidden" name="userId" value="${user.id}"/>
             <input type="submit" value="Проверить запросы на рецепты" class="btn">
         </form>
         <c:if test="${drugsNameOrderRecipe!=null and not empty drugsNameOrderRecipe}">
@@ -275,14 +272,16 @@
                 </table>
             </div>
             <br>
-            <form action="Controller" method="post" class="buttons">
+            <form action="Controller" method="post" class="buttons" onsubmit="return validateCancelRecipeForm()"
+                  name="cancelRecipeForm">
                 <input type="hidden" name="command" value="cancel_recipe"/>
                 <input type="hidden" name="userId" value="${user.id}"/>
                 <input type="text" placeholder="название лекарства" name="drugName">
                 <input type="text" placeholder="id клиента" name="clientId">
                 <input type="submit" value="Отклонить" class="btn">
             </form>
-            <form action="Controller" method="post" class="buttons">
+            <form action="Controller" method="post" class="buttons" onsubmit="return validateAssignRecipeForm()"
+                  name="assignRecipeForm">
                 <input type="hidden" name="command" value="assign_recipe"/>
                 <input type="hidden" name="userId" value="${user.id}"/>
                 <input type="text" placeholder="id лекарства" name="drugId" size="8">
@@ -292,9 +291,16 @@
                 <input type="text" placeholder="код(6)" name="code" size="7">
                 <input type="submit" value="Назначить" class="btn">
             </form>
+            <span class="err" id="err_fields">${fill_all_fields} </span>
+            <span class="err" id="err_format_id_client">${id_client_bad}</span>
+            <span class="err" id="err_format_id_drug">${id_drug_bad}</span>
+            <span class="err" id="err_quantity_bad">${quantity_bad}</span>
+            <span class="err" id="err_period_bad">${period_bad}</span>
+            <span class="err" id="err_code_bad">${code_bad}</span>
+
         </c:if>
 
-        <c:if test="${drugsNameExtendRecipe!=null}">
+        <c:if test="${drugsNameExtendRecipe!=null and not empty drugsNameExtendRecipe}">
             <h3>Запросы на продление рецепта</h3>
             <table class="recipe">
                 <tr>
@@ -327,7 +333,8 @@
                             </form>
                         </td>
                         <td>
-                            <form action="Controller" method="post">
+                            <form action="Controller" method="post" onsubmit="return validateExtendRecipeForm()"
+                                  name="extendRecipeForm">
                                 <input type="hidden" name="command" value="extend_recipe"/>
                                 <input type="hidden" name="position" value="${number.count}"/>
                                 <input type="text" placeholder="дней" name="period" size="3">
@@ -337,20 +344,27 @@
                     </tr>
                 </c:forEach>
             </table>
+            <br>
+            <span class="err" id="err_period_field">${fill_field}</span>
+            <span class="err" id="err_period_bad">${period_bad}</span>
         </c:if>
     </c:if>
 
     <c:if test="${user.type=='pharmacist'}">
-        <form action="Controller" method="post" class="buttons">
+        <form action="Controller" method="post" class="buttons" onsubmit="return validateAddDrugForm()"
+              name="addDrugForm">
             <input type="hidden" name="command" value="add_drug"/>
             <input type="text" placeholder="название*" name="drugName" size="7">
             <input type="text" placeholder="дозировка" name="dosage" size="10">
             <input type="text" placeholder="страна*" name="country" size="10">
             <input type="text" placeholder="цена*" name="priceDrug" size="4">
             <input type="text" placeholder="кол-во*" name="quantity" size="3">
-            <input type="text" placeholder="рецепт*" name="recipe" size="3">
+            <select name="recipe">
+                <option>Y</option>
+                <option>N</option>
+            </select>
             <select name="drugCategories" multiple>
-                <option disabled selected>Категория</option>
+                <option disabled>Категория</option>
                 <c:forEach var="category" items="${drugCategories}">
                     <option>${category.name}</option>
                 </c:forEach>
@@ -378,6 +392,10 @@
             <input type="text" placeholder="название категории" name="drugCategory" size="14">
             <input type="submit" value="Удалить категорию" class="btn">
         </form>
+        <span class="err" id="err_fields">${fill_all_fields} </span>
+        <span class="err" id="err_bad_country">${country_bad}</span>
+        <span class="err" id="err_bad_price">${price_bad}</span>
+        <span class="err" id="err_bad_quantity">${quantity_wrong}</span>
     </c:if>
 
 </section>

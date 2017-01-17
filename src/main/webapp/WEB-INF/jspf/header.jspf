@@ -10,6 +10,16 @@
 <fmt:setBundle basename="properties.localization" var="loc"/>
 <fmt:message bundle="${loc}" key="localization.ru_button" var="ru_button"/>
 <fmt:message bundle="${loc}" key="localization.en_button" var="en_button"/>
+<fmt:message bundle="${loc}" key="fill_field" var="fill_field"/>
+<fmt:message bundle="${loc}" key="period_bad" var="period_bad"/>
+<fmt:message bundle="${loc}" key="fill_all_fields" var="fill_all_fields"/>
+<fmt:message bundle="${loc}" key="id_client_bad" var="id_client_bad"/>
+<fmt:message bundle="${loc}" key="assignRecipe.wrongQuantity" var="quantity_bad"/>
+<fmt:message bundle="${loc}" key="assignRecipe.wrongCode" var="code_bad"/>
+<fmt:message bundle="${loc}" key="id_drug_bad" var="id_drug_bad"/>
+<fmt:message bundle="${loc}" key="country_bad" var="country_bad"/>
+<fmt:message bundle="${loc}" key="price_bad" var="price_bad"/>
+<fmt:message bundle="${loc}" key="quantity_wrong" var="quantity_wrong"/>
 
 <header>
     <img src="images\logo.png" alt="Ваша Аптека" width="133" height="58">

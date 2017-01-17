@@ -1,6 +1,5 @@
 package com.suglob.pharmacy.service.impl;
 
-import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.DAOFactory;
 import com.suglob.pharmacy.dao.UserDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
@@ -9,6 +8,7 @@ import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
+import com.suglob.pharmacy.utils.ConstantClass;
 import com.suglob.pharmacy.utils.Validator;
 
 import java.util.List;
@@ -25,8 +25,7 @@ public class ClientServiceImpl implements ClientService{
         UserDAO userDAO=factory.getUserDAO();
         ////////////////////////////////////////////////////////////////////
 
-        User user=null;
-        //////////////////////////////////////////////////////////////////
+        User user;
         try{
             user=userDAO.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId, email);
         }catch(DAOException e){
@@ -40,7 +39,7 @@ public class ClientServiceImpl implements ClientService{
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO=factory.getUserDAO();
 
-        String result = null;
+        String result;
         try {
             result = userDAO.payOrder(orderList);
         } catch (DAOException e) {
@@ -66,12 +65,12 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public void cancelOrder(int count, int id, int id_recipe) throws ServiceException {
+    public void cancelOrder(int count, int id, int idRecipe) throws ServiceException {
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO=factory.getUserDAO();
 
         try {
-            userDAO.cancelOrder(count, id, id_recipe);
+            userDAO.cancelOrder(count, id, idRecipe);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -81,7 +80,7 @@ public class ClientServiceImpl implements ClientService{
     public String orderRecipe(String drugName, String doctorSurname, int userId) throws ServiceException {
         String result=Validator.checkOrderRecipe(drugName, doctorSurname);
 
-        if (result.equals("orderRecipe.ok")) {
+        if (result.equals(ConstantClass.ORDER_RECIPE_OK)) {
             DAOFactory factory = DAOFactory.getInstance();
             UserDAO userDAO = factory.getUserDAO();
 
@@ -98,7 +97,7 @@ public class ClientServiceImpl implements ClientService{
     public String orderExtendRecipe(String codeDrug) throws ServiceException {
         String result=Validator.checkExtendRecipe(codeDrug);
 
-        if (result.equals("extendRecipe.ok")) {
+        if (result.equals(ConstantClass.EXTEND_RECIPE_OK)) {
             DAOFactory factory = DAOFactory.getInstance();
             UserDAO userDAO = factory.getUserDAO();
 

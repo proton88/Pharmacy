@@ -18,16 +18,22 @@ public class ExtendRecipe implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         int positionRecipe=Integer.parseInt(request.getParameter(ConstantClass.POSITION));
-        Validator.checkInteger(request.getParameter(ConstantClass.PERIOD));
-        int period=Integer.parseInt(request.getParameter(ConstantClass.PERIOD));
-        List<String> drugsCodeExtendRecipe = (List<String>) request.getSession().getAttribute("drugsCodeExtendRecipe");
+        int period;
+        if (Validator.checkInteger(request.getParameter(ConstantClass.PERIOD))) {
+            period = Integer.parseInt(request.getParameter(ConstantClass.PERIOD));
+        }else {
+            request.getSession().setAttribute(ConstantClass.ERROR,ConstantClass.WRONG_FORMAT);
+            CommandHelp.sendResponse(request, response);
+            return;
+        }
+        List<String> drugsCodeExtendRecipe = (List<String>) request.getSession().getAttribute(ConstantClass.DRUGS_CODE_EXTEND_RECIPE);
         String codeRecipe = drugsCodeExtendRecipe.get(positionRecipe-1);
 
         ///////////////////////////////////////////////////////////////////////////////
         ServiceFactory factory = ServiceFactory.getInstance();
         DoctorService service = factory.getDoctorService();
         ///////////////////////////////////////////////////////////////////////////////
-        String error="";
+        String error;
         try {
             service.cancelExtendRecipe(codeRecipe);
             service.extendRecipe(period, codeRecipe);
@@ -35,12 +41,12 @@ public class ExtendRecipe implements ICommand {
             throw new CommandException(e);
         } catch (ServiceCheckErrorException e) {
             error=e.getMessage().trim();
-            request.getSession().setAttribute("error", error);
+            request.getSession().setAttribute(ConstantClass.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }
         CommandHelp.clearExtendRecipe(request, positionRecipe);
-        request.getSession().setAttribute("extendRecipe_msg","extend_recipe.ok");
+        request.getSession().setAttribute(ConstantClass.MSG,ConstantClass.MSG_EXTEND_RECIPE);
         CommandHelp.sendResponse(request, response);
     }
 }

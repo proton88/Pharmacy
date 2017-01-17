@@ -7,6 +7,7 @@ import com.suglob.pharmacy.entity.Client;
 import com.suglob.pharmacy.service.DoctorService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
+import com.suglob.pharmacy.utils.ConstantClass;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class CheckRecipe implements ICommand{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        int user_id = Integer.parseInt(request.getParameter("user_id"));
+        int userId = Integer.parseInt(request.getParameter(ConstantClass.USER_ID));
 
         ///////////////////////////////////////////////////////////////////////////////
         ServiceFactory factory = ServiceFactory.getInstance();
@@ -24,32 +25,26 @@ public class CheckRecipe implements ICommand{
         ///////////////////////////////////////////////////////////////////////////////
         Map<String, List> result;
         try {
-            result=service.checkRecipe(user_id);
+            result=service.checkRecipe(userId);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
 
-        if(!result.get("drugsNameOrderRecipe").isEmpty()){
-            List drugsNameOrderRecipe=result.get("drugsNameOrderRecipe");
-            List<Client> clientsOrderRecipe=result.get("clientsOrderRecipe");
-            request.getSession().setAttribute("drugsNameOrderRecipe", drugsNameOrderRecipe);
-            request.getSession().setAttribute("clientsOrderRecipe", clientsOrderRecipe);
+        if(!result.get(ConstantClass.DRUGS_NAME_ORDER_RECIPE).isEmpty()){
+            List drugsNameOrderRecipe=result.get(ConstantClass.DRUGS_NAME_ORDER_RECIPE);
+            List<Client> clientsOrderRecipe=result.get(ConstantClass.CLIENTS_ORDER_RECIPE);
+            request.getSession().setAttribute(ConstantClass.DRUGS_NAME_ORDER_RECIPE, drugsNameOrderRecipe);
+            request.getSession().setAttribute(ConstantClass.CLIENTS_ORDER_RECIPE, clientsOrderRecipe);
         }
-        if(!result.get("drugsNameExtendRecipe").isEmpty()){
-            List drugsNameExtendRecipe=result.get("drugsNameExtendRecipe");
-            List drugsCodeExtendRecipe=result.get("drugsCodeExtendRecipe");
-            List<Client> clientsExtendRecipe=result.get("clientsExtendRecipe");
-            request.getSession().setAttribute("drugsNameExtendRecipe", drugsNameExtendRecipe);
-            request.getSession().setAttribute("drugsCodeExtendRecipe", drugsCodeExtendRecipe);
-            request.getSession().setAttribute("clientsExtendRecipe", clientsExtendRecipe);
+        if(!result.get(ConstantClass.DRUGS_NAME_EXTEND_RECIPE).isEmpty()){
+            List drugsNameExtendRecipe=result.get(ConstantClass.DRUGS_NAME_EXTEND_RECIPE);
+            List drugsCodeExtendRecipe=result.get(ConstantClass.DRUGS_CODE_EXTEND_RECIPE);
+            List<Client> clientsExtendRecipe=result.get(ConstantClass.CLIENTS_EXTEND_RECIPE);
+            request.getSession().setAttribute(ConstantClass.DRUGS_NAME_EXTEND_RECIPE, drugsNameExtendRecipe);
+            request.getSession().setAttribute(ConstantClass.DRUGS_CODE_EXTEND_RECIPE, drugsCodeExtendRecipe);
+            request.getSession().setAttribute(ConstantClass.CLIENTS_EXTEND_RECIPE, clientsExtendRecipe);
         }
 
         CommandHelp.sendResponse(request, response);
-
-        /*try {
-            request.getRequestDispatcher("main").forward(request, response);
-        } catch (ServletException | IOException e) {
-            throw new CommandException("Don't execute main",e);
-        }*/
     }
 }

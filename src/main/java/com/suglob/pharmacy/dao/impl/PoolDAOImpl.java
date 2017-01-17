@@ -13,7 +13,17 @@ public class PoolDAOImpl implements PoolDAO {
         try {
             pool.initPoolData();
         } catch (ConnectionPoolException e) {
-            new DAOException(e);
+            throw new DAOException(e);
         }
+    }
+
+    @Override
+    public void disposePool(ConnectionPool<ProxyConnection> pool) throws DAOException {
+        try{
+            pool.dispose();
+        }catch (Exception e){
+            throw new DAOException(e);
+        }
+
     }
 }

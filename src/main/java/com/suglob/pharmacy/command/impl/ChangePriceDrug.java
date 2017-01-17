@@ -24,13 +24,13 @@ public class ChangePriceDrug implements ICommand {
             service.changePriceDrug(drugId, priceDrug);
         } catch (ServiceCheckErrorException e){
             error=e.getMessage().trim();
-            request.getSession().setAttribute("error", error);
+            request.getSession().setAttribute(ConstantClass.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }catch (ServiceException e){
             throw new CommandException(e);
         }
-        request.getSession().setAttribute("msg", "change_price_drug.ok");
+        request.getSession().setAttribute(ConstantClass.MSG, ConstantClass.MSG_CHANGE_PRICE_DRUG_OK);
         CommandHelp.sendResponse(request, response);
     }
 }

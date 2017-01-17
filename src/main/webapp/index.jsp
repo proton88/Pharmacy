@@ -35,6 +35,13 @@ ${pageContext.request.session.setAttribute("user",user)}
 <fmt:message bundle="${loc}" key="reg.input_adress" var="adress"/>
 <fmt:message bundle="${loc}" key="reg.input_passport" var="passport"/>
 <fmt:message bundle="${loc}" key="reg.button_reg" var="but_reg"/>
+<fmt:message bundle="${loc}" key="fill_field" var="fill_field"/>
+<fmt:message bundle="${loc}" key="bad_login" var="bad_login"/>
+<fmt:message bundle="${loc}" key="password_not_equals" var="password_not_equals"/>
+<fmt:message bundle="${loc}" key="bad_password" var="bad_password"/>
+<fmt:message bundle="${loc}" key="bad_mail" var="bad_mail"/>
+<fmt:message bundle="${loc}" key="bad_passport" var="bad_passport"/>
+<fmt:message bundle="${loc}" key="fill_all_fields" var="fill_all_fields"/>
 <c:if test="${error!=null}">
     <fmt:message bundle="${loc}" key="${error}" var="error_message"/>
 </c:if>
@@ -62,7 +69,8 @@ ${pageContext.request.session.setAttribute("user",user)}
 
     <div class="login_div">
         <p class="title">Для входа введите свои данные:</p>
-        <form class="login_form" action="Controller" method="POST">
+        <form class="login_form" action="Controller" method="POST" onsubmit="return validateLoginForm()"
+              name="loginForm">
             <input type="hidden" name="command" value="logination">
             ${login}
             <input type="text" name="login" value=""><br/>
@@ -71,29 +79,55 @@ ${pageContext.request.session.setAttribute("user",user)}
             <a href="#" id="link">регистрация(только для клиентов)</a><br>
             <input type="submit" value="${but_login}" class="btn"/>
         </form>
-
+        <span class="err" id="err_fields">${fill_all_fields} </span>
+        <span class="err" id="err_login">${bad_login}</span>
+        <span class="err" id="err_password">${bad_password}</span>
     </div>
     <div class="hide show" id="block">
-        <form action="Controller" method="post">
+        <form action="Controller" method="post" onsubmit="return validateRegisterForm()" name="registerForm">
             <input type="hidden" name="command" value="registration">
+
             ${login_reg}<br/>
-            <input type="text" name="login_reg"><br/>
+            <input type="text" name="login_reg">
+            <br><span class="err" id="err_uname_field">${fill_field}</span>
+            <span class="err" id="err_uname_login">${bad_login}</span><br>
+
             ${password_reg}<br/>
-            <input type="password" name="password_reg"><br/>
+            <input type="password" name="password_reg">
+            <br><span class="err" id="err_psw_empty">${fill_field}</span>
+            <span class="err" id="err_psw_bad">${bad_password}</span>
+            <span class="err" id="err_psw_not_equals">${password_not_equals}</span><br>
+
             ${password2}<br/>
             <input type="password" name="passwordRepeat"><br/>
+            <span class="err" id="err_psw2_empty">${fill_field}</span>
+            <span class="err" id="err_psw2_not_equals">${password_not_equals}</span><br>
+
             ${name}<br/>
             <input type="text" name="name"><br/>
+            <span class="err" id="err_name_empty">${fill_field}</span><br>
+
             ${surname}<br/>
             <input type="text" name="surname"><br/>
+            <span class="err" id="err_surname_empty">${fill_field}</span><br>
+
             ${patronymic}<br/>
-            <input type="text" name="patronymic"><br/>
+            <input type="text" name="patronymic"><br/><br>
+
             ${adress}<br/>
             <input type="text" name="adress"><br/>
+            <span class="err" id="err_adress_empty">${fill_field}</span><br>
+
             ${passport}<br/>
             <input type="text" name="passportId"><br/>
+            <span class="err" id="err_passport_empty">${fill_field}</span>
+            <span class="err" id="err_passport_bad">${bad_passport}</span><br>
+
             Email*:<br/>
             <input type="text" name="email"><br/>
+            <span class="err" id="err_mail_empty">${fill_field}</span>
+            <span class="err" id="err_mail_bad">${bad_mail}</span><br>
+
             <input type="submit" value="${but_reg}" class="btn"/>
         </form>
     </div>
@@ -105,5 +139,6 @@ ${pageContext.request.session.setAttribute("user",user)}
 <script type="text/javascript" src="bouncebox_plugin/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="bouncebox_plugin/jquery.bouncebox.1.0.js"></script>
 <script type="text/javascript" src="js\script.js"></script>
+<script type="text/javascript" src="js\valid.js"></script>
 </body>
 </html>

@@ -3,10 +3,14 @@ package com.suglob.pharmacy.entity;
 import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class DrugCategory extends Entity {
+    private static final Logger LOGGER= LogManager.getLogger(DrugCategory.class);
     private int id;
     private String name;
 
@@ -43,7 +47,7 @@ public class DrugCategory extends Entity {
         try {
             drugCategoriesList=service.takeDrugCategories();
         } catch (ServiceException e) {
-            //logging
+            LOGGER.log(Level.ERROR,e);
         }
         return drugCategoriesList;
     }

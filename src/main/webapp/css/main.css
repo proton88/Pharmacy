@@ -4,6 +4,10 @@ input[type="number"] {
   width:25px;
 }
 
+#quantity{
+  width: 50px;
+}
+
 h2{
   font-family: 'Cormorant Infant', serif;
 }
@@ -193,8 +197,8 @@ footer{
     border: 1px solid #ccc;
     box-shadow: #ccc 0 0 10px;
     border-radius: 5px;
-    width: 700px;
-    margin-left:-500px;
+    width: 600px;
+    margin-left:-450px;
 }
 
 .buttons{
@@ -204,4 +208,9 @@ footer{
 
 .recipe{
   float: left;
+}
+
+.err {
+  display: none;
+  color: red;
 }

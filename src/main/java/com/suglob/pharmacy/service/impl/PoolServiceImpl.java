@@ -21,4 +21,17 @@ public class PoolServiceImpl implements PoolService {
             throw new ServiceException();
         }
     }
+
+    @Override
+    public void disposePool(ConnectionPool<ProxyConnection> pool) throws ServiceException {
+        ////////////////////////////////////////////////////
+        DAOFactory factory = DAOFactory.getInstance();
+        PoolDAO poolDAO = factory.getPoolDAO();
+        ///////////////////////////////////////////////////
+        try {
+            poolDAO.disposePool(pool);
+        } catch (DAOException e) {
+            throw new ServiceException();
+        }
+    }
 }

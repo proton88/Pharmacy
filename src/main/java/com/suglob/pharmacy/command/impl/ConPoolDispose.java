@@ -2,31 +2,31 @@ package com.suglob.pharmacy.command.impl;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
-import com.suglob.pharmacy.command.utils.CommandHelp;
-import com.suglob.pharmacy.service.ClientService;
+import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
+import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
+import com.suglob.pharmacy.service.PoolService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.utils.ConstantClass;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class OrderExtendRecipe implements ICommand {
+public class ConPoolDispose implements ICommand {
+    private ConnectionPool<ProxyConnection> pool;
+    public ConPoolDispose(ConnectionPool<ProxyConnection> pool) {
+        this.pool=pool;
+    }
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        String codeDrug=request.getParameter(ConstantClass.CODE_DRUG);
         ///////////////////////////////////////////////////////////////////////////////
         ServiceFactory factory = ServiceFactory.getInstance();
-        ClientService service = factory.getClientService();
+        PoolService service = factory.getPoolService();
         ///////////////////////////////////////////////////////////////////////////////
-        String result;
         try {
-            result = service.orderExtendRecipe(codeDrug);
+            service.disposePool(pool);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        request.getSession().setAttribute(ConstantClass.MSG,result);
-
-        CommandHelp.sendResponse(request, response);
     }
 }

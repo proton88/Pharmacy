@@ -23,13 +23,13 @@ public class AddDrugCategory implements ICommand {
             service.addDrugCategory(drugCategory);
         }catch (ServiceCheckErrorException e){
             error=e.getMessage().trim();
-            request.getSession().setAttribute("error", error);
+            request.getSession().setAttribute(ConstantClass.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }catch (ServiceException e){
             throw new CommandException(e);
         }
-        request.getSession().setAttribute("msg", "add_drug_category.ok");
+        request.getSession().setAttribute(ConstantClass.MSG, ConstantClass.MSG_ADD_DRUG_CATEGORY_OK);
         CommandHelp.sendResponse(request, response);
     }
 }

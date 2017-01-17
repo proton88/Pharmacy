@@ -16,7 +16,7 @@ public class CancelExtendRecipe implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         int positionRecipe=Integer.parseInt(request.getParameter(ConstantClass.POSITION));
-        List<String> drugsCodeExtendRecipe = (List<String>) request.getSession().getAttribute("drugsCodeExtendRecipe");
+        List<String> drugsCodeExtendRecipe = (List<String>) request.getSession().getAttribute(ConstantClass.DRUGS_CODE_EXTEND_RECIPE);
         String codeRecipe = drugsCodeExtendRecipe.get(positionRecipe-1);
         ///////////////////////////////////////////////////////////////////////////////
         ServiceFactory factory = ServiceFactory.getInstance();
