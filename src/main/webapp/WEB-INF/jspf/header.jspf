@@ -20,6 +20,7 @@
 <fmt:message bundle="${loc}" key="country_bad" var="country_bad"/>
 <fmt:message bundle="${loc}" key="price_bad" var="price_bad"/>
 <fmt:message bundle="${loc}" key="quantity_wrong" var="quantity_wrong"/>
+<fmt:message bundle="${loc}" key="bad_drug_category" var="bad_drug_category"/>
 
 <header>
     <img src="images\logo.png" alt="Ваша Аптека" width="133" height="58">

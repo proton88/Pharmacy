@@ -46,4 +46,14 @@ public class RegularChanges {
 		}
 		return false;
 	}
+
+    public static boolean drugCategoryCheck(String drugCategory) {
+		String regexp=ConstantClass.REGEX_DRUG_CATEGORY;
+		Pattern pattern = Pattern.compile(regexp);
+		Matcher matcher=pattern.matcher(drugCategory);
+		if(matcher.lookingAt()){
+			return true;
+		}
+		return false;
+    }
 }

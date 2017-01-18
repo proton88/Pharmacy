@@ -175,4 +175,6 @@ public class ConstantClass {
     public static final String DRUG_CATEGORY_EXIST = "drug_category_exist";
     public static final String DRUG_CATEGORY_NOT_EXIST = "drug_category_not_exist";
     public static final String DRUG_CATEGORY_NOT_EMPTY = "drug_category_not_empty";
+    public static final String REGEX_DRUG_CATEGORY = "[а-яА-Я-\\s,]";
+    public static final String REG_BAD_DRUG_CATEGORY = "bad_drug_category";
 }

@@ -243,4 +243,10 @@ public class Validator {
         }
         return  result;
     }
+
+    public static void checkDrugCategory(String drugCategory) throws ServiceCheckErrorException {
+        if (!RegularChanges.drugCategoryCheck(drugCategory)){
+            throw new ServiceCheckErrorException(ConstantClass.REG_BAD_DRUG_CATEGORY);
+        }
+    }
 }

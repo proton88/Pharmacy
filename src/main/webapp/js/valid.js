@@ -274,8 +274,6 @@ function validateAddDrugForm(){
 		priceDrug = document.addDrugForm.priceDrug.value,
 		quantity = document.addDrugForm.quantity.value;
 
-
-
 	if (!drugName || !country || !priceDrug || !quantity || !drugCategories) {
 		errFields.style.display="inline";
 		result = false;
@@ -293,6 +291,110 @@ function validateAddDrugForm(){
 	if (quantity && (/[^[0-9]/.test(quantity))) {
 		errQuantity.style.display="inline";
 		document.forms["addDrugForm"]["quantity"].value = "";   // сброс
+		result = false;
+	}
+
+	return result;
+}
+
+function validateChangePriceDrugForm(){
+	var result = true;
+
+	var errFields = document.getElementById("err_fields"),
+		errDrug = document.getElementById("err_drug_id"),
+		errPrice = document.getElementById("err_bad_price");
+
+	errFields.style.display="none";
+	errDrug.style.display="none";
+	errPrice.style.display="none";
+
+	var drugId = document.changePriceDrugForm.drugId.value,
+		priceDrug = document.changePriceDrugForm.priceDrug.value;
+
+	if (!drugId || !priceDrug) {
+		errFields.style.display="inline";
+		result = false;
+	}
+	if (drugId && (/[^[0-9]/.test(drugId))) {
+		errDrug.style.display="inline";
+		document.forms["changePriceDrugForm"]["drugId"].value = "";   // сброс
+		result = false;
+	}
+	if (priceDrug && !(/\b\d+.\d{2}\b/.test(priceDrug))) {
+		errPrice.style.display="inline";
+		document.forms["changePriceDrugForm"]["priceDrug"].value = "";   // сброс
+		result = false;
+	}
+
+	return result;
+}
+
+function validateDeleteDrugForm(){
+	var result = true;
+
+	var errFields = document.getElementById("err_fields"),
+		errDrug = document.getElementById("err_drug_id");
+
+	errFields.style.display="none";
+	errDrug.style.display="none";
+
+	var drugId = document.deleteDrugForm.drugId.value;
+
+	if (!drugId) {
+		errFields.style.display="inline";
+		result = false;
+	}
+	if (drugId && (/[^[0-9]/.test(drugId))) {
+		errDrug.style.display="inline";
+		document.forms["deleteDrugForm"]["drugId"].value = "";   // сброс
+		result = false;
+	}
+
+	return result;
+}
+
+function validateDeleteDrugCategoryForm(){
+	var result = true;
+
+	var errFields = document.getElementById("err_fields"),
+		errDrug = document.getElementById("err_drug_category");
+
+	errFields.style.display="none";
+	errDrug.style.display="none";
+
+	var drugCategory = document.deleteDrugCategoryForm.drugCategory.value;
+
+	if (!drugCategory) {
+		errFields.style.display="inline";
+		result = false;
+	}
+	if (drugCategory && (/[^а-яА-Я-\s,]/.test(drugCategory))) {
+		errDrug.style.display="inline";
+		document.forms["deleteDrugCategoryForm"]["drugCategory"].value = "";   // сброс
+		result = false;
+	}
+
+	return result;
+}
+
+function validateAddDrugCategoryForm(){
+	var result = true;
+
+	var errFields = document.getElementById("err_fields"),
+		errDrug = document.getElementById("err_drug_category");
+
+	errFields.style.display="none";
+	errDrug.style.display="none";
+
+	var drugCategory = document.addDrugCategoryForm.drugCategory.value;
+
+	if (!drugCategory) {
+		errFields.style.display="inline";
+		result = false;
+	}
+	if (drugCategory && (/[^а-яА-Я-\s,]/.test(drugCategory))) {
+		errDrug.style.display="inline";
+		document.forms["addDrugCategoryForm"]["drugCategory"].value = "";   // сброс
 		result = false;
 	}
 

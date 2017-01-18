@@ -80,6 +80,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public void addDrugCategory(String drugCategory) throws ServiceException, ServiceCheckErrorException {
+        Validator.checkDrugCategory(drugCategory);
         Validator.checkDrugCategoryExist(drugCategory);
 
         PharmacistDAO pharmacistDAO = DAOFactory.getInstance().getPharmacistDAO();

@@ -22,9 +22,9 @@
             </tr>
             <c:forEach var="drug" items="${orderList}">
                 <tr>
-                    <td><a href="#">${drug.name}</a></td>
-                    <td><a href="#">${drug.dosage}</a></td>
-                    <td><a href="#">${drug.country}</a></td>
+                    <td>${drug.name}</td>
+                    <td>${drug.dosage}</td>
+                    <td>${drug.country}</td>
                     <td>${drug.price}</td>
                     <td>${drug.isRecipe}</td>
                     <td>${drug.count}</td>
@@ -371,23 +371,27 @@
             </select>
             <input type="submit" value="Добавить лекарство" class="btn">
         </form>
-        <form action="Controller" method="post" class="buttons">
+        <form action="Controller" method="post" class="buttons" onsubmit="return validateChangePriceDrugForm()"
+              name="changePriceDrugForm">
             <input type="hidden" name="command" value="change_price_drug"/>
             <input type="text" placeholder="id лекарства" name="drugId" size="9">
             <input type="text" placeholder="новая цена" name="priceDrug" size="7">
             <input type="submit" value="Изменить цену" class="btn">
         </form>
-        <form action="Controller" method="post" class="buttons">
+        <form action="Controller" method="post" class="buttons" onsubmit="return validateDeleteDrugForm()"
+              name="deleteDrugForm">
             <input type="hidden" name="command" value="delete_drug"/>
             <input type="text" placeholder="id лекарства" name="drugId" size="9">
             <input type="submit" value="Удалить лекарство" class="btn">
         </form>
-        <form action="Controller" method="post" class="buttons">
+        <form action="Controller" method="post" class="buttons" onsubmit="return validateAddDrugCategoryForm()"
+              name="addDrugCategoryForm">
             <input type="hidden" name="command" value="add_drug_category"/>
             <input type="text" placeholder="название категории" name="drugCategory" size="14">
             <input type="submit" value="Добавить категорию" class="btn">
         </form>
-        <form action="Controller" method="post" class="buttons">
+        <form action="Controller" method="post" class="buttons" onsubmit="return validateDeleteDrugCategoryForm()"
+              name="deleteDrugCategoryForm">
             <input type="hidden" name="command" value="delete_drug_category"/>
             <input type="text" placeholder="название категории" name="drugCategory" size="14">
             <input type="submit" value="Удалить категорию" class="btn">
@@ -396,6 +400,8 @@
         <span class="err" id="err_bad_country">${country_bad}</span>
         <span class="err" id="err_bad_price">${price_bad}</span>
         <span class="err" id="err_bad_quantity">${quantity_wrong}</span>
+        <span class="err" id="err_drug_id">${id_drug_bad}</span>
+        <span class="err" id="err_drug_category">${bad_drug_category}</span>
     </c:if>
 
 </section>
