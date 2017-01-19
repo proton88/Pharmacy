@@ -3,18 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <jsp:useBean id="user" class="com.suglob.pharmacy.entity.User"/>
-<!DOCTYPE html>
 
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Онлайн Аптека::Вход</title>
-    <link href="css/index.css" rel="stylesheet" type="text/css">
-</head>
-
-<body>
-${pageContext.request.session.setAttribute("url",pageContext.request.getRequestURL())}
-${pageContext.request.session.setAttribute("user",user)}
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="properties.localization" var="loc"/>
 <fmt:message bundle="${loc}" key="localization.ru_button" var="ru_button"/>
@@ -42,6 +31,23 @@ ${pageContext.request.session.setAttribute("user",user)}
 <fmt:message bundle="${loc}" key="bad_mail" var="bad_mail"/>
 <fmt:message bundle="${loc}" key="bad_passport" var="bad_passport"/>
 <fmt:message bundle="${loc}" key="fill_all_fields" var="fill_all_fields"/>
+<fmt:message bundle="${loc}" key="index.title" var="title"/>
+<fmt:message bundle="${loc}" key="index.form_title" var="form_title"/>
+<fmt:message bundle="${loc}" key="index.reg" var="reg"/>
+<fmt:message bundle="${loc}" key="index.author" var="author"/>
+<!DOCTYPE html>
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>${title}</title>
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+${pageContext.request.session.setAttribute("url",pageContext.request.getRequestURL())}
+${pageContext.request.session.setAttribute("user",user)}
+
 <c:if test="${error!=null}">
     <fmt:message bundle="${loc}" key="${error}" var="error_message"/>
 </c:if>
@@ -68,7 +74,7 @@ ${pageContext.request.session.setAttribute("user",user)}
     </div>
 
     <div class="login_div">
-        <p class="title">Для входа введите свои данные:</p>
+        <p class="title">${form_title}</p>
         <form class="login_form" action="Controller" method="POST" onsubmit="return validateLoginForm()"
               name="loginForm">
             <input type="hidden" name="command" value="logination">
@@ -76,7 +82,7 @@ ${pageContext.request.session.setAttribute("user",user)}
             <input type="text" name="login" value=""><br/>
             ${password}
             <input type="password" name="password" value=""><br/>
-            <a href="#" id="link">регистрация(только для клиентов)</a><br>
+            <a href="#" id="link">${reg}</a><br>
             <input type="submit" value="${but_login}" class="btn"/>
         </form>
         <span class="err" id="err_fields">${fill_all_fields} </span>
@@ -132,7 +138,7 @@ ${pageContext.request.session.setAttribute("user",user)}
         </form>
     </div>
     <div class="footer">
-        Разработчик: Суглоб Андрей Александрович, 2016 г
+        ${author}
     </div>
 </div>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>

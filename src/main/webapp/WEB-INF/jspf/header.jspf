@@ -1,12 +1,4 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Ваша Аптека</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-<body>
-<fmt:setLocale value="${sessionScope.locale}"/>
+﻿<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="properties.localization" var="loc"/>
 <fmt:message bundle="${loc}" key="localization.ru_button" var="ru_button"/>
 <fmt:message bundle="${loc}" key="localization.en_button" var="en_button"/>
@@ -21,12 +13,69 @@
 <fmt:message bundle="${loc}" key="price_bad" var="price_bad"/>
 <fmt:message bundle="${loc}" key="quantity_wrong" var="quantity_wrong"/>
 <fmt:message bundle="${loc}" key="bad_drug_category" var="bad_drug_category"/>
+<fmt:message bundle="${loc}" key="main.title" var="title"/>
+<fmt:message bundle="${loc}" key="main.find" var="find"/>
+<fmt:message bundle="${loc}" key="main.basket" var="basket"/>
+<fmt:message bundle="${loc}" key="hello" var="hello"/>
+<fmt:message bundle="${loc}" key="main.logout" var="logout"/>
+<fmt:message bundle="${loc}" key="drug_category" var="categories"/>
+<fmt:message bundle="${loc}" key="all_drugs" var="all_drugs"/>
+<fmt:message bundle="${loc}" key="email" var="email"/>
+<fmt:message bundle="${loc}" key="copyright" var="copyright"/>
+<fmt:message bundle="${loc}" key="empty_basket" var="empty_basket"/>
+<fmt:message bundle="${loc}" key="your_basket" var="your_basket"/>
+<fmt:message bundle="${loc}" key="table.name" var="name"/>
+<fmt:message bundle="${loc}" key="table.dosage" var="dosage"/>
+<fmt:message bundle="${loc}" key="table.country" var="country"/>
+<fmt:message bundle="${loc}" key="table.price" var="price"/>
+<fmt:message bundle="${loc}" key="table.recipe" var="recipe"/>
+<fmt:message bundle="${loc}" key="table.count" var="table_count"/>
+<fmt:message bundle="${loc}" key="total_price" var="total_price"/>
+<fmt:message bundle="${loc}" key="form.pay" var="pay"/>
+<fmt:message bundle="${loc}" key="cancel" var="cancel"/>
+<fmt:message bundle="${loc}" key="drugs_find" var="drugs_find"/>
+<fmt:message bundle="${loc}" key="code" var="code"/>
+<fmt:message bundle="${loc}" key="previous" var="previous"/>
+<fmt:message bundle="${loc}" key="next" var="next"/>
+<fmt:message bundle="${loc}" key="no_drugs" var="no_drugs"/>
+<fmt:message bundle="${loc}" key="select_drugs" var="select_drugs"/>
+<fmt:message bundle="${loc}" key="drug_name" var="drug_name"/>
+<fmt:message bundle="${loc}" key="select_doctor" var="select_doctor"/>
+<fmt:message bundle="${loc}" key="ask_recipe" var="ask_recipe"/>
+<fmt:message bundle="${loc}" key="extend_recipe" var="extend_recipe"/>
+<fmt:message bundle="${loc}" key="check" var="check"/>
+<fmt:message bundle="${loc}" key="requests_recipe" var="requests_recipe"/>
+<fmt:message bundle="${loc}" key="id_client" var="id_client"/>
+<fmt:message bundle="${loc}" key="surname" var="surname"/>
+<fmt:message bundle="${loc}" key="name_client" var="name_client"/>
+<fmt:message bundle="${loc}" key="patronymic" var="patronymic"/>
+<fmt:message bundle="${loc}" key="id_drug" var="id_drug"/>
+<fmt:message bundle="${loc}" key="period" var="period"/>
+<fmt:message bundle="${loc}" key="assign" var="assign"/>
+<fmt:message bundle="${loc}" key="requests_extend_recipe" var="requests_extend_recipe"/>
+<fmt:message bundle="${loc}" key="name_drug" var="name_drug"/>
+<fmt:message bundle="${loc}" key="form_category" var="form_category"/>
+<fmt:message bundle="${loc}" key="add_drug" var="add_drug"/>
+<fmt:message bundle="${loc}" key="new_price" var="new_price"/>
+<fmt:message bundle="${loc}" key="change_price" var="change_price"/>
+<fmt:message bundle="${loc}" key="delete_drug" var="delete_drug"/>
+<fmt:message bundle="${loc}" key="name_cattegory" var="name_cattegory"/>
+<fmt:message bundle="${loc}" key="add_category" var="add_category"/>
+<fmt:message bundle="${loc}" key="delete_category" var="delete_category"/>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
 
 <header>
-    <img src="images\logo.png" alt="Ваша Аптека" width="133" height="58">
+    <img src="images\logo.png" alt=${title} width="133" height="58">
     <form class="header_find" action="main" method="get">
         <input type="text" name="textSearch" size="40">
-        <input type="submit" name="find" value="Найти" class="btn"/>
+        <input type="submit" name="find" value="${find}" class="btn"/>
     </form>
     <form action="Controller" method="post">
         <input type="hidden" name="command" value="locale">
@@ -39,13 +88,13 @@
         <input type="submit" class="sendsubmiten" value="${en_button}">
     </form>
     <c:if test="${user.type=='client'}">
-        <a href="#" id="link">моя корзина</a>
+        <a href="#" id="link">${basket}</a>
     </c:if>
     <div class="header_right">
-        <div>Hello, ${user.login}</div>
+        <div>${hello}, ${user.login}</div>
         <form action="Controller" method="post">
             <input type="hidden" name="command" value="logout"/>
-            <input type="submit" name="logout" value="Выйти" class="btn"/>
+            <input type="submit" name="logout" value="${logout}" class="btn"/>
         </form>
     </div>
 </header>

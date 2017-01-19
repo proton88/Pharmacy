@@ -1,9 +1,9 @@
 ﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <nav>
-    <h2>Категории лекарств</h2>
+    <h2>${categories}</h2>
     <ul class="nav">
-        <li class="left-nav"><a href="main?category_id=all">все лекарства</a></li><br>
+        <li class="left-nav"><a href="main?category_id=all">${all_drugs}</a></li><br>
         <jsp:useBean id="drugCategory" class="com.suglob.pharmacy.entity.DrugCategory"/>
         <c:set var="drugCategories" value="${drugCategory.createDrugCategoriesList()}"/>
         <c:if test="${drugCategories!=null}">
