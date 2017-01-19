@@ -1,5 +1,6 @@
 ﻿<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="ctg" uri="/WEB-INF/tld/custom.tld" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@include file="../jspf/header.jspf" %>
 <%@include file="../jspf/left_menu.jspf" %>
@@ -239,19 +240,13 @@
             <input type="hidden" name="userId" value="${user.id}"/>
             <input type="submit" value="Проверить запросы на рецепты" class="btn">
         </form>
-        <c:if test="${drugsNameOrderRecipe!=null and not empty drugsNameOrderRecipe}">
+        <c:if test="${drugsNameOrderRecipe.listDrugs!=null and not empty drugsNameOrderRecipe.listDrugs}">
             <h3>Запросы на заказ рецепта</h3>
             <div class="blockRecipe">
-                <table class="recipe">
-                    <tr>
-                        <th>Препарат</th>
-                    </tr>
-                    <c:forEach var="orderRecipe" items="${drugsNameOrderRecipe}">
-                        <tr>
-                            <td>${orderRecipe}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
+                ${drugsNameOrderRecipe.iter()}
+                <ctg:table-drug rows="${drugsNameOrderRecipe.size}">
+                    ${drugsNameOrderRecipe.drug}
+                </ctg:table-drug>
                 <table class="recipe">
                     <tr>
                         <th>id клиента</th>
@@ -300,18 +295,12 @@
 
         </c:if>
 
-        <c:if test="${drugsNameExtendRecipe!=null and not empty drugsNameExtendRecipe}">
+        <c:if test="${clientsExtendRecipe!=null and not empty clientsExtendRecipe}">
             <h3>Запросы на продление рецепта</h3>
-            <table class="recipe">
-                <tr>
-                    <th>Препарат</th>
-                </tr>
-                <c:forEach var="extendRecipe" items="${drugsNameExtendRecipe}">
-                    <tr>
-                        <td>${extendRecipe}</td>
-                    </tr>
-                </c:forEach>
-            </table>
+            ${drugsNameExtendRecipe.iter()}
+            <ctg:table-drug rows="${drugsNameExtendRecipe.size}">
+                ${drugsNameExtendRecipe.drug}
+            </ctg:table-drug>
             <table class="recipe">
                 <tr>
                     <th>Фамилия</th>
