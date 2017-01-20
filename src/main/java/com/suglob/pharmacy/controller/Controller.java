@@ -37,7 +37,7 @@ public class Controller extends HttpServlet {
         try {
             command.execute(request, response);
         } catch (CommandException e) {
-            LOGGER.log(Level.ERROR, "Exception: ", e);
+            LOGGER.log(Level.ERROR, e);
             request.setAttribute(ConstantClass.ERROR_PAGE, e.toString());
             request.getRequestDispatcher(ConstantClass.ERROR_PAGE_PATH).forward(request, response);
         }

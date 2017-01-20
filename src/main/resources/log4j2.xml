@@ -4,7 +4,8 @@
         <property name = "pattern">
             %d{dd.MM.yy HH:mm:ss} [%t] %-5p %logger{36}: %m
         </property>
-        <property name="log_dir">${sys:logDir}/log</property>
+        <!--<property name="log_dir">${sys:logDir}/log</property>-->
+        <property name="log_dir">C:\Program Files\Apache Software Foundation\Tomcat 7.0\webapps\ROOT\log</property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">

@@ -46,8 +46,6 @@
 
 </div>
 <section>
-    <fmt:setLocale value="${sessionScope.locale}"/>
-    <fmt:setBundle basename="properties.localization" var="loc"/>
     <c:if test="${payment_msg=='payment.ok'}">
         <fmt:message bundle="${loc}" key="${payment_msg}" var="payment_message"/>
         <h3>${payment_message}</h3>
@@ -60,16 +58,6 @@
         <fmt:message bundle="${loc}" key="${msg}" var="message"/>
         <h3>${message}</h3>
         <c:set var="msg" value="${null}"/>
-    </c:if>
-    <c:if test="${orderRecipe_msg!=null}">
-        <fmt:message bundle="${loc}" key="${orderRecipe_msg}" var="order_recipe_message"/>
-        <h3>${order_recipe_message}</h3>
-        <c:set var="orderRecipe_msg" value="${null}"/>
-    </c:if>
-    <c:if test="${extendRecipe_msg!=null}">
-        <fmt:message bundle="${loc}" key="${extendRecipe_msg}" var="extend_recipe_message"/>
-        <h3>${extend_recipe_message}</h3>
-        <c:set var="extendRecipe_msg" value="${null}"/>
     </c:if>
     <c:if test="${error!=null}">
         <fmt:message bundle="${loc}" key="${error}" var="error_message"/>
@@ -136,9 +124,9 @@
                     <c:if test="${user.type!='client'}">
                         <td>${drug.id}</td>
                     </c:if>
-                    <td><a href="#">${drug.name}</a></td>
-                    <td><a href="#">${drug.dosage}</a></td>
-                    <td><a href="#">${drug.country}</a></td>
+                    <td>${drug.name}</td>
+                    <td>${drug.dosage}</td>
+                    <td>${drug.country}</td>
                     <td>${drug.price}</td>
                     <c:if test="${drug.isRecipe=='Y'}">
                         <td><input type="text" name="code" placeholder="${code}" size="4" form="order"></td>
@@ -178,29 +166,8 @@
 
                 </c:forEach>
             </table>
-
-            <c:if test="${countPages!=1}">
-                <c:if test="${page != 1}">
-                    <td><a href="main?page=${page - 1}&${urlParamsPagination}">${previous}</a></td>
-                </c:if>
-
-
-                <c:forEach begin="1" end="${countPages}" var="i">
-                    <c:choose>
-                        <c:when test="${page == i}">
-                            ${i}
-                        </c:when>
-                        <c:otherwise>
-                            <a href="main?page=${i}&${urlParamsPagination}">${i}</a>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-
-
-                <c:if test="${page < countPages}">
-                    <td><a href="main?page=${page + 1}&${urlParamsPagination}">${next}</a></td>
-                </c:if>
-            </c:if>
+            <ctg:pagination page="${page}" countPages="${countPages}" urlParamsPagination="${urlParamsPagination}"
+                            locale="${locale}"/>
         </c:if>
 
 
@@ -244,7 +211,7 @@
             <h3>${requests_recipe}</h3>
             <div class="blockRecipe">
                 ${drugsNameOrderRecipe.iter()}
-                <ctg:table-drug rows="${drugsNameOrderRecipe.size}">
+                <ctg:table-drug rows="${drugsNameOrderRecipe.size}" locale="${locale}">
                     ${drugsNameOrderRecipe.drug}
                 </ctg:table-drug>
                 <table class="recipe">
@@ -298,7 +265,7 @@
         <c:if test="${clientsExtendRecipe!=null and not empty clientsExtendRecipe}">
             <h3>${requests_extend_recipe}</h3>
             ${drugsNameExtendRecipe.iter()}
-            <ctg:table-drug rows="${drugsNameExtendRecipe.size}">
+            <ctg:table-drug rows="${drugsNameExtendRecipe.size}" locale="${locale}">
                 ${drugsNameExtendRecipe.drug}
             </ctg:table-drug>
             <table class="recipe">

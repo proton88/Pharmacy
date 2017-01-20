@@ -13,17 +13,28 @@ import java.io.IOException;
 
 public class DrugTableTag extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger(DrugTableTag.class);
+    private String locale;
     private int rows;
     public void setRows(Integer rows) {
         this.rows = rows;
     }
 
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
     @Override
     public int doStartTag() throws JspException {
+        String caption;
+        if (locale.equals("en")){
+            caption="Drugs";
+        }else {
+            caption="Препараты";
+        }
         try{
             JspWriter out = pageContext.getOut();
             out.write("<table class=\"recipe\">");
-            out.write("<tr><th>Препарат</th></tr>");
+            out.write("<tr><th>"+caption+"</th></tr>");
             out.write("<tr><td>");
         }catch (IOException e){
             LOGGER.log(Level.ERROR, e);
