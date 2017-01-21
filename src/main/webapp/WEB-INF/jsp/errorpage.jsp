@@ -18,6 +18,6 @@
 	<br /> Exception: ${pageContext.errorData.throwable}
 	</c:if>
 	<br>
-	<a href="index.jsp">Go to login page</a>
+	<a href="../../index.jsp">Go to login page</a>
 </body>
 </html>

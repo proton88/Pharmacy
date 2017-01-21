@@ -207,7 +207,7 @@
             <input type="hidden" name="userId" value="${user.id}"/>
             <input type="submit" value="${check}" class="btn">
         </form>
-        <c:if test="${drugsNameOrderRecipe.listDrugs!=null and not empty drugsNameOrderRecipe.listDrugs}">
+        <c:if test="${not empty drugsNameOrderRecipe.listDrugs}">
             <h3>${requests_recipe}</h3>
             <div class="blockRecipe">
                 ${drugsNameOrderRecipe.iter()}
@@ -262,7 +262,7 @@
 
         </c:if>
 
-        <c:if test="${clientsExtendRecipe!=null and not empty clientsExtendRecipe}">
+        <c:if test="${not empty clientsExtendRecipe}">
             <h3>${requests_extend_recipe}</h3>
             ${drugsNameExtendRecipe.iter()}
             <ctg:table-drug rows="${drugsNameExtendRecipe.size}" locale="${locale}">

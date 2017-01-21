@@ -10,6 +10,7 @@ import com.suglob.pharmacy.utils.ConstantClass;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,6 +46,12 @@ public class Logination implements ICommand {
             HttpSession session = request.getSession(true);
             session.setAttribute(ConstantClass.URL,request.getRequestURL());
             session.setAttribute(ConstantClass.USER, user);
+            Cookie log=new Cookie(ConstantClass.LOGIN,login);
+            log.setMaxAge(ConstantClass.WEEK);
+            response.addCookie(log);
+            Cookie pass=new Cookie(ConstantClass.PASSWORD,password);
+            log.setMaxAge(ConstantClass.WEEK);
+            response.addCookie(pass);
             RequestDispatcher dispather=request.getRequestDispatcher(ConstantClass.MAIN);
             try {
                 dispather.forward(request, response);

@@ -177,4 +177,6 @@ public class ConstantClass {
     public static final String DRUG_CATEGORY_NOT_EMPTY = "drug_category_not_empty";
     public static final String REGEX_DRUG_CATEGORY = "[а-яА-Я-\\s,]";
     public static final String REG_BAD_DRUG_CATEGORY = "bad_drug_category";
+    public static final int SESSION_TIME = 30 * 60;
+    public static final int WEEK = 60 * 60 * 24 * 7;
 }

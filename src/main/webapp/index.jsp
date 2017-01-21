@@ -72,16 +72,15 @@ ${pageContext.request.session.setAttribute("user",user)}
         <p class="text">${p4}<a href="mailto:andreysuglob@gmail.com">andreysuglob@gmail.com</a></p>
 
     </div>
-
     <div class="login_div">
         <p class="title">${form_title}</p>
         <form class="login_form" action="Controller" method="POST" onsubmit="return validateLoginForm()"
               name="loginForm">
             <input type="hidden" name="command" value="logination">
             ${login}
-            <input type="text" name="login" value=""><br/>
+            <input type="text" name="login" value="${cookie.login.value}"><br/>
             ${password}
-            <input type="password" name="password" value=""><br/>
+            <input type="password" name="password" value="${cookie.password.value}"><br/>
             <a href="#" id="link">${reg}</a><br>
             <input type="submit" value="${but_login}" class="btn"/>
         </form>
