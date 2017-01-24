@@ -1,5 +1,6 @@
 package com.suglob.pharmacy.tag;
 
+import com.suglob.pharmacy.util.ConstantClass;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,12 +37,12 @@ public class PaginationTag extends TagSupport {
     public int doStartTag() throws JspException {
         String next;
         String previous;
-        if (locale.equals("en")){
-            next="Next";
-            previous="Previous";
+        if (locale.equals(ConstantClass.EN)){
+            next=ConstantClass.NEXT;
+            previous=ConstantClass.PREVIOUS;
         }else {
-            next="Вперед";
-            previous="Назад";
+            next=ConstantClass.NEXT_RU;
+            previous=ConstantClass.PREVIOUS_RU;
         }
         try{
             if (countPages!=1) {

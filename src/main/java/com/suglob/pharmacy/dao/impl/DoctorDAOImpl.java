@@ -2,11 +2,11 @@ package com.suglob.pharmacy.dao.impl;
 
 import com.suglob.pharmacy.dao.DoctorDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPoolException;
-import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
+import com.suglob.pharmacy.pool.ConnectionPool;
+import com.suglob.pharmacy.pool.ConnectionPoolException;
+import com.suglob.pharmacy.pool.ProxyConnection;
 import com.suglob.pharmacy.entity.Client;
-import com.suglob.pharmacy.utils.ConstantClass;
+import com.suglob.pharmacy.util.ConstantClass;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +28,7 @@ public class DoctorDAOImpl implements DoctorDAO {
         String sql3 = ConstantClass.SQL3_CHECK_RECIPE;
         int doctorsId =ConstantClass.ZERO;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -82,7 +82,7 @@ public class DoctorDAOImpl implements DoctorDAO {
         String sql2 = ConstantClass.SQL_CANCEL_RECIPE;
         int doctorsId = ConstantClass.ZERO;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -117,7 +117,7 @@ public class DoctorDAOImpl implements DoctorDAO {
         String sql = ConstantClass.SQL_CHECK_DRUG;
         String sql2 = ConstantClass.SQL_CHECK_CLIENT;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -161,7 +161,7 @@ public class DoctorDAOImpl implements DoctorDAO {
         String sql6 = ConstantClass.SQL_ASSIGN5_RECIPE;
         int doctorsId = ConstantClass.ZERO;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -235,7 +235,7 @@ public class DoctorDAOImpl implements DoctorDAO {
         boolean result = true;
         String sql = ConstantClass.SQL_CHECK_DRUG_CODE;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -264,7 +264,7 @@ public class DoctorDAOImpl implements DoctorDAO {
     public void cancelExtendRecipe(String codeRecipe) throws DAOException {
         String sql = ConstantClass.SQL_CANCEL_EXTEND_RECIPE;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -289,7 +289,7 @@ public class DoctorDAOImpl implements DoctorDAO {
     public void extendRecipe(int period, String codeRecipe) throws DAOException {
         String sql = ConstantClass.SQL_EXTEND_RECIPE;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();

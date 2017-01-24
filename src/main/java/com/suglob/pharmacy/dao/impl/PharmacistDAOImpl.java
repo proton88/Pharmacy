@@ -2,10 +2,10 @@ package com.suglob.pharmacy.dao.impl;
 
 import com.suglob.pharmacy.dao.PharmacistDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPoolException;
-import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
-import com.suglob.pharmacy.utils.ConstantClass;
+import com.suglob.pharmacy.pool.ConnectionPool;
+import com.suglob.pharmacy.pool.ConnectionPoolException;
+import com.suglob.pharmacy.pool.ProxyConnection;
+import com.suglob.pharmacy.util.ConstantClass;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
     public void addQuantityDrug(int drugId, int newQuantity) throws DAOException {
         String sql = ConstantClass.SQL_ADD_QUANTITY_DRUG;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -44,7 +44,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
         boolean result = false;
         String sql = ConstantClass.SQL_CHECK_DRUG_ID;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -73,7 +73,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
     public void changePriceDrug(int drugIdInt, double priceDrugDouble) throws DAOException {
         String sql = ConstantClass.SQL_CHANGE_PRICE_DRUG;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -103,7 +103,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
         String sql3 = ConstantClass.SQL_DRUG_CATEGORY_ID;
         String sql4 = ConstantClass.SQL_ADD_DRUG_DRUG_CATEGORY;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -164,7 +164,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
         String sql = ConstantClass.SQL_DELETE_DRUG;
         String sql2 = ConstantClass.SQL2_DELETE_DRUG;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -202,7 +202,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
         boolean result = false;
         String sql = ConstantClass.SQL_CHECK_DRUG_CATEGORY;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -231,7 +231,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
     public void addDrugCategory(String drugCategory) throws DAOException {
         String sql = ConstantClass.SQL_ADD_DRUG_CATEGORY;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -256,7 +256,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
     public void deleteDrugCategory(String drugCategory) throws DAOException {
         String sql = ConstantClass.SQL_DELETE_DRUG_CATEGORY;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -282,7 +282,7 @@ public class PharmacistDAOImpl implements PharmacistDAO {
         boolean result = false;
         String sql = ConstantClass.SQL_CHECK_DRUG_CATEGORY_NOT_EMPTY;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();

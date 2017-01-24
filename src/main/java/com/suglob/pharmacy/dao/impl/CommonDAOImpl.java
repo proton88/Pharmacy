@@ -2,14 +2,14 @@ package com.suglob.pharmacy.dao.impl;
 
 import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPoolException;
-import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
+import com.suglob.pharmacy.pool.ConnectionPool;
+import com.suglob.pharmacy.pool.ConnectionPoolException;
+import com.suglob.pharmacy.pool.ProxyConnection;
 import com.suglob.pharmacy.entity.Doctor;
 import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.DrugCategory;
 import com.suglob.pharmacy.entity.User;
-import com.suglob.pharmacy.utils.ConstantClass;
+import com.suglob.pharmacy.util.ConstantClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.PreparedStatement;
@@ -26,7 +26,7 @@ public class CommonDAOImpl implements CommonDAO {
         User user=null;
         String sql = ConstantClass.SQL_LOGINATION;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -58,7 +58,7 @@ public class CommonDAOImpl implements CommonDAO {
         ArrayList<DrugCategory> drugCategoriesList = new ArrayList<>();
         String sql = ConstantClass.SQL_NAME_DRUG_CATEGORIES;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -86,7 +86,7 @@ public class CommonDAOImpl implements CommonDAO {
     public ArrayList<Drug> takeDrugs(String str) throws DAOException {
         ArrayList<Drug> drugList = new ArrayList<>();
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -124,7 +124,7 @@ public class CommonDAOImpl implements CommonDAO {
         ArrayList<Doctor> doctorsList = new ArrayList<>();
         String sql = ConstantClass.SQL_TAKE_DOCTORS;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();

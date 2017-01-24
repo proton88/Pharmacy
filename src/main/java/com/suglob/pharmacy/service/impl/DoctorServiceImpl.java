@@ -6,7 +6,7 @@ import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.service.DoctorService;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.utils.Validator;
+import com.suglob.pharmacy.util.Validator;
 
 import java.util.List;
 import java.util.Map;

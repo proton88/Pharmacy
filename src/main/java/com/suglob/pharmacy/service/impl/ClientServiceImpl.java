@@ -8,8 +8,8 @@ import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
-import com.suglob.pharmacy.utils.ConstantClass;
-import com.suglob.pharmacy.utils.Validator;
+import com.suglob.pharmacy.util.ConstantClass;
+import com.suglob.pharmacy.util.Validator;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import com.suglob.pharmacy.entity.DrugCategory;
 import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.utils.Validator;
+import com.suglob.pharmacy.util.Validator;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package com.suglob.pharmacy.controller;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
-import com.suglob.pharmacy.utils.ConstantClass;
+import com.suglob.pharmacy.util.ConstantClass;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-@WebServlet("/Controller")
+@WebServlet(urlPatterns = "/Controller", loadOnStartup = 1)
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 

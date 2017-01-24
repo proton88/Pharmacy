@@ -2,12 +2,12 @@ package com.suglob.pharmacy.dao.impl;
 
 import com.suglob.pharmacy.dao.UserDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPoolException;
-import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
+import com.suglob.pharmacy.pool.ConnectionPool;
+import com.suglob.pharmacy.pool.ConnectionPoolException;
+import com.suglob.pharmacy.pool.ProxyConnection;
 import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.User;
-import com.suglob.pharmacy.utils.ConstantClass;
+import com.suglob.pharmacy.util.ConstantClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.PreparedStatement;
@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO {
 
         User user;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -85,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
     public String payOrder(List<Drug> orderList) throws DAOException {
         String result=ConstantClass.EMPTY_STRING;
 
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -145,7 +145,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public int addRecipe(String recipeCode, int count, int id) throws DAOException {
         int result=ConstantClass.ZERO;
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -180,7 +180,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void cancelOrder(int count, int id, int recipeId) throws DAOException {
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -214,7 +214,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public String drugExists(String drugName) throws DAOException {
         String result=ConstantClass.NOT_EXIST;
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -245,7 +245,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void orderRecipe(String drugName, String doctorSurname, int userId) throws DAOException {
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -288,7 +288,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public String recipeExists(String codeDrug) throws DAOException {
         String result=ConstantClass.NOT_EXIST;
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();
@@ -315,7 +315,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void orderExtendRecipe(String codeDrug) throws DAOException {
-        ConnectionPool<ProxyConnection> pool = ConnectionPool.getInstance();
+        ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
             con = pool.takeConnection();

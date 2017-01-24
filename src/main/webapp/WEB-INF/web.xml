@@ -8,7 +8,7 @@
 
   <filter>
     <filter-name>CheckSessionFilter</filter-name>
-    <filter-class>com.suglob.pharmacy.filters.CheckSessionFilter</filter-class>
+    <filter-class>com.suglob.pharmacy.filter.CheckSessionFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>CheckSessionFilter</filter-name>
@@ -18,7 +18,7 @@
   <filter>
     <display-name>CharsetFilter</display-name>
     <filter-name>CharsetFilter</filter-name>
-    <filter-class>com.suglob.pharmacy.filters.CharsetFilter</filter-class>
+    <filter-class>com.suglob.pharmacy.filter.CharsetFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>CharsetFilter</filter-name>

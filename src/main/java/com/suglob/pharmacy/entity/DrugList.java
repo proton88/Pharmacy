@@ -3,7 +3,7 @@ package com.suglob.pharmacy.entity;
 import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.utils.ConstantClass;
+import com.suglob.pharmacy.util.ConstantClass;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

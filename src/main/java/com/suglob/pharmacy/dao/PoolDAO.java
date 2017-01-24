@@ -1,11 +1,10 @@
 package com.suglob.pharmacy.dao;
 
 import com.suglob.pharmacy.dao.exception.DAOException;
-import com.suglob.pharmacy.dao.impl.pool.ConnectionPool;
-import com.suglob.pharmacy.dao.impl.pool.ProxyConnection;
+import com.suglob.pharmacy.pool.ConnectionPool;
 
 public interface PoolDAO {
-    void getPool(ConnectionPool<ProxyConnection> pool) throws DAOException;
+    void getPool(ConnectionPool pool) throws DAOException;
 
-    void disposePool(ConnectionPool<ProxyConnection> pool) throws DAOException;
+    void disposePool(ConnectionPool pool) throws DAOException;
 }

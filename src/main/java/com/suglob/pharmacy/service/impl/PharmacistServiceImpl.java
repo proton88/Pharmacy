@@ -6,8 +6,8 @@ import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.service.PharmacistService;
 import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.utils.ConstantClass;
-import com.suglob.pharmacy.utils.Validator;
+import com.suglob.pharmacy.util.ConstantClass;
+import com.suglob.pharmacy.util.Validator;
 
 public class PharmacistServiceImpl implements PharmacistService {
     @Override
