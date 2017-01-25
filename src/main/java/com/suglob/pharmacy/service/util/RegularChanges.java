@@ -1,13 +1,13 @@
 package com.suglob.pharmacy.service.util;
 
-import com.suglob.pharmacy.util.ConstantClass;
+import com.suglob.pharmacy.constant.RegexConstant;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegularChanges {
 	public static boolean passportCheck(String passportId){
-		String regexp= ConstantClass.REGEX_PASSPORT;
+		String regexp= RegexConstant.REGEX_PASSPORT;
 		Pattern pattern = Pattern.compile(regexp);
 		Matcher matcher=pattern.matcher(passportId);
 		if(matcher.lookingAt()){
@@ -18,7 +18,7 @@ public class RegularChanges {
 
 
 	public static boolean loginCheck(String login) {
-		String regexp=ConstantClass.REGEX_LOGIN;
+		String regexp= RegexConstant.REGEX_LOGIN;
 		Pattern pattern = Pattern.compile(regexp);
 		Matcher matcher=pattern.matcher(login);
 		if(matcher.lookingAt()){
@@ -28,7 +28,7 @@ public class RegularChanges {
 	}
 
 	public static boolean passwordCheck(String password) {
-		String regexp=ConstantClass.REGEX_PASSWORD;
+		String regexp= RegexConstant.REGEX_PASSWORD;
 		Pattern pattern = Pattern.compile(regexp);
 		Matcher matcher=pattern.matcher(password);
 		if(matcher.lookingAt()){
@@ -38,7 +38,7 @@ public class RegularChanges {
 	}
 
 	public static boolean emailCheck(String email) {
-		String regexp=ConstantClass.REGEX_EMAIL;
+		String regexp= RegexConstant.REGEX_EMAIL;
 		Pattern pattern = Pattern.compile(regexp);
 		Matcher matcher=pattern.matcher(email);
 		if(matcher.lookingAt()){
@@ -48,7 +48,7 @@ public class RegularChanges {
 	}
 
     public static boolean drugCategoryCheck(String drugCategory) {
-		String regexp=ConstantClass.REGEX_DRUG_CATEGORY;
+		String regexp= RegexConstant.REGEX_DRUG_CATEGORY;
 		Pattern pattern = Pattern.compile(regexp);
 		Matcher matcher=pattern.matcher(drugCategory);
 		if(matcher.lookingAt()){

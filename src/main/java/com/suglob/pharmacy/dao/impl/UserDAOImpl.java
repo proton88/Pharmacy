@@ -1,5 +1,9 @@
 package com.suglob.pharmacy.dao.impl;
 
+import com.suglob.pharmacy.constant.MessageConstant;
+import com.suglob.pharmacy.constant.NumberConstant;
+import com.suglob.pharmacy.constant.OtherConstant;
+import com.suglob.pharmacy.constant.SqlConstant;
 import com.suglob.pharmacy.dao.UserDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.pool.ConnectionPool;
@@ -7,7 +11,6 @@ import com.suglob.pharmacy.pool.ConnectionPoolException;
 import com.suglob.pharmacy.pool.ProxyConnection;
 import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.User;
-import com.suglob.pharmacy.util.ConstantClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.PreparedStatement;
@@ -20,9 +23,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User registration(String login, String password, String passwordRepeat, String name, String surname,
                              String patronymic, String adress, String passportId, String email) throws DAOException {
-        String sql = ConstantClass.SQL_REGISTRATION;
-        String sql2 = ConstantClass.SQL2_REGISTRATION;
-        String sql3 = ConstantClass.SQL3_REGISTRATION;
+        String sql = SqlConstant.SQL_REGISTRATION;
+        String sql2 = SqlConstant.SQL2_REGISTRATION;
+        String sql3 = SqlConstant.SQL3_REGISTRATION;
 
         User user;
 
@@ -38,7 +41,7 @@ public class UserDAOImpl implements UserDAO {
         }
 
 
-        int countUsers=ConstantClass.ZERO;
+        int countUsers= NumberConstant.ZERO;
         try (PreparedStatement ps = con.prepareStatement(sql);
              PreparedStatement ps2 = con.prepareStatement(sql2);
              PreparedStatement ps3 = con.prepareStatement(sql3)){
@@ -51,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setInt(1, countUsers);
             ps.setString(2, login);
             ps.setString(3, DigestUtils.md5Hex(password));
-            ps.setString(4, ConstantClass.CLIENT);
+            ps.setString(4, OtherConstant.CLIENT);
             ps.executeUpdate();
             ps2.setString(1, surname);
             ps2.setString(2, name);
@@ -62,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
             ps2.setString(7,email);
             ps2.executeUpdate();
             con.commit();
-            user = new User(countUsers, login, password, ConstantClass.CLIENT, ConstantClass.ZERO);
+            user = new User(countUsers, login, password, OtherConstant.CLIENT, NumberConstant.ZERO);
         } catch (SQLException e) {
             try {
                 con.rollback();
@@ -83,7 +86,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public String payOrder(List<Drug> orderList) throws DAOException {
-        String result=ConstantClass.EMPTY_STRING;
+        String result= OtherConstant.EMPTY_STRING;
 
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
@@ -96,13 +99,13 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("Autocommit error", e);
         }
 
-        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_PAY_ORDER);
-             PreparedStatement ps2 = con.prepareStatement(ConstantClass.SQL2_PAY_ORDER)) {
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_PAY_ORDER);
+             PreparedStatement ps2 = con.prepareStatement(SqlConstant.SQL2_PAY_ORDER)) {
             boolean isOk=true;
             for (Drug drug : orderList) {
                 ps.setInt(1,drug.getId());
                 ResultSet rs=ps.executeQuery();
-                int quantityDrugs=ConstantClass.ZERO;
+                int quantityDrugs= NumberConstant.ZERO;
                 if (rs.next()){
                     quantityDrugs=rs.getInt(1);
                 }
@@ -118,7 +121,7 @@ public class UserDAOImpl implements UserDAO {
                 }
             }
             if (isOk) {
-                result =ConstantClass.PAYMENT_OK;
+                result = MessageConstant.PAYMENT_OK;
                 con.commit();
             }else {
                 con.rollback();
@@ -144,7 +147,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public int addRecipe(String recipeCode, int count, int id) throws DAOException {
-        int result=ConstantClass.ZERO;
+        int result= NumberConstant.ZERO;
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
@@ -153,8 +156,8 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("Don't take connection pool", e);
         }
 
-        try(PreparedStatement ps=con.prepareStatement(ConstantClass.SQL_ADD_RECIPE);
-            PreparedStatement ps2=con.prepareStatement(ConstantClass.SQL2_ADD_RECIPE)){
+        try(PreparedStatement ps=con.prepareStatement(SqlConstant.SQL_ADD_RECIPE);
+            PreparedStatement ps2=con.prepareStatement(SqlConstant.SQL2_ADD_RECIPE)){
             ps.setString(1,recipeCode);
             ResultSet rs=ps.executeQuery();
             if (rs.next()){
@@ -187,12 +190,12 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try(PreparedStatement ps=con.prepareStatement(ConstantClass.SQL_CANCEL_ORDER);
-            PreparedStatement ps2=con.prepareStatement(ConstantClass.SQL2_CANCEL_ORDER)){
+        try(PreparedStatement ps=con.prepareStatement(SqlConstant.SQL_CANCEL_ORDER);
+            PreparedStatement ps2=con.prepareStatement(SqlConstant.SQL2_CANCEL_ORDER)){
             ps.setInt(1,recipeId);
             ps.setInt(2,id);
             ResultSet rs=ps.executeQuery();
-            int usedRecipe=ConstantClass.ZERO;
+            int usedRecipe= NumberConstant.ZERO;
             if (rs.next()) {
                 usedRecipe = rs.getInt(1);
             }
@@ -213,7 +216,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public String drugExists(String drugName) throws DAOException {
-        String result=ConstantClass.NOT_EXIST;
+        String result= MessageConstant.NOT_EXIST;
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
@@ -221,14 +224,14 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_DRUG_EXISTS)){
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_DRUG_EXISTS)){
             ps.setString(1,drugName);
             ResultSet rs=ps.executeQuery();
             if (rs.next()) {
-                if (rs.getString(7).equals(ConstantClass.N)){
-                    result=ConstantClass.NOT_NEED;
+                if (OtherConstant.N.equals(rs.getString(7))){
+                    result= MessageConstant.NOT_NEED;
                 }else{
-                    result=ConstantClass.OK;
+                    result= OtherConstant.OK;
                 }
             }
         } catch (SQLException e) {
@@ -252,18 +255,18 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_ORDER_RECIPE);
-             PreparedStatement ps2 = con.prepareStatement(ConstantClass.SQL2_ORDER_RECIPE);
-             PreparedStatement ps3 = con.prepareStatement(ConstantClass.SQL3_ORDER_RECIPE)){
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_ORDER_RECIPE);
+             PreparedStatement ps2 = con.prepareStatement(SqlConstant.SQL2_ORDER_RECIPE);
+             PreparedStatement ps3 = con.prepareStatement(SqlConstant.SQL3_ORDER_RECIPE)){
             ps.setInt(1,userId);
             ResultSet rs=ps.executeQuery();
-            int clientsId=ConstantClass.ZERO;
+            int clientsId= NumberConstant.ZERO;
             if (rs.next()) {
                 clientsId=rs.getInt(1);
             }
             ps2.setString(1,doctorSurname);
             ResultSet rs2=ps2.executeQuery();
-            int doctorId=ConstantClass.ZERO;
+            int doctorId= NumberConstant.ZERO;
             if (rs2.next()) {
                 doctorId=rs2.getInt(1);
             }
@@ -287,7 +290,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public String recipeExists(String codeDrug) throws DAOException {
-        String result=ConstantClass.NOT_EXIST;
+        String result= MessageConstant.NOT_EXIST;
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
         try {
@@ -295,11 +298,11 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_RECIPE_EXISTS)){
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_RECIPE_EXISTS)){
             ps.setString(1,codeDrug);
             ResultSet rs=ps.executeQuery();
             if (rs.next()) {
-                result=ConstantClass.OK;
+                result= OtherConstant.OK;
             }
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -322,7 +325,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try (PreparedStatement ps = con.prepareStatement(ConstantClass.SQL_ORDER_EXTEND_RECIPE)){
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_ORDER_EXTEND_RECIPE)){
             ps.setString(1,codeDrug);
             ps.executeUpdate();
         } catch (SQLException e) {

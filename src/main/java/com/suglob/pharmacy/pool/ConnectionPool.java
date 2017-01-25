@@ -1,6 +1,6 @@
 package com.suglob.pharmacy.pool;
 
-import com.suglob.pharmacy.util.ConstantClass;
+import com.suglob.pharmacy.constant.NumberConstant;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +36,7 @@ public class ConnectionPool {
             poolSize = Integer.parseInt(dbResourceManager.getValue(DBParameter.DB_POOL_SIZE));
         } catch (NumberFormatException e) {
             LOGGER.log(Level.ERROR, "Connection pool size is wrong", e);
-            poolSize = ConstantClass.POOLSIZE_DEF;
+            poolSize = NumberConstant.POOLSIZE_DEF;
         }
     }
 
@@ -63,7 +63,7 @@ public class ConnectionPool {
             throw new RuntimeException("Wrong JDBC Driver", e);
         }
         connectionQueue = new ArrayBlockingQueue<>(poolSize);
-        int tryConnection = ConstantClass.ZERO;
+        int tryConnection = NumberConstant.ZERO;
         while (connectionQueue.size() < poolSize) {
             try {
                 Connection con = DriverManager.getConnection(url, user, password);

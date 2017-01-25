@@ -1,9 +1,9 @@
 package com.suglob.pharmacy.entity;
 
+import com.suglob.pharmacy.constant.NumberConstant;
 import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.util.ConstantClass;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +27,7 @@ public class DrugList extends Entity {
             LOGGER.log(Level.ERROR,e);
         }
         countAllRecords=service.getCountRecords();
-        countPages=(int) Math.ceil(countAllRecords * ConstantClass.DOUBLE_CHANGE / countRecords);
+        countPages=(int) Math.ceil(countAllRecords * NumberConstant.DOUBLE_CHANGE / countRecords);
         return drugList;
     }
 

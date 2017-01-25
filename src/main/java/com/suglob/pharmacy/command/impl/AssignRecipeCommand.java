@@ -3,12 +3,13 @@ package com.suglob.pharmacy.command.impl;
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
 import com.suglob.pharmacy.command.util.CommandHelp;
+import com.suglob.pharmacy.constant.MessageConstant;
+import com.suglob.pharmacy.constant.OtherConstant;
 import com.suglob.pharmacy.service.DoctorService;
 import com.suglob.pharmacy.service.ServiceFactory;
-import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
+import com.suglob.pharmacy.service.exception.ServiceCheckException;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.util.ConstantClass;
-import com.suglob.pharmacy.util.Validator;
+import com.suglob.pharmacy.validation.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 public class AssignRecipeCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        int userId = Integer.parseInt(request.getParameter(ConstantClass.USER_ID));
-        String sDrugId=request.getParameter(ConstantClass.DRUG_ID);
-        String sQuantity=request.getParameter(ConstantClass.QUANTITY);
-        String sPeriod=request.getParameter(ConstantClass.PERIOD);
-        String sClientId=request.getParameter(ConstantClass.CLIENT_ID);
-        String code=request.getParameter(ConstantClass.CODE);
+        int userId = Integer.parseInt(request.getParameter(OtherConstant.USER_ID));
+        String sDrugId=request.getParameter(OtherConstant.DRUG_ID);
+        String sQuantity=request.getParameter(OtherConstant.QUANTITY);
+        String sPeriod=request.getParameter(OtherConstant.PERIOD);
+        String sClientId=request.getParameter(OtherConstant.CLIENT_ID);
+        String code=request.getParameter(OtherConstant.CODE);
         int clientId;
         int drugId;
         int quantity;
@@ -32,7 +33,7 @@ public class AssignRecipeCommand implements ICommand {
             quantity = Integer.parseInt(sQuantity);
             period = Integer.parseInt(sPeriod);
         }else{
-            request.getSession().setAttribute(ConstantClass.ERROR, ConstantClass.MSG_RECIPE_PARAMETER_WRONG);
+            request.getSession().setAttribute(OtherConstant.ERROR, MessageConstant.MSG_RECIPE_PARAMETER_WRONG);
             CommandHelp.sendResponse(request, response);
             return;
         }
@@ -45,9 +46,9 @@ public class AssignRecipeCommand implements ICommand {
         String drugName;
         try {
             drugName=service.assignRecipe(userId,drugId, quantity, period, clientId, code);
-        } catch (ServiceCheckErrorException e){
+        } catch (ServiceCheckException e){
             error=e.getMessage().trim();
-            request.getSession().setAttribute(ConstantClass.ERROR, error);
+            request.getSession().setAttribute(OtherConstant.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }catch (ServiceException e){

@@ -1,13 +1,13 @@
 package com.suglob.pharmacy.service.impl;
 
+import com.suglob.pharmacy.constant.MessageConstant;
 import com.suglob.pharmacy.dao.DAOFactory;
 import com.suglob.pharmacy.dao.PharmacistDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.service.PharmacistService;
-import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
+import com.suglob.pharmacy.service.exception.ServiceCheckException;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.util.ConstantClass;
-import com.suglob.pharmacy.util.Validator;
+import com.suglob.pharmacy.validation.Validator;
 
 public class PharmacistServiceImpl implements PharmacistService {
     @Override
@@ -22,15 +22,25 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public void changePriceDrug(String drugId, String priceDrug) throws ServiceException, ServiceCheckErrorException {
+    public void changePriceDrug(String drugId, String priceDrug) throws ServiceException, ServiceCheckException {
         if (!Validator.checkInteger(drugId) || !Validator.checkDouble(priceDrug)){
-            throw new ServiceCheckErrorException(ConstantClass.WRONG_FORMAT);
+            throw new ServiceCheckException(MessageConstant.WRONG_FORMAT);
         }
         int drugIdInt=Integer.parseInt(drugId);
         double priceDrugDouble=Double.parseDouble(priceDrug);
-        Validator.checkDrugExist(drugIdInt);
 
         PharmacistDAO pharmacistDAO = DAOFactory.getInstance().getPharmacistDAO();
+
+        boolean checkDrug;
+        try {
+            checkDrug=pharmacistDAO.checkDrug(drugIdInt);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (!checkDrug){
+            throw new ServiceCheckException(MessageConstant.DRUG_NOT_EXISTS);
+        }
+
         try {
             pharmacistDAO.changePriceDrug(drugIdInt, priceDrugDouble);
         } catch (DAOException e) {
@@ -40,10 +50,10 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public void addDrug(String drugName, String dosage, String country, String priceDrug, String quantity, String recipe, String[] categories) throws ServiceException, ServiceCheckErrorException {
-        Validator.checkAddDrug(drugName, dosage, country, priceDrug, quantity, recipe, categories);
+    public void addDrug(String drugName, String dosage, String country, String priceDrug, String quantity, String recipe, String[] categories) throws ServiceException, ServiceCheckException {
+        Validator.checkAddDrug(drugName, country, priceDrug, quantity, recipe, categories);
         if (!Validator.checkInteger(quantity) || !Validator.checkDouble(priceDrug)){
-            throw new ServiceCheckErrorException(ConstantClass.WRONG_FORMAT);
+            throw new ServiceCheckException(MessageConstant.WRONG_FORMAT);
         }
         int quantityInt=Integer.parseInt(quantity);
         double priceDrugDouble=Double.parseDouble(priceDrug);
@@ -63,14 +73,24 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public void deleteDrug(String drugId) throws ServiceException, ServiceCheckErrorException {
+    public void deleteDrug(String drugId) throws ServiceException, ServiceCheckException {
         if (!Validator.checkInteger(drugId)){
-            throw new ServiceCheckErrorException(ConstantClass.WRONG_FORMAT);
+            throw new ServiceCheckException(MessageConstant.WRONG_FORMAT);
         }
         int drugIdInt=Integer.parseInt(drugId);
-        Validator.checkDrugExist(drugIdInt);
 
         PharmacistDAO pharmacistDAO = DAOFactory.getInstance().getPharmacistDAO();
+
+        boolean checkDrug;
+        try {
+            checkDrug=pharmacistDAO.checkDrug(drugIdInt);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (!checkDrug){
+            throw new ServiceCheckException(MessageConstant.DRUG_NOT_EXISTS);
+        }
+
         try {
             pharmacistDAO.deleteDrug(drugIdInt);
         } catch (DAOException e) {
@@ -79,11 +99,20 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public void addDrugCategory(String drugCategory) throws ServiceException, ServiceCheckErrorException {
+    public void addDrugCategory(String drugCategory) throws ServiceException, ServiceCheckException {
         Validator.checkDrugCategory(drugCategory);
-        Validator.checkDrugCategoryExist(drugCategory);
 
         PharmacistDAO pharmacistDAO = DAOFactory.getInstance().getPharmacistDAO();
+        boolean checkDrugCategory;
+        try {
+            checkDrugCategory=pharmacistDAO.checkDrugCategory(drugCategory);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (checkDrugCategory){
+            throw new ServiceCheckException(MessageConstant.DRUG_CATEGORY_EXIST);
+        }
+
         try {
             pharmacistDAO.addDrugCategory(drugCategory);
         } catch (DAOException e) {
@@ -92,11 +121,29 @@ public class PharmacistServiceImpl implements PharmacistService {
     }
 
     @Override
-    public void deleteDrugCategory(String drugCategory) throws ServiceException, ServiceCheckErrorException {
-        Validator.checkDrugCategoryNotExist(drugCategory);
-        Validator.checkDrugCategoryNotEmpty(drugCategory);
+    public void deleteDrugCategory(String drugCategory) throws ServiceException, ServiceCheckException {
 
         PharmacistDAO pharmacistDAO = DAOFactory.getInstance().getPharmacistDAO();
+        boolean checkDrugCategory;
+        try {
+            checkDrugCategory=pharmacistDAO.checkDrugCategory(drugCategory);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (!checkDrugCategory){
+            throw new ServiceCheckException(MessageConstant.DRUG_CATEGORY_NOT_EXIST);
+        }
+
+        boolean checkDrugCategoryNotEmpty;
+        try {
+            checkDrugCategoryNotEmpty=pharmacistDAO.checkDrugCategoryNotEmpty(drugCategory);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (checkDrugCategoryNotEmpty){
+            throw new ServiceCheckException(MessageConstant.DRUG_CATEGORY_NOT_EMPTY);
+        }
+
         try {
             pharmacistDAO.deleteDrugCategory(drugCategory);
         } catch (DAOException e) {

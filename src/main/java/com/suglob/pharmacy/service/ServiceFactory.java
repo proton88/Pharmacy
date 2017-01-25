@@ -6,7 +6,6 @@ public class ServiceFactory {
     private static final ServiceFactory factory=new ServiceFactory();
 
     private final CommonService commonService = new CommonServiceImpl();
-    private final PoolService poolService = new PoolServiceImpl();
     private final ClientService clientService = new ClientServiceImpl();
     private final DoctorService doctorService = new DoctorServiceImpl();
     private final PharmacistService pharmacistService = new PharmacistServiceImpl();
@@ -18,10 +17,6 @@ public class ServiceFactory {
 
     public CommonService getCommonService() {
         return commonService;
-    }
-
-    public PoolService getPoolService() {
-        return poolService;
     }
 
     public ClientService getClientService() {

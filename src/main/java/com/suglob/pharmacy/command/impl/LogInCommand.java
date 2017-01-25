@@ -2,11 +2,13 @@ package com.suglob.pharmacy.command.impl;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
+import com.suglob.pharmacy.constant.MessageConstant;
+import com.suglob.pharmacy.constant.NumberConstant;
+import com.suglob.pharmacy.constant.OtherConstant;
 import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.CommonService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.util.ConstantClass;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,8 +22,8 @@ public class LogInCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
-        String login=request.getParameter(ConstantClass.LOGIN);
-        String password=request.getParameter(ConstantClass.PASSWORD);
+        String login=request.getParameter(OtherConstant.LOGIN);
+        String password=request.getParameter(OtherConstant.PASSWORD);
         ///////////////////////////////////////////////////////////////////////////////
         ServiceFactory factory = ServiceFactory.getInstance();
         CommonService service = factory.getCommonService();
@@ -36,23 +38,23 @@ public class LogInCommand implements ICommand {
         if (user!=null){
             if (user.getBlock()==1){
                 try{
-                    request.setAttribute(ConstantClass.ERROR, ConstantClass.BLOCK_USER);
-                    request.getRequestDispatcher(ConstantClass.INDEX).forward(request, response);
+                    request.setAttribute(OtherConstant.ERROR, MessageConstant.BLOCK_USER);
+                    request.getRequestDispatcher(OtherConstant.INDEX).forward(request, response);
                 }catch(ServletException |IOException e){
                     throw new CommandException("Don't execute index.jsp",e);
                 }
                 return;
             }
             HttpSession session = request.getSession(true);
-            session.setAttribute(ConstantClass.URL,request.getRequestURL());
-            session.setAttribute(ConstantClass.USER, user);
-            Cookie log=new Cookie(ConstantClass.LOGIN,login);
-            log.setMaxAge(ConstantClass.WEEK);
+            session.setAttribute(OtherConstant.URL,request.getRequestURL());
+            session.setAttribute(OtherConstant.USER, user);
+            Cookie log=new Cookie(OtherConstant.LOGIN,login);
+            log.setMaxAge(NumberConstant.WEEK);
             response.addCookie(log);
-            Cookie pass=new Cookie(ConstantClass.PASSWORD,password);
-            log.setMaxAge(ConstantClass.WEEK);
+            Cookie pass=new Cookie(OtherConstant.PASSWORD,password);
+            pass.setMaxAge(NumberConstant.WEEK);
             response.addCookie(pass);
-            RequestDispatcher dispather=request.getRequestDispatcher(ConstantClass.MAIN);
+            RequestDispatcher dispather=request.getRequestDispatcher(OtherConstant.MAIN);
             try {
                 dispather.forward(request, response);
             } catch (ServletException | IOException e) {
@@ -61,8 +63,8 @@ public class LogInCommand implements ICommand {
 
         }else{
             try{
-                request.setAttribute(ConstantClass.ERROR, ConstantClass.NOT_USER);
-                request.getRequestDispatcher(ConstantClass.INDEX).forward(request, response);
+                request.setAttribute(OtherConstant.ERROR, MessageConstant.NOT_USER);
+                request.getRequestDispatcher(OtherConstant.INDEX).forward(request, response);
             }catch(ServletException|IOException e){
                 throw new CommandException("Don't execute index.jsp",e);
             }

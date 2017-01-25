@@ -2,7 +2,7 @@ package com.suglob.pharmacy.command.impl;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
-import com.suglob.pharmacy.util.ConstantClass;
+import com.suglob.pharmacy.constant.OtherConstant;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ public class LogOutCommand implements ICommand {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         request.getSession().invalidate();
         try {
-            request.getRequestDispatcher(ConstantClass.INDEX).forward(request,response);
+            request.getRequestDispatcher(OtherConstant.INDEX).forward(request,response);
         } catch (IOException | ServletException e) {
             throw new CommandException("Don't execute index.jsp",e);
         }

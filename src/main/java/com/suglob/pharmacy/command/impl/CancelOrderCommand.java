@@ -3,11 +3,11 @@ package com.suglob.pharmacy.command.impl;
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
 import com.suglob.pharmacy.command.util.CommandHelp;
+import com.suglob.pharmacy.constant.OtherConstant;
 import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.ServiceFactory;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.util.ConstantClass;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,12 +18,12 @@ public class CancelOrderCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
-        List<Drug> orderList = (List<Drug>) request.getSession().getAttribute(ConstantClass.ORDER_LIST);
+        List<Drug> orderList = (List<Drug>) request.getSession().getAttribute(OtherConstant.ORDER_LIST);
         if (orderList == null) {
             orderList = new ArrayList<>();
         }
         for (Drug drug : orderList) {
-            if (!drug.getIsRecipe().equals(ConstantClass.N)){
+            if (!OtherConstant.N.equals(drug.getIsRecipe())){
                 ///////////////////////////////////////////////////////////////////////////////
                 ServiceFactory factory = ServiceFactory.getInstance();
                 ClientService service = factory.getClientService();
@@ -36,8 +36,8 @@ public class CancelOrderCommand implements ICommand {
             }
         }
 
-        request.getSession().setAttribute(ConstantClass.ORDER_LIST, null);
-        request.getSession().setAttribute(ConstantClass.ORDER_PRICE, null);
+        request.getSession().setAttribute(OtherConstant.ORDER_LIST, null);
+        request.getSession().setAttribute(OtherConstant.ORDER_PRICE, null);
 
         CommandHelp.sendResponse(request, response);
     }

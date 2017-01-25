@@ -1,6 +1,6 @@
 package com.suglob.pharmacy.service;
 
-import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
+import com.suglob.pharmacy.service.exception.ServiceCheckException;
 import com.suglob.pharmacy.service.exception.ServiceException;
 
 import java.util.List;
@@ -12,9 +12,9 @@ public interface DoctorService {
     void cancelRecipe(int userId, String drugName, int clientId) throws ServiceException;
 
     String assignRecipe(int userId, int drugId, int quantity, int period, int clientId, String code) throws ServiceException,
-            ServiceCheckErrorException;
+            ServiceCheckException;
 
     void cancelExtendRecipe(String codeRecipe) throws ServiceException;
 
-    void extendRecipe(int period, String codeRecipe) throws ServiceException, ServiceCheckErrorException;
+    void extendRecipe(int period, String codeRecipe) throws ServiceException, ServiceCheckException;
 }

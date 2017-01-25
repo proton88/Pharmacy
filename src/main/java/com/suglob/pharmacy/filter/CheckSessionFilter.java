@@ -1,7 +1,8 @@
 package com.suglob.pharmacy.filter;
 
+import com.suglob.pharmacy.constant.MessageConstant;
+import com.suglob.pharmacy.constant.OtherConstant;
 import com.suglob.pharmacy.entity.User;
-import com.suglob.pharmacy.util.ConstantClass;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -19,13 +20,13 @@ public class CheckSessionFilter implements javax.servlet.Filter {
         HttpSession session = request.getSession(false);
 
         if (session == null || session.isNew()) {
-            request.setAttribute(ConstantClass.ERROR, ConstantClass.END_SESSION);
-            request.getRequestDispatcher(ConstantClass.INDEX).forward(request, resp);
+            request.setAttribute(OtherConstant.ERROR, MessageConstant.END_SESSION);
+            request.getRequestDispatcher(OtherConstant.INDEX).forward(request, resp);
         } else {
-            User user = (User) session.getAttribute(ConstantClass.USER);
+            User user = (User) session.getAttribute(OtherConstant.USER);
             if (user == null) {
-                request.setAttribute(ConstantClass.ERROR, ConstantClass.NOT_SESSION_USER);
-                request.getRequestDispatcher(ConstantClass.INDEX).forward(request, resp);
+                request.setAttribute(OtherConstant.ERROR, MessageConstant.NOT_SESSION_USER);
+                request.getRequestDispatcher(OtherConstant.INDEX).forward(request, resp);
 
             }else {
                 chain.doFilter(req, resp);

@@ -3,11 +3,12 @@ package com.suglob.pharmacy.command.impl;
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
 import com.suglob.pharmacy.command.util.CommandHelp;
+import com.suglob.pharmacy.constant.MessageConstant;
+import com.suglob.pharmacy.constant.OtherConstant;
 import com.suglob.pharmacy.service.PharmacistService;
 import com.suglob.pharmacy.service.ServiceFactory;
-import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
+import com.suglob.pharmacy.service.exception.ServiceCheckException;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.util.ConstantClass;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,21 +16,21 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteDrugCategoryCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        String drugCategory = request.getParameter(ConstantClass.DRUG_CATEGORY);
+        String drugCategory = request.getParameter(OtherConstant.DRUG_CATEGORY);
 
         PharmacistService service= ServiceFactory.getInstance().getPharmacistService();
         String error;
         try {
             service.deleteDrugCategory(drugCategory);
-        }catch (ServiceCheckErrorException e){
+        }catch (ServiceCheckException e){
             error=e.getMessage().trim();
-            request.getSession().setAttribute(ConstantClass.ERROR, error);
+            request.getSession().setAttribute(OtherConstant.ERROR, error);
             CommandHelp.sendResponse(request, response);
             return;
         }catch (ServiceException e){
             throw new CommandException(e);
         }
-        request.getSession().setAttribute(ConstantClass.MSG, ConstantClass.MSG_DELETE_DRUG_CATEGORY_OK);
+        request.getSession().setAttribute(OtherConstant.MSG, MessageConstant.MSG_DELETE_DRUG_CATEGORY_OK);
         CommandHelp.sendResponse(request, response);
     }
 }

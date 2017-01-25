@@ -1,6 +1,6 @@
 package com.suglob.pharmacy.pool;
 
-import com.suglob.pharmacy.util.ConstantClass;
+import com.suglob.pharmacy.constant.OtherConstant;
 
 import java.util.ResourceBundle;
 
@@ -10,7 +10,7 @@ class DBResourceManager {
     private ResourceBundle bundle;
 
     private DBResourceManager(){
-        bundle= ResourceBundle.getBundle(ConstantClass.PROPERTIES_DB);
+        bundle= ResourceBundle.getBundle(OtherConstant.PROPERTIES_DB);
     }
 
     String getValue(String key){

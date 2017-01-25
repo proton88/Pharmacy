@@ -1,5 +1,6 @@
 package com.suglob.pharmacy.tag;
 
+import com.suglob.pharmacy.constant.OtherConstant;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,10 +27,10 @@ public class DrugTableTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
         String caption;
-        if (locale.equals("en")){
-            caption="Drugs";
+        if (OtherConstant.EN.equals(locale)){
+            caption=OtherConstant.DRUGS_EN;
         }else {
-            caption="Препараты";
+            caption=OtherConstant.DRUGS_RU;
         }
         try{
             JspWriter out = pageContext.getOut();

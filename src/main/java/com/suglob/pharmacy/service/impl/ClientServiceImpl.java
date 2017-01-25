@@ -1,5 +1,7 @@
 package com.suglob.pharmacy.service.impl;
 
+import com.suglob.pharmacy.constant.MessageConstant;
+import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.DAOFactory;
 import com.suglob.pharmacy.dao.UserDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
@@ -7,25 +9,34 @@ import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.User;
 import com.suglob.pharmacy.service.ClientService;
 import com.suglob.pharmacy.service.exception.ServiceException;
-import com.suglob.pharmacy.service.exception.ServiceCheckErrorException;
-import com.suglob.pharmacy.util.ConstantClass;
-import com.suglob.pharmacy.util.Validator;
+import com.suglob.pharmacy.service.exception.ServiceCheckException;
+import com.suglob.pharmacy.validation.Validator;
 
 import java.util.List;
 
 public class ClientServiceImpl implements ClientService{
     @Override
     public User registration(String login, String password, String passwordRepeat, String name, String surname, String patronymic,
-                             String adress, String passportId, String email) throws ServiceException, ServiceCheckErrorException {
+                             String adress, String passportId, String email) throws ServiceException, ServiceCheckException {
 
-        Validator.checkRegistration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId, email);
+        Validator.checkRegistration(login, password, passwordRepeat, name, surname, adress, passportId, email);
 
         ////////////////////////////////////////////////////
         DAOFactory factory = DAOFactory.getInstance();
         UserDAO userDAO=factory.getUserDAO();
+        CommonDAO commonDAO=factory.getCommonDAO();
         ////////////////////////////////////////////////////////////////////
 
         User user;
+        try {
+            user=commonDAO.logination(login, password);
+        } catch (DAOException e1) {
+            throw new ServiceException(e1);
+        }
+        if(user!=null){
+            throw new ServiceCheckException(MessageConstant.REG_USER);
+        }
+
         try{
             user=userDAO.registration(login, password, passwordRepeat, name, surname, patronymic, adress, passportId, email);
         }catch(DAOException e){
@@ -80,10 +91,22 @@ public class ClientServiceImpl implements ClientService{
     public String orderRecipe(String drugName, String doctorSurname, int userId) throws ServiceException {
         String result=Validator.checkOrderRecipe(drugName, doctorSurname);
 
-        if (result.equals(ConstantClass.ORDER_RECIPE_OK)) {
-            DAOFactory factory = DAOFactory.getInstance();
-            UserDAO userDAO = factory.getUserDAO();
+        DAOFactory factory = DAOFactory.getInstance();
+        UserDAO userDAO=factory.getUserDAO();
 
+        String drugExists;
+        try {
+            drugExists = userDAO.drugExists(drugName);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (MessageConstant.NOT_EXIST.equals(drugExists)){
+            return MessageConstant.DRUG_NOT_EXIST;
+        }
+        if (MessageConstant.NOT_NEED.equals(drugExists)){
+            return MessageConstant.DRUG_NOT_NEED;
+        }
+        if (MessageConstant.ORDER_RECIPE_OK.equals(result)) {
             try {
                 userDAO.orderRecipe(drugName, doctorSurname, userId);
             } catch (DAOException e) {
@@ -97,10 +120,20 @@ public class ClientServiceImpl implements ClientService{
     public String orderExtendRecipe(String codeDrug) throws ServiceException {
         String result=Validator.checkExtendRecipe(codeDrug);
 
-        if (result.equals(ConstantClass.EXTEND_RECIPE_OK)) {
-            DAOFactory factory = DAOFactory.getInstance();
-            UserDAO userDAO = factory.getUserDAO();
+        DAOFactory factory = DAOFactory.getInstance();
+        UserDAO userDAO=factory.getUserDAO();
 
+        String recipeExists;
+        try {
+            recipeExists = userDAO.recipeExists(codeDrug);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+        if (MessageConstant.NOT_EXIST.equals(recipeExists)){
+            return MessageConstant.EXTEND_RECIPE_NOT_EXIST;
+        }
+
+        if (MessageConstant.EXTEND_RECIPE_OK.equals(result)) {
             try {
                 userDAO.orderExtendRecipe(codeDrug);
             } catch (DAOException e) {

@@ -1,5 +1,6 @@
 package com.suglob.pharmacy.dao.impl;
 
+import com.suglob.pharmacy.constant.SqlConstant;
 import com.suglob.pharmacy.dao.CommonDAO;
 import com.suglob.pharmacy.dao.exception.DAOException;
 import com.suglob.pharmacy.pool.ConnectionPool;
@@ -9,7 +10,6 @@ import com.suglob.pharmacy.entity.Doctor;
 import com.suglob.pharmacy.entity.Drug;
 import com.suglob.pharmacy.entity.DrugCategory;
 import com.suglob.pharmacy.entity.User;
-import com.suglob.pharmacy.util.ConstantClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.PreparedStatement;
@@ -24,7 +24,7 @@ public class CommonDAOImpl implements CommonDAO {
     @Override
     public User logination(String login, String password) throws DAOException {
         User user=null;
-        String sql = ConstantClass.SQL_LOGINATION;
+        String sql = SqlConstant.SQL_LOGINATION;
 
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
@@ -56,7 +56,7 @@ public class CommonDAOImpl implements CommonDAO {
     @Override
     public ArrayList<DrugCategory> takeDrugCategories() throws DAOException {
         ArrayList<DrugCategory> drugCategoriesList = new ArrayList<>();
-        String sql = ConstantClass.SQL_NAME_DRUG_CATEGORIES;
+        String sql = SqlConstant.SQL_NAME_DRUG_CATEGORIES;
 
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
@@ -100,7 +100,7 @@ public class CommonDAOImpl implements CommonDAO {
                 drugList.add(new Drug(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getBigDecimal(5),
                         rs.getInt(6),rs.getString(7)));
             }
-            rs = statement.executeQuery(ConstantClass.SQL_FOUND_ROWS);
+            rs = statement.executeQuery(SqlConstant.SQL_FOUND_ROWS);
             if(rs.next()) {
                 countRecords = rs.getInt(1);
             }
@@ -122,7 +122,7 @@ public class CommonDAOImpl implements CommonDAO {
     @Override
     public ArrayList<Doctor> takeDoctors() throws DAOException {
         ArrayList<Doctor> doctorsList = new ArrayList<>();
-        String sql = ConstantClass.SQL_TAKE_DOCTORS;
+        String sql = SqlConstant.SQL_TAKE_DOCTORS;
 
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;

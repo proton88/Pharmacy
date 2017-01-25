@@ -2,7 +2,7 @@ package com.suglob.pharmacy.controller;
 
 import com.suglob.pharmacy.command.ICommand;
 import com.suglob.pharmacy.command.exception.CommandException;
-import com.suglob.pharmacy.util.ConstantClass;
+import com.suglob.pharmacy.constant.OtherConstant;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,15 +31,15 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name=request.getParameter(ConstantClass.COMMAND);
+        String name=request.getParameter(OtherConstant.COMMAND);
         CommandEnum currentEnum = CommandEnum.valueOf(name.toUpperCase());
         ICommand command = currentEnum.getCurrentCommand();
         try {
             command.execute(request, response);
         } catch (CommandException e) {
             LOGGER.log(Level.ERROR, e);
-            request.setAttribute(ConstantClass.ERROR_PAGE, e.toString());
-            request.getRequestDispatcher(ConstantClass.ERROR_PAGE_PATH).forward(request, response);
+            request.setAttribute(OtherConstant.ERROR_PAGE, e.toString());
+            request.getRequestDispatcher(OtherConstant.ERROR_PAGE_PATH).forward(request, response);
         }
     }
 }
