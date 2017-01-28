@@ -11,7 +11,10 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
-
+/**
+ * Class implements a custom tag.
+ * It creates a table containing the drug names.
+ */
 public class DrugTableTag extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger(DrugTableTag.class);
     private String locale;

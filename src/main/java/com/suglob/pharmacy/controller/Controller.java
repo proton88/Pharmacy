@@ -20,7 +20,9 @@ import org.apache.logging.log4j.Logger;
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
-    public Controller() {}
+    public Controller() {
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -31,12 +33,18 @@ public class Controller extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name=request.getParameter(OtherConstant.COMMAND);
-        CommandEnum currentEnum = CommandEnum.valueOf(name.toUpperCase());
-        ICommand command = currentEnum.getCurrentCommand();
+        String name = request.getParameter(OtherConstant.COMMAND);
+        CommandEnum currentEnum;
         try {
+            if (name != null) {
+                currentEnum = CommandEnum.valueOf(name.toUpperCase());
+            } else {
+                throw new CommandException("Wrong command");
+            }
+            ICommand command = currentEnum.getCurrentCommand();
+
             command.execute(request, response);
-        } catch (CommandException e) {
+        } catch (Exception e) {
             LOGGER.log(Level.ERROR, e);
             request.setAttribute(OtherConstant.ERROR_PAGE, e.toString());
             request.getRequestDispatcher(OtherConstant.ERROR_PAGE_PATH).forward(request, response);

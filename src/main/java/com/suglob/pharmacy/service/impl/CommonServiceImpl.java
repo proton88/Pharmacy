@@ -12,10 +12,20 @@ import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.validation.Validator;
 
 import java.util.ArrayList;
-
+/**
+ * This class contains methods to verify the data and transmit them to the DAO layer.
+ * All methods are associated with the all users.
+ */
 public class CommonServiceImpl implements CommonService {
     private int countRecords;
-
+    /**
+     * Executes validation and returns user after log in.
+     *
+     * @param login unique user login
+     * @param password unique user password
+     * @return user if the authentication is successful
+     * @throws ServiceException if DaoException is thrown
+     */
     @Override
     public User logination(String login, String password) throws ServiceException {
         User user=null;
@@ -34,7 +44,12 @@ public class CommonServiceImpl implements CommonService {
         }
         return user;
     }
-
+    /**
+     * Get list of drug categories
+     *
+     * @return list of drug categories
+     * @throws ServiceException if DaoException is thrown
+     */
     @Override
     public ArrayList<DrugCategory> takeDrugCategories() throws ServiceException {
         ////////////////////////////////////////////////////
@@ -51,7 +66,13 @@ public class CommonServiceImpl implements CommonService {
 
         return drugCategoriesList;
     }
-
+    /**
+     * Get list of drugs
+     *
+     * @param str sql string for different sets of drugs
+     * @return list of drugs
+     * @throws ServiceException if DaoException is thrown
+     */
     @Override
     public ArrayList<Drug> takeDrugs(String str) throws ServiceException {
         ////////////////////////////////////////////////////
@@ -72,7 +93,12 @@ public class CommonServiceImpl implements CommonService {
     public int getCountRecords() {
         return countRecords;
     }
-
+    /**
+     * Get list of all doctors
+     *
+     * @return list of all doctors
+     * @throws ServiceException if DaoException is thrown
+     */
     @Override
     public ArrayList<Doctor> takeDoctors() throws ServiceException {
         ////////////////////////////////////////////////////

@@ -14,8 +14,21 @@ import com.suglob.pharmacy.validation.Validator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
+/**
+ * This class is for extend recipe in database.
+ */
 public class ExtendRecipeCommand implements ICommand {
+    /**
+     * This method retrieves from request recipe parameters and transmits to the service layer
+     * for extend recipe and delete order from extend recipe in database .
+     * Also method delete order from extend recipe from list.
+     * If there was an error in a parameter, displays it on the page.
+     * If the operation is successful, it displays a success message to the screen.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         int positionRecipe=Integer.parseInt(request.getParameter(OtherConstant.POSITION));

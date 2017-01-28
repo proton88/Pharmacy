@@ -10,8 +10,19 @@ import com.suglob.pharmacy.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * This class is for order for extend recipe.
+ */
 public class OrderExtendRecipeCommand implements ICommand {
+    /**
+     * This method retrieves from request code drug and transmits to the service layer
+     * for add order for extend recipe in database .
+     * Result of operation display on the page.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String codeDrug=request.getParameter(OtherConstant.CODE_DRUG);

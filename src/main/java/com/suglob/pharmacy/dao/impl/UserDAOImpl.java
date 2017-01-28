@@ -18,14 +18,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * This class contains methods to get, delete, add or modify data in the database.
+ * All methods are associated with the user: 'client'.
+ */
 public class UserDAOImpl implements UserDAO {
+    /**
+     * Returns user after registration
+     *
+     * @param login unique user login
+     * @param password unique user password
+     * @param passwordRepeat repeat of unique user password
+     * @param name name of user
+     * @param surname surname of user
+     * @param patronymic patronymic of user
+     * @param adress user adress
+     * @param passportId passport number of user
+     * @param email unique user email
+     * @return user if the registration is successful
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public User registration(String login, String password, String passwordRepeat, String name, String surname,
                              String patronymic, String adress, String passportId, String email) throws DAOException {
-        String sql = SqlConstant.SQL_REGISTRATION;
-        String sql2 = SqlConstant.SQL2_REGISTRATION;
-        String sql3 = SqlConstant.SQL3_REGISTRATION;
+        String sql = SqlConstant.SQL_ADD_USER;
+        String sql2 = SqlConstant.SQL_ADD_CLIENT;
+        String sql3 = SqlConstant.SQL_COUNT_USERS;
 
         User user;
 
@@ -83,7 +101,13 @@ public class UserDAOImpl implements UserDAO {
 
         return user;
     }
-
+    /**
+     * Returns result after paying order
+     *
+     * @param orderList list ordered drugs
+     * @return result operation
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public String payOrder(List<Drug> orderList) throws DAOException {
         String result= OtherConstant.EMPTY_STRING;
@@ -99,8 +123,8 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("Autocommit error", e);
         }
 
-        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_PAY_ORDER);
-             PreparedStatement ps2 = con.prepareStatement(SqlConstant.SQL2_PAY_ORDER)) {
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_GET_QUANTITY_DRUGS);
+             PreparedStatement ps2 = con.prepareStatement(SqlConstant.SQL_UPDATE_QUANTITY_DRUGS)) {
             boolean isOk=true;
             for (Drug drug : orderList) {
                 ps.setInt(1,drug.getId());
@@ -144,9 +168,17 @@ public class UserDAOImpl implements UserDAO {
         }
 
     }
-
+    /**
+     * Returns recipe id after adding order
+     *
+     * @param recipeCode unique recipe code
+     * @param count the amount of drugs in the recipe
+     * @param id unique drug id
+     * @return recipe id, which was added
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
-    public int addRecipe(String recipeCode, int count, int id) throws DAOException {
+    public int addOrder(String recipeCode, int count, int id) throws DAOException {
         int result= NumberConstant.ZERO;
         ConnectionPool pool = ConnectionPool.getInstance();
         ProxyConnection con;
@@ -156,8 +188,8 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("Don't take connection pool", e);
         }
 
-        try(PreparedStatement ps=con.prepareStatement(SqlConstant.SQL_ADD_RECIPE);
-            PreparedStatement ps2=con.prepareStatement(SqlConstant.SQL2_ADD_RECIPE)){
+        try(PreparedStatement ps=con.prepareStatement(SqlConstant.SQL_GET_RECIPE);
+            PreparedStatement ps2=con.prepareStatement(SqlConstant.SQL_ADD_USED_DRUGS)){
             ps.setString(1,recipeCode);
             ResultSet rs=ps.executeQuery();
             if (rs.next()){
@@ -180,7 +212,14 @@ public class UserDAOImpl implements UserDAO {
         }
         return result;
     }
-
+    /**
+     * Cancel order
+     *
+     * @param count the number of drugs that are canceled
+     * @param id unique drug id
+     * @param recipeId unique recipe id
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public void cancelOrder(int count, int id, int recipeId) throws DAOException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -190,8 +229,8 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try(PreparedStatement ps=con.prepareStatement(SqlConstant.SQL_CANCEL_ORDER);
-            PreparedStatement ps2=con.prepareStatement(SqlConstant.SQL2_CANCEL_ORDER)){
+        try(PreparedStatement ps=con.prepareStatement(SqlConstant.SQL_GET_COUNT_USED_DRUGS);
+            PreparedStatement ps2=con.prepareStatement(SqlConstant.SQL_CANCEL_USED_DRUGS)){
             ps.setInt(1,recipeId);
             ps.setInt(2,id);
             ResultSet rs=ps.executeQuery();
@@ -213,7 +252,13 @@ public class UserDAOImpl implements UserDAO {
             }
         }
     }
-
+    /**
+     * Method checks to existing drug
+     *
+     * @param drugName name of drug
+     * @return result of checking
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public String drugExists(String drugName) throws DAOException {
         String result= MessageConstant.NOT_EXIST;
@@ -245,7 +290,14 @@ public class UserDAOImpl implements UserDAO {
         }
         return result;
     }
-
+    /**
+     * Method add recipe in order_recipes table.
+     *
+     * @param drugName name of drug
+     * @param doctorSurname surname of doctor who want to order recipe
+     * @param userId unique id user who wants to order recipe
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public void orderRecipe(String drugName, String doctorSurname, int userId) throws DAOException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -255,9 +307,9 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_ORDER_RECIPE);
-             PreparedStatement ps2 = con.prepareStatement(SqlConstant.SQL2_ORDER_RECIPE);
-             PreparedStatement ps3 = con.prepareStatement(SqlConstant.SQL3_ORDER_RECIPE)){
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_SELECT_CLIENT_ID);
+             PreparedStatement ps2 = con.prepareStatement(SqlConstant.SQL_SELECT_DOCTOR_ID);
+             PreparedStatement ps3 = con.prepareStatement(SqlConstant.SQL_ADD_ORDER_RECIPE)){
             ps.setInt(1,userId);
             ResultSet rs=ps.executeQuery();
             int clientsId= NumberConstant.ZERO;
@@ -287,7 +339,13 @@ public class UserDAOImpl implements UserDAO {
         }
 
     }
-
+    /**
+     * Method checks to existing recipe.
+     *
+     * @param codeDrug code of drug
+     * @return result of checking
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public String recipeExists(String codeDrug) throws DAOException {
         String result= MessageConstant.NOT_EXIST;
@@ -315,7 +373,12 @@ public class UserDAOImpl implements UserDAO {
         }
         return result;
     }
-
+    /**
+     * Method return result after adding order for extend recipe
+     *
+     * @param codeDrug unique drug code
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public void orderExtendRecipe(String codeDrug) throws DAOException {
         ConnectionPool pool = ConnectionPool.getInstance();
@@ -325,7 +388,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (ConnectionPoolException e) {
             throw new DAOException("Don't take connection pool", e);
         }
-        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_ORDER_EXTEND_RECIPE)){
+        try (PreparedStatement ps = con.prepareStatement(SqlConstant.SQL_ADD_EXTEND_RECIPE)){
             ps.setString(1,codeDrug);
             ps.executeUpdate();
         } catch (SQLException e) {

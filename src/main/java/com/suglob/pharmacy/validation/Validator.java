@@ -5,7 +5,9 @@ import com.suglob.pharmacy.constant.NumberConstant;
 import com.suglob.pharmacy.constant.OtherConstant;
 import com.suglob.pharmacy.service.exception.ServiceCheckException;
 import com.suglob.pharmacy.service.util.RegularChanges;
-
+/**
+ * This class contains methods for data validation
+ */
 public class Validator {
 
     public static String checkOrderRecipe(String drugName, String doctorSurname){

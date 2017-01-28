@@ -13,8 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class is for cancel order.
+ */
 public class CancelOrderCommand implements ICommand {
+    /**
+     * This method retrieves from request list orders and transmits required data to the service
+     * layer for delete ordered drugs.
+     * Also method clear list ordered drugs.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 

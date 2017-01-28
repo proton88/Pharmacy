@@ -12,8 +12,19 @@ import com.suglob.pharmacy.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * This class is for adding drug
+ */
 public class AddDrugCommand implements ICommand {
+    /**
+     * This method retrieves from request drug parameters and transmits to the service layer for adding.
+     * If there was an error in a parameter, displays it on the page.
+     * If the operation is successful, it displays a success message to the screen.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String drugName=request.getParameter(OtherConstant.DRUG_NAME);

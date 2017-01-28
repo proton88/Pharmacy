@@ -4,7 +4,9 @@ import com.suglob.pharmacy.constant.RegexConstant;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * The class contains methods validation for compliance with regular expressions.
+ */
 public class RegularChanges {
 	public static boolean passportCheck(String passportId){
 		String regexp= RegexConstant.REGEX_PASSPORT;

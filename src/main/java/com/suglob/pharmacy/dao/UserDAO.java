@@ -12,7 +12,7 @@ public interface UserDAO {
 
     String payOrder(List<Drug> orderList) throws DAOException;
 
-    int addRecipe(String recipeCode, int count, int id) throws DAOException;
+    int addOrder(String recipeCode, int count, int id) throws DAOException;
 
     void cancelOrder(int count, int id, int id_recipe) throws DAOException;
 

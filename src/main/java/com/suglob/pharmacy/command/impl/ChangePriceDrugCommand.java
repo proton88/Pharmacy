@@ -12,8 +12,20 @@ import com.suglob.pharmacy.service.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * This class is for changing price on the drug.
+ */
 public class ChangePriceDrugCommand implements ICommand {
+    /**
+     * This method retrieves from request drug parameters and transmits to the service layer
+     * for changing price on the drug in the database.
+     * If there was an error in a parameter, displays it on the page.
+     * If the operation is successful, it displays a success message to the screen.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String drugId=request.getParameter(OtherConstant.DRUG_ID);

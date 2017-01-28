@@ -32,19 +32,20 @@ public class DrugList extends Entity {
     }
 
     public ArrayList<Drug> takeDrugsByCategory(int id, int start, int countRecords){
-        return takeDrugs("SELECT SQL_CALC_FOUND_ROWS drugs.drugs_id, drugs.name, drugs.dosage, drugs.country, drugs.price, drugs.quantity, drugs.is_recipe \n" +
+        return takeDrugs("SELECT SQL_CALC_FOUND_ROWS drugs.drugs_id, drugs.name, drugs.dosage, drugs.country, " +
+                "drugs.price, drugs.quantity, drugs.is_recipe, drugs.not_sale \n" +
                 "FROM m2m_drugs_drugs_categories inner join drugs using(drugs_id)\n" +
                 "inner join drugs_categories using(drugs_categories_id)\n" +
-                "where drugs_categories_id="+id+" order by name limit " + start + ", " + countRecords, countRecords);
+                "where not_sale!=1 and  drugs_categories_id="+id+" order by name limit " + start + ", " + countRecords, countRecords);
     }
 
     public ArrayList<Drug> takeDrugsBySearch(String textSearch, int start, int countRecords){
-        return takeDrugs("SELECT SQL_CALC_FOUND_ROWS * from drugs where match(name, dosage, country) " +
+        return takeDrugs("SELECT SQL_CALC_FOUND_ROWS * from drugs where not_sale!=1 and match(name, dosage, country) " +
                 "against('"+textSearch+"') order by name limit " + start + ", " + countRecords,countRecords);
     }
 
     public ArrayList<Drug> takeAllDrugs(int start, int countRecords){
-        return takeDrugs("SELECT SQL_CALC_FOUND_ROWS * from drugs order by name limit " + start + ", " + countRecords, countRecords);
+        return takeDrugs("SELECT SQL_CALC_FOUND_ROWS * from drugs where not_sale!=1 order by name limit " + start + ", " + countRecords, countRecords);
     }
 
     public int getCountPages() {

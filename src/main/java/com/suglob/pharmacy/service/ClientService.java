@@ -13,7 +13,7 @@ public interface ClientService {
 
     String payOrder(List<Drug> orderList) throws ServiceException;
 
-    int addRecipe(String recipeCode, int count, int id) throws ServiceException;
+    int addOrder(String recipeCode, int count, int id) throws ServiceException;
 
     void cancelOrder(int count, int id, int id_recipe) throws ServiceException;
 

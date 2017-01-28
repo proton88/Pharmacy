@@ -8,8 +8,18 @@ import com.suglob.pharmacy.service.PharmacistService;
 import com.suglob.pharmacy.service.exception.ServiceCheckException;
 import com.suglob.pharmacy.service.exception.ServiceException;
 import com.suglob.pharmacy.validation.Validator;
-
+/**
+ * This class contains methods to verify the data and transmit them to the DAO layer.
+ * All methods are associated with the user: 'pharmacist'.
+ */
 public class PharmacistServiceImpl implements PharmacistService {
+    /**
+     * Method add count drugs
+     *
+     * @param drugId drug id which must be added the amount
+     * @param newQuantity the quantity to be set
+     * @throws ServiceException if DaoException is thrown
+     */
     @Override
     public void addQuantityDrug(int drugId, int newQuantity) throws ServiceException {
         PharmacistDAO pharmacistDAO = DAOFactory.getInstance().getPharmacistDAO();
@@ -20,7 +30,14 @@ public class PharmacistServiceImpl implements PharmacistService {
         }
 
     }
-
+    /**
+     * Method validate data and change price for drug
+     *
+     * @param drugId drug id which must be changed the price
+     * @param priceDrug the price to be set
+     * @throws ServiceException if DaoException is thrown
+     * @throws ServiceCheckException if wrong parameters or drug not exist.
+     */
     @Override
     public void changePriceDrug(String drugId, String priceDrug) throws ServiceException, ServiceCheckException {
         if (!Validator.checkInteger(drugId) || !Validator.checkDouble(priceDrug)){
@@ -48,9 +65,22 @@ public class PharmacistServiceImpl implements PharmacistService {
         }
 
     }
-
+    /**
+     * Method validate data and create new drug in the database
+     *
+     * @param drugName name of drug
+     * @param dosage dosage of drug
+     * @param country manufacturer country of drug
+     * @param priceDrug the price of drug
+     * @param quantity the quantity of drug
+     * @param recipe the code of drug recipe
+     * @param categories the categories of drug
+     * @throws ServiceException if DaoException is thrown
+     * @throws ServiceCheckException if wrong parameters.
+     */
     @Override
-    public void addDrug(String drugName, String dosage, String country, String priceDrug, String quantity, String recipe, String[] categories) throws ServiceException, ServiceCheckException {
+    public void addDrug(String drugName, String dosage, String country, String priceDrug, String quantity,
+                        String recipe, String[] categories) throws ServiceException, ServiceCheckException {
         Validator.checkAddDrug(drugName, country, priceDrug, quantity, recipe, categories);
         if (!Validator.checkInteger(quantity) || !Validator.checkDouble(priceDrug)){
             throw new ServiceCheckException(MessageConstant.WRONG_FORMAT);
@@ -71,7 +101,13 @@ public class PharmacistServiceImpl implements PharmacistService {
             throw new ServiceException(e);
         }
     }
-
+    /**
+     * Method validate data and delete drug in the database
+     *
+     * @param drugId id of drug
+     * @throws ServiceException if DaoException is thrown
+     * @throws ServiceCheckException if wrong parameters or drug not exist.
+     */
     @Override
     public void deleteDrug(String drugId) throws ServiceException, ServiceCheckException {
         if (!Validator.checkInteger(drugId)){
@@ -97,7 +133,13 @@ public class PharmacistServiceImpl implements PharmacistService {
             throw new ServiceException(e);
         }
     }
-
+    /**
+     * Method validate data and add drug category in the database
+     *
+     * @param drugCategory name of drug category
+     * @throws ServiceException if DaoException is thrown
+     * @throws ServiceCheckException if wrong parameters or drug category exist.
+     */
     @Override
     public void addDrugCategory(String drugCategory) throws ServiceException, ServiceCheckException {
         Validator.checkDrugCategory(drugCategory);
@@ -119,7 +161,13 @@ public class PharmacistServiceImpl implements PharmacistService {
             throw new ServiceException(e);
         }
     }
-
+    /**
+     * Method validate data and delete drug category in the database
+     *
+     * @param drugCategory name of drug category
+     * @throws ServiceException if DaoException is thrown
+     * @throws ServiceCheckException if drug category not exist or not empty.
+     */
     @Override
     public void deleteDrugCategory(String drugCategory) throws ServiceException, ServiceCheckException {
 

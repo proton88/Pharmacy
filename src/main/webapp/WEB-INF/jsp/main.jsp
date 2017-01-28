@@ -65,7 +65,7 @@
         <c:set var="error" value="${null}"/>
     </c:if>
     <c:if test="${pageContext.request.session==null or pageContext.request.session.isNew() or
-    pageContext.request.session.getAttribute('user')==null}">
+    empty user.type}">
         ${pageContext.request.setAttribute("error", "index.error_end_session")}
         <jsp:forward page="index.jsp"/>
     </c:if>

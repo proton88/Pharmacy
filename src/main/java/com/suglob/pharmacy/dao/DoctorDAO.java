@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface DoctorDAO {
-    Map<String,List> checkRecipe(int user_id) throws DAOException;
+    Map<String,List> checkRecipe(int userId) throws DAOException;
 
     void cancelRecipe(int userId, String drugName, int clientId) throws DAOException;
 

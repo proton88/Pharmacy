@@ -10,7 +10,10 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
-
+/**
+ * Class implements a custom tag.
+ * It creates pagination for large lists.
+ */
 public class PaginationTag extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger(PaginationTag.class);
     private String locale;

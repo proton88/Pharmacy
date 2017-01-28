@@ -17,8 +17,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
+/**
+ * This class is for register client in the database.
+ */
 public class RegisterCommand implements ICommand {
+    /**
+     * This method retrieves from request client parameters and transmits to the service layer
+     * for adding client in the database.
+     * If there was an error in a parameter, displays it on the page.
+     * If the operation is successful, client go to the main page.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String login=request.getParameter(OtherConstant.LOGIN_REG);

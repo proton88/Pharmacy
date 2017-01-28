@@ -13,8 +13,20 @@ import com.suglob.pharmacy.service.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
+/**
+ * This class is for paying order.
+ */
 public class PayOrderCommand implements ICommand {
+    /**
+     * This method retrieves from request list of ordered drugs and transmits to the service layer
+     * for changing data in the database.
+     * Also method clear list of ordered drugs.
+     * Result of operation display on the page.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         ///////////////////////////////////////////////////////////////////////////////

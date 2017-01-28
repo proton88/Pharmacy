@@ -7,7 +7,9 @@ import com.suglob.pharmacy.constant.OtherConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * This class is for set locale.
+ */
 public class LocaleCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

@@ -17,8 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class is for adding drugs in the order
+ */
 public class AddOrderCommand implements ICommand {
+    /**
+     * This method retrieves from request drug parameters and transmits to the service layer for adding.
+     * Also method handles basket orders.
+     * If there was an error in a parameter, displays it on the page.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         int count;
@@ -58,7 +69,7 @@ public class AddOrderCommand implements ICommand {
                         }
 
                         try {
-                            idRecipes = service.addRecipe(recipeCode, count, id);
+                            idRecipes = service.addOrder(recipeCode, count, id);
                         } catch (ServiceException e) {
                             throw new CommandException(e);
                         }

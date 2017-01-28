@@ -13,8 +13,19 @@ import com.suglob.pharmacy.validation.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * This class is for adding recipe in the database
+ */
 public class AssignRecipeCommand implements ICommand {
+    /**
+     * This method retrieves from request recipe parameters and transmits to the service layer for adding recipe in database.
+     * If there was an error in a parameter, displays it on the page.
+     * Also method delete order recipe from list.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         int userId = Integer.parseInt(request.getParameter(OtherConstant.USER_ID));

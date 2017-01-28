@@ -11,9 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * This class contains helper methods for command layer.
+ */
 public class CommandHelp {
-
+    /**
+     * This method forms url and moves a page.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if IOException is thrown
+     */
     public static void sendResponse(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         StringBuffer buf = (StringBuffer) request.getSession().getAttribute(OtherConstant.URL);
         String url = buf.toString();
@@ -28,7 +36,13 @@ public class CommandHelp {
             throw new CommandException("Don't execute url: " + url, e);
         }
     }
-
+    /**
+     * This method reduce lists of ordered drugs.
+     *
+     * @param request for receiving the transmitted data.
+     * @param drugName  the name of the drug, which want to order recipe.
+     * @param clientId  client id, who wants to order recipe.
+     */
     public static void clearOrderRecipe(HttpServletRequest request, String drugName, int clientId) {
         drugName = drugName.toLowerCase();
         drugName = drugName.substring(0, 1).toUpperCase() + drugName.substring(1);
@@ -50,7 +64,12 @@ public class CommandHelp {
             index++;
         }
     }
-
+    /**
+     * This method reduce lists an extension recipes.
+     *
+     * @param request for receiving the transmitted data.
+     * @param positionRecipe  recipe position in list.
+     */
     public static void clearExtendRecipe(HttpServletRequest request, int positionRecipe) {
         List<String> drugsNameExtendRecipe = ((ListDragTag) request.getSession().getAttribute(OtherConstant.DRUGS_NAME_EXTEND_RECIPE)).getListDrugs();
         List<String> drugsCodeExtendRecipe = (List<String>) request.getSession().getAttribute(OtherConstant.DRUGS_CODE_EXTEND_RECIPE);

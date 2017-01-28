@@ -18,9 +18,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
+/**
+ * This class contains methods to get, delete, add or modify data in the database.
+ * All methods are associated with the all users.
+ */
 public class CommonDAOImpl implements CommonDAO {
     private int countRecords;
+    /**
+     * Returns user after log in.
+     *
+     * @param login unique user login
+     * @param password unique user password
+     * @return user if the authentication is successful
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public User logination(String login, String password) throws DAOException {
         User user=null;
@@ -52,7 +63,12 @@ public class CommonDAOImpl implements CommonDAO {
         }
         return user;
     }
-
+    /**
+     * Get list of drug categories
+     *
+     * @return list of drug categories
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public ArrayList<DrugCategory> takeDrugCategories() throws DAOException {
         ArrayList<DrugCategory> drugCategoriesList = new ArrayList<>();
@@ -81,7 +97,13 @@ public class CommonDAOImpl implements CommonDAO {
         }
         return drugCategoriesList;
     }
-
+    /**
+     * Get list of drugs
+     *
+     * @param str sql string for different sets of drugs
+     * @return list of drugs
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public ArrayList<Drug> takeDrugs(String str) throws DAOException {
         ArrayList<Drug> drugList = new ArrayList<>();
@@ -96,9 +118,9 @@ public class CommonDAOImpl implements CommonDAO {
         try(PreparedStatement ps = con.prepareStatement(str);
             Statement statement=con.createStatement()){
             ResultSet rs=ps.executeQuery();
-            while (rs.next()){
-                drugList.add(new Drug(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getBigDecimal(5),
-                        rs.getInt(6),rs.getString(7)));
+            while (rs.next()) {
+                    drugList.add(new Drug(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getBigDecimal(5),
+                            rs.getInt(6), rs.getString(7)));
             }
             rs = statement.executeQuery(SqlConstant.SQL_FOUND_ROWS);
             if(rs.next()) {
@@ -118,7 +140,12 @@ public class CommonDAOImpl implements CommonDAO {
     public int getCountRecords() {
         return countRecords;
     }
-
+    /**
+     * Get list of all doctors
+     *
+     * @return list of all doctors
+     * @throws DAOException if ConnectionPoolException or SQLException arise.
+     */
     @Override
     public ArrayList<Doctor> takeDoctors() throws DAOException {
         ArrayList<Doctor> doctorsList = new ArrayList<>();

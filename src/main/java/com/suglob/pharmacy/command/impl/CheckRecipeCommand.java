@@ -14,8 +14,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * This class is for check orders for the recipe.
+ */
 public class CheckRecipeCommand implements ICommand{
+    /**
+     * This method retrieves from request user id and transmits to the service layer for check orders for the recipe.
+     * Also method create lists ordered recipes.
+     *
+     * @param request for receiving the transmitted data
+     * @param response to generate a response
+     * @throws CommandException if ServiceException is thrown
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         int userId = Integer.parseInt(request.getParameter(OtherConstant.USER_ID));
